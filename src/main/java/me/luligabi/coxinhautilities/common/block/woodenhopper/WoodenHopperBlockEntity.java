@@ -2,14 +2,12 @@ package me.luligabi.coxinhautilities.common.block.woodenhopper;
 
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.screenhandler.WoodenHopperScreenHandler;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.*;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
-
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 
@@ -33,5 +31,5 @@ public class WoodenHopperBlockEntity extends HopperBlockEntity {
     protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
         return new WoodenHopperScreenHandler(syncId, playerInventory, this);
     }
-    
+
 }

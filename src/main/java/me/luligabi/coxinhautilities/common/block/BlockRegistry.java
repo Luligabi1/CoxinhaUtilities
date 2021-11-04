@@ -4,10 +4,14 @@ import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlock;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlockEntity;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.HopperBlock;
+import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -18,7 +22,7 @@ public class BlockRegistry {
         WOODEN_HOPPER_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, ""), FabricBlockEntityTypeBuilder.create(WoodenHopperBlockEntity::new, WOODEN_HOPPER).build(null));
     }
 
-    public static final HopperBlock WOODEN_HOPPER = new WoodenHopperBlock(AbstractBlock.Settings.of(Material.STONE).hardness(3.0f));
+    public static final HopperBlock WOODEN_HOPPER = new WoodenHopperBlock(FabricBlockSettings.of(Material.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
 
     public static BlockEntityType<WoodenHopperBlockEntity> WOODEN_HOPPER_ENTITY;
 
