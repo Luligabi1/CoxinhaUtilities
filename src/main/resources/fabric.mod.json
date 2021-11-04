@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "coxinhautilities",
+  "version": "${version}",
+  "name": "Coxinha Utilities",
+  "description": "A small utility mod featuring stuff missing from Kibe Utilities.",
+  "authors": [
+    "Luligabi"
+  ],
+  "contact": {
+    "website": "dummy",
+    "repo": "dummy"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/coxinhautilities/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.luligabi.coxinhautilities.client.CoxinhaUtilitiesClient"
+    ],
+    "main": [
+      "me.luligabi.coxinhautilities.common.CoxinhaUtilities"
+    ]
+  },
+  "mixins": [
+    "coxinhautilities.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
