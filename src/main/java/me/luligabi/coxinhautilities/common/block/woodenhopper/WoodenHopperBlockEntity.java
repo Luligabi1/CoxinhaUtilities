@@ -1,11 +1,13 @@
 package me.luligabi.coxinhautilities.common.block.woodenhopper;
 
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
+import me.luligabi.coxinhautilities.common.screenhandler.WoodenHopperScreenHandler;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.*;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
+
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
@@ -15,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 public class WoodenHopperBlockEntity extends HopperBlockEntity {
 
     private DefaultedList<ItemStack> inventory;
+    // TODO FIXING: Inventory is still 5 internally.
 
     public WoodenHopperBlockEntity(BlockPos pos, BlockState state) {
         super(pos, state);
@@ -26,15 +29,9 @@ public class WoodenHopperBlockEntity extends HopperBlockEntity {
         return BlockRegistry.WOODEN_HOPPER_ENTITY;
     }
 
-    @Override // TODO: Add custom screen.
-    protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-        return super.createScreenHandler(syncId, playerInventory);
-    }
-
     @Override
-    public Text getContainerName() {
-        return new TranslatableText("container.coxinhautilities.wooden_hopper");
+    protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
+        return new WoodenHopperScreenHandler(syncId, playerInventory, this);
     }
-
-
+    
 }

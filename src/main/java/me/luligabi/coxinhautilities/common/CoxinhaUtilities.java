@@ -1,6 +1,7 @@
 package me.luligabi.coxinhautilities.common;
 
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
+import me.luligabi.coxinhautilities.common.screenhandler.ScreenHandlingRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
@@ -11,6 +12,8 @@ public class CoxinhaUtilities implements ModInitializer {
     @Override
     public void onInitialize() {
         BlockRegistry.init();
+
+        ScreenHandlingRegistry.init();
     }
 
     public static final String MOD_ID = "coxinhautilities";
