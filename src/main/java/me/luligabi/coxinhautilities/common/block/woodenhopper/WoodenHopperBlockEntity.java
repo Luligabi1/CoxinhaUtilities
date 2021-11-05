@@ -15,7 +15,6 @@ import net.minecraft.util.math.BlockPos;
 public class WoodenHopperBlockEntity extends HopperBlockEntity {
 
     private DefaultedList<ItemStack> inventory;
-    // TODO FIXING: Inventory is still 5 internally.
 
     public WoodenHopperBlockEntity(BlockPos pos, BlockState state) {
         super(pos, state);
@@ -32,4 +31,8 @@ public class WoodenHopperBlockEntity extends HopperBlockEntity {
         return new WoodenHopperScreenHandler(syncId, playerInventory, this);
     }
 
+    @Override
+    public int size() {
+        return this.inventory.size();
+    }
 }

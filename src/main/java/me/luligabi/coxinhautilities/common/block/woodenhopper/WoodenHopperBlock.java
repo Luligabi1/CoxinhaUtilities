@@ -9,6 +9,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -23,15 +24,15 @@ public class WoodenHopperBlock extends HopperBlock {
     }
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient) {
-            return ActionResult.SUCCESS;
-        } else {
+        if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof WoodenHopperBlockEntity) {
                 player.openHandledScreen((WoodenHopperBlockEntity) blockEntity);
-                //player.incrementStat(Stats.INSPECT_HOPPER); // TODO: Readd this stat.
+                player.incrementStat(Stats.USED.getOrCreateStat(this.asItem()));
             }
             return ActionResult.CONSUME;
+        } else {
+            return ActionResult.SUCCESS;
         }
     }
 
