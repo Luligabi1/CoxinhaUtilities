@@ -1,0 +1,10 @@
+{
+  "parent": "block/cake_slice4",
+  "textures": {
+    "particle": "coxinhautilities:block/nether_cake_side",
+    "bottom": "coxinhautilities:block/nether_cake_bottom",
+    "top": "coxinhautilities:block/nether_cake_top",
+    "side": "coxinhautilities:block/nether_cake_side",
+    "inside": "coxinhautilities:block/nether_cake_inner"
+  }
+}

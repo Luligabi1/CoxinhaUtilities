@@ -28,6 +28,8 @@ public class BlockRegistry {
         initBlock("tank", TANK_BLOCK);
         TANK_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "tank"), FabricBlockEntityTypeBuilder.create(AbstractTankBlockEntity::new, TANK_BLOCK).build(null));
 
+        initBlock("overworld_cake", OVERWORLD_CAKE); // TODO: Fix first usage triggering the Credits Screen
+        initBlock("nether_cake", NETHER_CAKE); // TODO: Fix Nether Cake being borked
         initBlock("ender_cake", ENDER_CAKE);
     }
 
@@ -37,6 +39,8 @@ public class BlockRegistry {
     public static final Block TANK_BLOCK = new AbstractTankBlock(FabricBlockSettings.of(Material.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
     public static BlockEntityType<AbstractTankBlockEntity> TANK_BLOCK_ENTITY;
 
+    public static final Block OVERWORLD_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.OVERWORLD);
+    public static final Block NETHER_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.NETHER);
     public static final Block ENDER_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.END);
 
 
