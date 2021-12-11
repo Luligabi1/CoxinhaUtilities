@@ -18,23 +18,24 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class BlockRegistry {
 
     public static void init() {
-        initBlock("wooden_hopper", WOODEN_HOPPER);
+        initBlock("wooden_hopper", WOODEN_HOPPER, Rarity.COMMON);
         WOODEN_HOPPER_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "wooden_hopper"), FabricBlockEntityTypeBuilder.create(WoodenHopperBlockEntity::new, WOODEN_HOPPER).build(null));
 
-        initBlock("tank", TANK_BLOCK);
+        initBlock("tank", TANK_BLOCK, Rarity.COMMON);
         TANK_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "tank"), FabricBlockEntityTypeBuilder.create(AbstractTankBlockEntity::new, TANK_BLOCK).build(null));
 
-        initBlock("overworld_cake", OVERWORLD_CAKE); // TODO: Fix first usage triggering the Credits Screen
-        initBlock("nether_cake", NETHER_CAKE); // TODO: Fix Nether Cake being borked
-        initBlock("ender_cake", ENDER_CAKE);
+        initBlock("overworld_cake", OVERWORLD_CAKE, Rarity.UNCOMMON); // TODO: Fix first usage triggering the Credits Screen
+        initBlock("nether_cake", NETHER_CAKE, Rarity.UNCOMMON); // TODO: Fix Nether Cake being borked
+        initBlock("ender_cake", ENDER_CAKE, Rarity.UNCOMMON);
 
-        initBlock("tinted_glass_pane", TINTED_GLASS_PANE);
+        initBlock("tinted_glass_pane", TINTED_GLASS_PANE, Rarity.COMMON);
     }
 
     public static final HopperBlock WOODEN_HOPPER = new WoodenHopperBlock(FabricBlockSettings.of(Material.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
@@ -49,8 +50,8 @@ public class BlockRegistry {
 
     public static final Block TINTED_GLASS_PANE = new TintedPaneBlock(FabricBlockSettings.copyOf(Blocks.TINTED_GLASS));
 
-    private static void initBlock(String identifier, Block block) {
+    private static void initBlock(String identifier, Block block, Rarity rarity) {
         Registry.register(Registry.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, identifier), block);
-        Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new BlockItem(block, new FabricItemSettings().group(CoxinhaUtilities.ITEM_GROUP)));
+        Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new BlockItem(block, new FabricItemSettings().rarity(rarity).group(CoxinhaUtilities.ITEM_GROUP)));
     }
 }

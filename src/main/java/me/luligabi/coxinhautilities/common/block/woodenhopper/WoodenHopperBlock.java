@@ -8,14 +8,23 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.HopperBlockEntity;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class WoodenHopperBlock extends HopperBlock {
 
@@ -52,5 +61,12 @@ public class WoodenHopperBlock extends HopperBlock {
 
     @Override
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) { }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.wooden_hopper.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(new LiteralText(""));
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.wooden_hopper.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+    }
 
 }

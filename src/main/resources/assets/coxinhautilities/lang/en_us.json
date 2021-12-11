@@ -1,0 +1,18 @@
+{
+  "item.coxinhautilities.coxinha": "Coxinha",
+  "tooltip.coxinhautilities.coxinha": "A tasteful Franco-Brazilian dish (pronounced kow-sheen-yuh)",
+
+  "item.coxinhautilities.cursed_coxinha": "Cursed Coxinha",
+  "item.coxinhautilities.golden_coxinha": "Golden Coxinha",
+  "item.coxinhautilities.diamond_coxinha": "Diamond Coxinha",
+
+  "block.coxinhautilities.wooden_hopper": "Wooden Hopper",
+  "tooltip.coxinhautilities.wooden_hopper.1": "A cheaper, single slot hopper",
+  "tooltip.coxinhautilities.wooden_hopper.2": "Cannot be blocked with a redstone signal.",
+
+  "block.coxinhautilities.overworld_cake": "Overworld Cake",
+  "block.coxinhautilities.nether_cake": "Nether Cake",
+  "block.coxinhautilities.ender_cake": "Ender Cake",
+
+  "itemGroup.coxinhautilities.item_group": "Coxinha Utilities"
+}
