@@ -10,6 +10,11 @@
   "tooltip.coxinhautilities.wooden_hopper.1": "A cheaper, single slot hopper",
   "tooltip.coxinhautilities.wooden_hopper.2": "Cannot be blocked with a redstone signal.",
 
+
+  "tooltip.coxinhautilities.tank.fluidVariant": "Liquid: ",
+  "tooltip.coxinhautilities.tank.capacity": "Capacity: ",
+
+
   "block.coxinhautilities.overworld_cake": "Overworld Cake",
   "block.coxinhautilities.nether_cake": "Nether Cake",
   "block.coxinhautilities.ender_cake": "Ender Cake",

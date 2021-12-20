@@ -8,6 +8,7 @@ import me.luligabi.coxinhautilities.common.block.sponge.WetLavaSpongeBlock;
 import me.luligabi.coxinhautilities.common.block.tank.AbstractTankBlock;
 import me.luligabi.coxinhautilities.common.block.tank.AbstractTankBlockEntity;
 import me.luligabi.coxinhautilities.common.block.tank.AbstractTankBlockItem;
+import me.luligabi.coxinhautilities.common.block.tank.TankTier;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlock;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlockEntity;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -47,7 +48,7 @@ public class BlockRegistry {
     public static final HopperBlock WOODEN_HOPPER = new WoodenHopperBlock(FabricBlockSettings.of(Material.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
     public static BlockEntityType<WoodenHopperBlockEntity> WOODEN_HOPPER_ENTITY;
 
-    public static final AbstractTankBlock TANK_BLOCK = new AbstractTankBlock(FabricBlockSettings.of(Material.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+    public static final AbstractTankBlock TANK_BLOCK = new AbstractTankBlock(TankTier.MK2, FabricBlockSettings.of(Material.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
     public static BlockEntityType<AbstractTankBlockEntity> TANK_BLOCK_ENTITY;
 
     public static final Block OVERWORLD_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.OVERWORLD);
