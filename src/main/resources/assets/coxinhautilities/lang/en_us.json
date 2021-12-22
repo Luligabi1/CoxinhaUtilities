@@ -14,6 +14,8 @@
   "tooltip.coxinhautilities.tank.fluidVariant": "Liquid: ",
   "tooltip.coxinhautilities.tank.capacity": "Capacity: ",
 
+  "tooltip.coxinhautilities.tank.none": "None",
+
 
   "block.coxinhautilities.overworld_cake": "Overworld Cake",
   "block.coxinhautilities.nether_cake": "Nether Cake",

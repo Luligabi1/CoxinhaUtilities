@@ -1,0 +1,8 @@
+{
+  "parent": "coxinhautilities:block/tank/template_tank",
+  "textures": {
+    "top": "minecraft:block/gold_block",
+    "bottom": "minecraft:block/gold_block",
+    "side": "coxinhautilities:block/tank_side"
+  }
+}

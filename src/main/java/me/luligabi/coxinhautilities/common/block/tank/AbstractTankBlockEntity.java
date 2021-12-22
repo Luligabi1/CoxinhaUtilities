@@ -22,10 +22,8 @@ public class AbstractTankBlockEntity extends BlockEntity {
             return FluidVariant.blank();
         }
 
-        @Override
-        protected long getCapacity(FluidVariant variant) {
-            return 16 * FluidConstants.BUCKET;
-        }
+        @Override // TODO: Get capacity from TankBlock's TankTier
+        protected long getCapacity(FluidVariant variant) { return 16 * FluidConstants.BUCKET; }
 
         @Override
         protected void onFinalCommit() {
@@ -33,16 +31,19 @@ public class AbstractTankBlockEntity extends BlockEntity {
         }
     };
 
+
+
     @Override
-    public NbtCompound writeNbt(NbtCompound tag) {
-        tag.put("fluidVariant", fluidStorage.variant.toNbt());
-        tag.putLong("amount", fluidStorage.amount);
-        return super.writeNbt(tag);
+    public void writeNbt(NbtCompound nbt) {
+        nbt.put("fluidVariant", fluidStorage.variant.toNbt());
+        nbt.putLong("amount", fluidStorage.amount);
+        super.writeNbt(nbt);
     }
+
     @Override
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
-        fluidStorage.variant = FluidVariant.fromNbt(tag.getCompound("fluidVariant"));
-        fluidStorage.amount = tag.getLong("amount");
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluidVariant"));
+        fluidStorage.amount = nbt.getLong("amount");
     }
 }
