@@ -20,7 +20,11 @@ public class CoxinhaUtilities implements ModInitializer {
 
         ScreenHandlingRegistry.init();
 
-        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockRegistry.TANK_BLOCK_ENTITY);
+        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockRegistry.PORTABLE_TANK_MK1_BLOCK_ENTITY);
+        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockRegistry.PORTABLE_TANK_MK2_BLOCK_ENTITY);
+        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockRegistry.PORTABLE_TANK_MK3_BLOCK_ENTITY);
+        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockRegistry.PORTABLE_TANK_MK4_BLOCK_ENTITY);
+        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockRegistry.PORTABLE_TANK_MK5_BLOCK_ENTITY);
     }
 
     public static final String MOD_ID = "coxinhautilities";

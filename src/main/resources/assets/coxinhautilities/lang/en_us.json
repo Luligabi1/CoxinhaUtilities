@@ -16,6 +16,9 @@
 
   "tooltip.coxinhautilities.tank.none": "None",
 
+  "unit.coxinhautilities.droplet": " droplets",
+  "unit.coxinhautilities.milliBuckets": "mB",
+
 
   "block.coxinhautilities.overworld_cake": "Overworld Cake",
   "block.coxinhautilities.nether_cake": "Nether Cake",

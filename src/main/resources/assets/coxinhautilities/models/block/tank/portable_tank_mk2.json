@@ -3,6 +3,6 @@
   "textures": {
     "top": "minecraft:block/gold_block",
     "bottom": "minecraft:block/gold_block",
-    "side": "coxinhautilities:block/tank_side"
+    "side": "coxinhautilities:block/portable_tank_mk2_side"
   }
 }

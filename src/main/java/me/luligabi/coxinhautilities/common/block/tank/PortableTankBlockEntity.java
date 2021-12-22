@@ -1,7 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.tank;
 
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
@@ -10,10 +9,10 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
 @SuppressWarnings("UnstableApiUsage")
-public class AbstractTankBlockEntity extends BlockEntity {
+public class PortableTankBlockEntity extends BlockEntity {
 
-    public AbstractTankBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockRegistry.TANK_BLOCK_ENTITY, pos, state);
+    public PortableTankBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockRegistry.PORTABLE_TANK_MK1_BLOCK_ENTITY, pos, state);
     }
 
     public final SingleVariantStorage<FluidVariant> fluidStorage = new SingleVariantStorage<>() {
@@ -22,8 +21,8 @@ public class AbstractTankBlockEntity extends BlockEntity {
             return FluidVariant.blank();
         }
 
-        @Override // TODO: Get capacity from TankBlock's TankTier
-        protected long getCapacity(FluidVariant variant) { return 16 * FluidConstants.BUCKET; }
+        @Override
+        protected long getCapacity(FluidVariant variant) { return ((PortableTankBlock) getCachedState().getBlock()).getTankTier().getCapacity(); }
 
         @Override
         protected void onFinalCommit() {

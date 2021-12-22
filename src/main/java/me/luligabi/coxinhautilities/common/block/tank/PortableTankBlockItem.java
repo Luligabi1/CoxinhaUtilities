@@ -7,9 +7,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class AbstractTankBlockItem extends BlockItem {
+public class PortableTankBlockItem extends BlockItem {
 
-    public AbstractTankBlockItem(AbstractTankBlock block, Settings settings) {
+    public PortableTankBlockItem(PortableTankBlock block, Settings settings) {
         super(block, settings);
     }
 
