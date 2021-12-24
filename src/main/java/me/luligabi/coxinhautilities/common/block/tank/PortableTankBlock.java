@@ -8,15 +8,20 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -31,17 +36,22 @@ public class PortableTankBlock extends BlockWithEntity {
 
     private final TankTier tankTier;
 
-    // TODO: Add way to insert via items (buckets, bottles, etc)
     // TODO: Add bucket mode
+    //TODO: Add render of fluids inside
+
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (((PortableTankBlockEntity) world.getBlockEntity(pos)).onPlayerUse(player)) {
+            return ActionResult.success(world.isClient);
+        }
+        return ActionResult.PASS;
+    }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new PortableTankBlockEntity(pos, state);
     }
-
-
-    public TankTier getTankTier() { return tankTier; }
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
@@ -55,7 +65,7 @@ public class PortableTankBlock extends BlockWithEntity {
         tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.capacity.1")
                     .formatted(tankTier.getPrimaryColor())
                 .append(new TranslatableText("tooltip.coxinhautilities.tank.capacity.2",
-                        stack.getNbt() == null ? "0" : String.valueOf(options.isAdvanced() ? stack.getNbt().getCompound("BlockEntityTag").getLong("amount") : Util.getMilliBuckets(stack.getNbt().getCompound("BlockEntityTag").getLong("amount"))), // Current amount on tank
+                        stack.getNbt() == null ? "0" : String.valueOf(Screen.hasShiftDown() ? stack.getNbt().getCompound("BlockEntityTag").getLong("amount") : Util.getMilliBuckets(stack.getNbt().getCompound("BlockEntityTag").getLong("amount"))), // Current amount on tank
                         (Screen.hasShiftDown() ? tankTier.getCapacity() : Util.getMilliBuckets(tankTier.getCapacity())), // Total capacity
                         Screen.hasShiftDown() ? new TranslatableText("unit.coxinhautilities.droplet") : new TranslatableText("unit.coxinhautilities.milliBuckets")) // Liquid unit
                     .formatted(tankTier.getSecondaryColor())));
@@ -63,6 +73,8 @@ public class PortableTankBlock extends BlockWithEntity {
         tooltip.add(new LiteralText(" "));
         tooltip.add((Screen.hasShiftDown() ? new TranslatableText("tooltip.coxinhautilities.tank.releaseShift") : new TranslatableText("tooltip.coxinhautilities.tank.holdShift")).formatted(Formatting.GRAY, Formatting.ITALIC));
     }
+
+    public TankTier getTankTier() { return tankTier; }
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
