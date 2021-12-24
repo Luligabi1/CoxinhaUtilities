@@ -11,6 +11,12 @@
   "tooltip.coxinhautilities.wooden_hopper.2": "Cannot be blocked with a redstone signal.",
 
 
+  "block.coxinhautilities.portable_tank_mk1": "Portable Tank MK1",
+  "block.coxinhautilities.portable_tank_mk2": "Portable Tank MK2",
+  "block.coxinhautilities.portable_tank_mk3": "Portable Tank MK3",
+  "block.coxinhautilities.portable_tank_mk4": "Portable Tank MK4",
+  "block.coxinhautilities.portable_tank_mk5": "Portable Tank MK5",
+
   "tooltip.coxinhautilities.tank.fluidVariant.1": "Liquid: ",
   "tooltip.coxinhautilities.tank.fluidVariant.2": "%d",
 
