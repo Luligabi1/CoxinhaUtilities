@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
@@ -40,15 +41,23 @@ public class PortableTankBlock extends BlockWithEntity {
 
     public TankTier getTankTier() { return tankTier; }
 
-    @Override // TODO: Fix Formatting being incorrect (one color only)
+    @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.fluidVariant").formatted(tankTier.getPrimaryColor())
-                .append(stack.getNbt() == null ? new TranslatableText("tooltip.coxinhautilities.tank.none") : FluidVariantRendering.getName(FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant")))).formatted(tankTier.getSecondaryColor()));
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.fluidVariant.1")
+                    .formatted(tankTier.getPrimaryColor(), Formatting.BOLD)
+                .append(stack.getNbt() == null ?
+                        new TranslatableText("tooltip.coxinhautilities.tank.none").formatted(tankTier.getSecondaryColor()) :
+                        new TranslatableText("tooltip.coxinhautilities.tank.fluidVariant.2", FluidVariantRendering.getName(FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant"))))
+                    .formatted(tankTier.getSecondaryColor())));
 
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.capacity").formatted(tankTier.getPrimaryColor())
-                .append(stack.getNbt() == null ? "0" : String.valueOf(options.isAdvanced() ? stack.getNbt().getCompound("BlockEntityTag").getLong("amount") : Util.getMilliBuckets(stack.getNbt().getCompound("BlockEntityTag").getLong("amount")))) // amount
-                .append("/" + (options.isAdvanced() ? tankTier.getCapacity() : Util.getMilliBuckets(tankTier.getCapacity()))) // capacity
-                .append(options.isAdvanced() ? new TranslatableText("unit.coxinhautilities.droplet") : new TranslatableText("unit.coxinhautilities.milliBuckets")).formatted(tankTier.getSecondaryColor())); // fluid unit
+
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.capacity.1")
+                    .formatted(tankTier.getPrimaryColor(), Formatting.BOLD)
+                .append(new TranslatableText("tooltip.coxinhautilities.tank.capacity.2",
+                        stack.getNbt() == null ? "0" : String.valueOf(options.isAdvanced() ? stack.getNbt().getCompound("BlockEntityTag").getLong("amount") : Util.getMilliBuckets(stack.getNbt().getCompound("BlockEntityTag").getLong("amount"))),
+                        (options.isAdvanced() ? tankTier.getCapacity() : Util.getMilliBuckets(tankTier.getCapacity())),
+                        options.isAdvanced() ? new TranslatableText("unit.coxinhautilities.droplet") : new TranslatableText("unit.coxinhautilities.milliBuckets"))
+                    .formatted(tankTier.getSecondaryColor())));
     }
 
     @Override

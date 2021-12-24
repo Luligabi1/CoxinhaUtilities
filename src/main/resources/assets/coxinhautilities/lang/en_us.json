@@ -11,10 +11,13 @@
   "tooltip.coxinhautilities.wooden_hopper.2": "Cannot be blocked with a redstone signal.",
 
 
-  "tooltip.coxinhautilities.tank.fluidVariant": "Liquid: ",
-  "tooltip.coxinhautilities.tank.capacity": "Capacity: ",
+  "tooltip.coxinhautilities.tank.fluidVariant.1": "Liquid: ",
+  "tooltip.coxinhautilities.tank.fluidVariant.2": "%d",
 
   "tooltip.coxinhautilities.tank.none": "None",
+
+  "tooltip.coxinhautilities.tank.capacity.1": "Capacity: ",
+  "tooltip.coxinhautilities.tank.capacity.2": "%d/%d%d",
 
   "unit.coxinhautilities.droplet": " droplets",
   "unit.coxinhautilities.milliBuckets": "mB",
