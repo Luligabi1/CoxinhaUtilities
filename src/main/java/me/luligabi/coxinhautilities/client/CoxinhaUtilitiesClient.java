@@ -15,7 +15,13 @@ public class CoxinhaUtilitiesClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.TINTED_GLASS_PANE, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(),
+                BlockRegistry.PORTABLE_TANK_MK1,
+                BlockRegistry.PORTABLE_TANK_MK2,
+                BlockRegistry.PORTABLE_TANK_MK3,
+                BlockRegistry.PORTABLE_TANK_MK4,
+                BlockRegistry.PORTABLE_TANK_MK5,
+                BlockRegistry.TINTED_GLASS_PANE);
 
         ScreenRegistry.register(ScreenHandlingRegistry.WOODEN_HOPPER_SCREEN_HANDLER, WoodenHopperScreen::new);
     }

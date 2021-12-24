@@ -1,0 +1,9 @@
+{
+  "parent": "coxinhautilities:block/tank/template_tank",
+  "textures": {
+    "top": "coxinhautilities:block/tank/portable_tank_mk4_top",
+    "bottom": "coxinhautilities:block/tank/portable_tank_mk4_bottom",
+    "side": "coxinhautilities:block/tank/portable_tank_mk4_side",
+    "particle": "coxinhautilities:block/tank/portable_tank_mk4_side"
+  }
+}
