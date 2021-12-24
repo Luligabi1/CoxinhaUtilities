@@ -19,6 +19,9 @@
   "tooltip.coxinhautilities.tank.capacity.1": "Capacity: ",
   "tooltip.coxinhautilities.tank.capacity.2": "%d/%d%d",
 
+  "tooltip.coxinhautilities.tank.holdShift": "Hold Shift to see unit as droplets.",
+  "tooltip.coxinhautilities.tank.releaseShift": "Release Shift to see unit as MilliBuckets (mB).",
+
   "unit.coxinhautilities.droplet": " droplets",
   "unit.coxinhautilities.milliBuckets": "mB",
 
