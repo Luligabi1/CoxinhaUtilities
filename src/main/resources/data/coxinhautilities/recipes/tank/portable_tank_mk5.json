@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "nnn",
+    "nTn",
+    "nnn"
+  ],
+  "key": {
+    "n": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "T": {
+      "item": "coxinhautilities:portable_tank_mk4"
+    }
+  },
+  "result": {
+    "item": "coxinhautilities:portable_tank_mk5",
+    "count": 1
+  }
+}
