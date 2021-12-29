@@ -21,6 +21,8 @@ public class PortableTankBlockEntity extends BlockEntity {
         super(BlockRegistry.PORTABLE_TANK_MK1_BLOCK_ENTITY, pos, state);
     }
 
+    private boolean isBucketMode = false;
+
     public final SingleVariantStorage<FluidVariant> fluidStorage = new SingleVariantStorage<>() {
         @Override
         protected FluidVariant getBlankVariant() {
@@ -45,20 +47,26 @@ public class PortableTankBlockEntity extends BlockEntity {
         Storage<FluidVariant> handIo = ContainerItemContext.ofPlayerHand(player, Hand.MAIN_HAND).find(FluidStorage.ITEM);
         if (handIo != null) {
             // Item -> Tank action
-            if (StorageUtil.move(handIo, fluidStorage, f -> true, Long.MAX_VALUE, null) > 0)
+            if (StorageUtil.move(handIo, fluidStorage, f -> true, Long.MAX_VALUE, null) > 0) {
+                /*player.getWorld().playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY,
+                        SoundCategory.BLOCKS, 1.0F, 1.0F);*/
                 return true;
+            }
             // Tank -> Item action
-            if (StorageUtil.move(fluidStorage, handIo, f -> true, Long.MAX_VALUE, null) > 0)
+            if (StorageUtil.move(fluidStorage, handIo, f -> true, Long.MAX_VALUE, null) > 0) {
+                /*player.getWorld().playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL,
+                        SoundCategory.BLOCKS, 1.0F, 1.0F);*/
                 return true;
+            }
         }
         return false;
     }
-
 
     @Override
     public void writeNbt(NbtCompound nbt) {
         nbt.put("fluidVariant", fluidStorage.variant.toNbt());
         nbt.putLong("amount", fluidStorage.amount);
+        nbt.putBoolean("isBucketMode", isBucketMode);
         super.writeNbt(nbt);
     }
 
@@ -67,5 +75,6 @@ public class PortableTankBlockEntity extends BlockEntity {
         super.readNbt(nbt);
         fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluidVariant"));
         fluidStorage.amount = nbt.getLong("amount");
+        isBucketMode = nbt.getBoolean("isBucketMode");
     }
 }

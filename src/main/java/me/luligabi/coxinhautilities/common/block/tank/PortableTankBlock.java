@@ -36,7 +36,6 @@ public class PortableTankBlock extends BlockWithEntity {
 
     private final TankTier tankTier;
 
-    // TODO: Add bucket mode
     //TODO: Add render of fluids inside
 
     @Override
@@ -70,6 +69,13 @@ public class PortableTankBlock extends BlockWithEntity {
                         Screen.hasShiftDown() ? new TranslatableText("unit.coxinhautilities.droplet") : new TranslatableText("unit.coxinhautilities.milliBuckets")) // Liquid unit
                     .formatted(tankTier.getSecondaryColor())));
 
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.bucketMode")
+                    .formatted(tankTier.getPrimaryColor())
+                .append(stack.getNbt() == null || !stack.getNbt().getCompound("BlockEntityTag").getBoolean("isBucketMode") ?
+                        new TranslatableText("tooltip.coxinhautilities.tank.bucketMode.off").formatted(tankTier.getSecondaryColor()) :
+                        new TranslatableText("tooltip.coxinhautilities.tank.bucketMode.on")
+                    .formatted(tankTier.getSecondaryColor())));
+
         tooltip.add(new LiteralText(" "));
         tooltip.add((Screen.hasShiftDown() ? new TranslatableText("tooltip.coxinhautilities.tank.releaseShift") : new TranslatableText("tooltip.coxinhautilities.tank.holdShift")).formatted(Formatting.GRAY, Formatting.ITALIC));
     }
@@ -77,14 +83,10 @@ public class PortableTankBlock extends BlockWithEntity {
     public TankTier getTankTier() { return tankTier; }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
+    public BlockRenderType getRenderType(BlockState state) { return BlockRenderType.MODEL; }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return BOUNDING_SHAPE;
-    }
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) { return BOUNDING_SHAPE; }
 
     private static final VoxelShape BOUNDING_SHAPE = Block.createCuboidShape(2.5D, 0.0D, 2.5D, 13.5D, 16.0D, 13.5D);
 }

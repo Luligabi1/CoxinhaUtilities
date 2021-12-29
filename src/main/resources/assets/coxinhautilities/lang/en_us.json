@@ -25,6 +25,14 @@
   "tooltip.coxinhautilities.tank.capacity.1": "Capacity: ",
   "tooltip.coxinhautilities.tank.capacity.2": "%d/%d%d",
 
+  "tooltip.coxinhautilities.tank.bucketMode": "Bucket Mode: ",
+
+  "tooltip.coxinhautilities.tank.bucketMode.on": "ON",
+  "tooltip.coxinhautilities.tank.bucketMode.off": "OFF",
+
+  "message.coxinhautilities.tank.bucketMode": "Bucket Mode: ",
+
+
   "tooltip.coxinhautilities.tank.holdShift": "Hold Shift to see unit as droplets.",
   "tooltip.coxinhautilities.tank.releaseShift": "Release Shift to see unit as MilliBuckets (mB).",
 
