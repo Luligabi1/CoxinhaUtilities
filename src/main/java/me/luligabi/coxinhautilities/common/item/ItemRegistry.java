@@ -34,7 +34,7 @@ public class ItemRegistry {
 
     public static final Item CURSED_COXINHA = new Item(new FabricItemSettings().rarity(Rarity.UNCOMMON).food(new FoodComponent.Builder().hunger(10).saturationModifier(1.2F).meat().build()).group(CoxinhaUtilities.ITEM_GROUP)) {
         @Override
-        public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) { tooltip.add(new TranslatableText("tooltip.kibe.lore.cursed_kibe")); } // TODO: Implement this (is it even a thing)?
+        public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) { tooltip.add(new TranslatableText("tooltip.kibe.lore.cursed_kibe")); }
     };
 
     public static final Item GOLDEN_COXINHA = new Item(new FabricItemSettings().rarity(Rarity.UNCOMMON).food(new FoodComponent.Builder().hunger(8).saturationModifier(1.2F).meat().build()).group(CoxinhaUtilities.ITEM_GROUP)) {
