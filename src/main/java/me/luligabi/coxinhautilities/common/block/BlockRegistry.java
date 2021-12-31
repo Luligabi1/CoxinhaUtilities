@@ -90,6 +90,6 @@ public class BlockRegistry {
 
     private static void initPortableTankBlock(String identifier, PortableTankBlock block) {
         Registry.register(Registry.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, identifier), block);
-        Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new PortableTankBlockItem(block, new FabricItemSettings().group(CoxinhaUtilities.ITEM_GROUP)));
+        Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new PortableTankBlockItem(block, new FabricItemSettings().maxCount(1).group(CoxinhaUtilities.ITEM_GROUP))); // TODO: Portable Tank MK5 should be fireproof
     }
 }

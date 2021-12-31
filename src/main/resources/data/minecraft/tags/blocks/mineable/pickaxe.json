@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "coxinhautilities:portable_tank_mk1",
+    "coxinhautilities:portable_tank_mk2",
+    "coxinhautilities:portable_tank_mk3",
+    "coxinhautilities:portable_tank_mk4",
+    "coxinhautilities:portable_tank_mk5",
+    "coxinhautilities:tinted_glass_pane"
+  ]
+}
