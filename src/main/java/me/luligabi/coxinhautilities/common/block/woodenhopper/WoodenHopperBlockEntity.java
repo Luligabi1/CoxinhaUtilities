@@ -1,6 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.woodenhopper;
 
-import me.luligabi.coxinhautilities.common.block.BlockRegistry;
+import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.screenhandler.WoodenHopperScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
@@ -23,7 +23,7 @@ public class WoodenHopperBlockEntity extends HopperBlockEntity {
 
     @Override
     public BlockEntityType<?> getType() {
-        return BlockRegistry.WOODEN_HOPPER_ENTITY;
+        return BlockEntityRegistry.WOODEN_HOPPER_ENTITY;
     }
 
     @Override

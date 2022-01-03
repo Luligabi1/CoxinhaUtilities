@@ -62,9 +62,9 @@ public class Util {
             QuadEmitter emitter = renderer.meshBuilder().getEmitter();
 
             if (direction.getAxis().isVertical()) {
-                emitter.square(direction, TANK_W, TANK_W, 1 - TANK_W, 1 - TANK_W, direction == Direction.UP ? 1 - topHeight : bottomHeight);
+                emitter.square(direction, SQUARE_START, SQUARE_START, SQUARE_FINAL, SQUARE_FINAL, direction == Direction.UP ? 1 - topHeight : bottomHeight);
             } else {
-                emitter.square(direction, TANK_W, bottomHeight, 1 - TANK_W, topHeight, TANK_W);
+                emitter.square(direction, SQUARE_START, bottomHeight, SQUARE_FINAL, topHeight, SQUARE_START);
             }
 
             emitter.spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV);
@@ -73,6 +73,8 @@ public class Util {
         }
     }
 
-    private static final float TANK_W = 0.01f;
+    public static final float TANK_W = 0.01F;
+    public static final float SQUARE_START = 0.16F;
+    public static final float SQUARE_FINAL = 0.84F;
     public static final int FULL_LIGHT = 0x00F0_00F0;
 }

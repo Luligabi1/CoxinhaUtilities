@@ -1,6 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.tank;
 
-import me.luligabi.coxinhautilities.common.block.BlockRegistry;
+import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -18,12 +18,13 @@ import net.minecraft.util.math.BlockPos;
 public class PortableTankBlockEntity extends BlockEntity {
 
     public PortableTankBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockRegistry.PORTABLE_TANK_MK1_BLOCK_ENTITY, pos, state);
+        super(BlockEntityRegistry.PORTABLE_TANK_MK1_BLOCK_ENTITY, pos, state); // FIXME: Only Portable Tanks MK1 are able to render fluids due to them being passes on super here
     }
 
     private boolean isBucketMode = false;
 
     public final SingleVariantStorage<FluidVariant> fluidStorage = new SingleVariantStorage<>() {
+
         @Override
         protected FluidVariant getBlankVariant() {
             return FluidVariant.blank();
@@ -33,9 +34,7 @@ public class PortableTankBlockEntity extends BlockEntity {
         protected long getCapacity(FluidVariant variant) { return ((PortableTankBlock) getCachedState().getBlock()).getTankTier().getCapacity(); }
 
         @Override
-        protected void onFinalCommit() {
-            markDirty();
-        }
+        protected void onFinalCommit() { markDirty(); }
     };
 
     /*
@@ -48,26 +47,14 @@ public class PortableTankBlockEntity extends BlockEntity {
         if (handIo != null) {
             // Item -> Tank action
             if (StorageUtil.move(handIo, fluidStorage, f -> true, Long.MAX_VALUE, null) > 0) {
-                /*player.getWorld().playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY,
-                        SoundCategory.BLOCKS, 1.0F, 1.0F);*/
                 return true;
             }
             // Tank -> Item action
             if (StorageUtil.move(fluidStorage, handIo, f -> true, Long.MAX_VALUE, null) > 0) {
-                /*player.getWorld().playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL,
-                        SoundCategory.BLOCKS, 1.0F, 1.0F);*/
                 return true;
             }
         }
         return false;
-    }
-
-    @Override
-    public void writeNbt(NbtCompound nbt) {
-        nbt.put("fluidVariant", fluidStorage.variant.toNbt());
-        nbt.putLong("amount", fluidStorage.amount);
-        nbt.putBoolean("isBucketMode", isBucketMode);
-        super.writeNbt(nbt);
     }
 
     @Override
@@ -77,4 +64,13 @@ public class PortableTankBlockEntity extends BlockEntity {
         fluidStorage.amount = nbt.getLong("amount");
         isBucketMode = nbt.getBoolean("isBucketMode");
     }
+
+    @Override
+    protected void writeNbt(NbtCompound nbt) {
+        super.writeNbt(nbt);
+        nbt.put("fluidVariant", fluidStorage.variant.toNbt());
+        nbt.putLong("amount", fluidStorage.amount);
+        nbt.putBoolean("isBucketMode", isBucketMode);
+    }
+
 }

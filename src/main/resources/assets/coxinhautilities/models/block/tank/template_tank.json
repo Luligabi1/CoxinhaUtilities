@@ -1,11 +1,6 @@
 {
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
-	"textures": {
-		"top": "coxinhautilities:block/tank/portable_tank_mk2_top",
-		"bottom": "coxinhautilities:block/tank/portable_tank_mk2_bottom",
-		"side": "coxinhautilities:block/tank/portable_tank_mk2_side"
-	},
 	"elements": [
 		{
 			"name": "bottom",

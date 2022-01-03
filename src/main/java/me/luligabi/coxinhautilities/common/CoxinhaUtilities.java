@@ -1,5 +1,6 @@
 package me.luligabi.coxinhautilities.common;
 
+import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
 import me.luligabi.coxinhautilities.common.screenhandler.ScreenHandlingRegistry;
@@ -16,15 +17,17 @@ public class CoxinhaUtilities implements ModInitializer {
     @Override
     public void onInitialize() {
         ItemRegistry.init();
+
         BlockRegistry.init();
+        BlockEntityRegistry.init();
 
         ScreenHandlingRegistry.init();
 
-        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockRegistry.PORTABLE_TANK_MK1_BLOCK_ENTITY);
-        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockRegistry.PORTABLE_TANK_MK2_BLOCK_ENTITY);
-        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockRegistry.PORTABLE_TANK_MK3_BLOCK_ENTITY);
-        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockRegistry.PORTABLE_TANK_MK4_BLOCK_ENTITY);
-        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockRegistry.PORTABLE_TANK_MK5_BLOCK_ENTITY);
+        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockEntityRegistry.PORTABLE_TANK_MK1_BLOCK_ENTITY);
+        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockEntityRegistry.PORTABLE_TANK_MK2_BLOCK_ENTITY);
+        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockEntityRegistry.PORTABLE_TANK_MK3_BLOCK_ENTITY);
+        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockEntityRegistry.PORTABLE_TANK_MK4_BLOCK_ENTITY);
+        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockEntityRegistry.PORTABLE_TANK_MK5_BLOCK_ENTITY);
     }
 
     public static final String MOD_ID = "coxinhautilities";

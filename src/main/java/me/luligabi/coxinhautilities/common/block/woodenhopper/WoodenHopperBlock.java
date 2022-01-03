@@ -1,6 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.woodenhopper;
 
-import me.luligabi.coxinhautilities.common.block.BlockRegistry;
+import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HopperBlock;
@@ -52,7 +52,7 @@ public class WoodenHopperBlock extends HopperBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return !world.isClient ? checkType(type, BlockRegistry.WOODEN_HOPPER_ENTITY, HopperBlockEntity::serverTick) : null;
+        return !world.isClient ? checkType(type, BlockEntityRegistry.WOODEN_HOPPER_ENTITY, HopperBlockEntity::serverTick) : null;
     }
 
     // Overridden to disable redstone behavior.
