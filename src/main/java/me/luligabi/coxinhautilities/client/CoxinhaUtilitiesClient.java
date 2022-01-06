@@ -24,8 +24,11 @@ public class CoxinhaUtilitiesClient implements ClientModInitializer {
                 BlockRegistry.PORTABLE_TANK_MK5,
                 BlockRegistry.TINTED_GLASS_PANE);
 
-        BlockEntityRegistry.clientInit();
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
+                BlockRegistry.AQUATIC_TORCH,
+                BlockRegistry.WALL_AQUATIC_TORCH);
 
+        BlockEntityRegistry.clientInit();
         ScreenRegistry.register(ScreenHandlingRegistry.WOODEN_HOPPER_SCREEN_HANDLER, WoodenHopperScreen::new);
     }
 }

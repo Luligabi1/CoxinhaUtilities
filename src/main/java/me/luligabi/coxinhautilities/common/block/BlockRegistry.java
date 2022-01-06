@@ -1,6 +1,8 @@
 package me.luligabi.coxinhautilities.common.block;
 
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
+import me.luligabi.coxinhautilities.common.block.aquatictorch.AquaticTorchBlock;
+import me.luligabi.coxinhautilities.common.block.aquatictorch.WallAquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.cake.DimensionalCakeBlock;
 import me.luligabi.coxinhautilities.common.block.cake.NetherCakeBlock;
 import me.luligabi.coxinhautilities.common.block.sponge.LavaSpongeBlock;
@@ -16,6 +18,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.HopperBlock;
 import net.minecraft.block.Material;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.WallStandingBlockItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
@@ -39,6 +42,8 @@ public class BlockRegistry {
         initBlock("nether_cake", NETHER_CAKE, Rarity.UNCOMMON); // TODO: Fix Nether Cake being borked
         initBlock("ender_cake", ENDER_CAKE, Rarity.UNCOMMON);
 
+        initWallStandingBlock("aquatic_torch", AQUATIC_TORCH, WALL_AQUATIC_TORCH);
+
         initBlock("lava_sponge", LAVA_SPONGE_BLOCK, Rarity.COMMON);
         initBlock("wet_lava_sponge", WET_LAVA_SPONGE_BLOCK, Rarity.COMMON);
 
@@ -57,6 +62,10 @@ public class BlockRegistry {
     public static final Block NETHER_CAKE = new NetherCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL));
     public static final Block ENDER_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.END);
 
+    public static final Block AQUATIC_TORCH = new AquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
+    public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
+
+
     public static final Block LAVA_SPONGE_BLOCK = new LavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
     public static final Block WET_LAVA_SPONGE_BLOCK = new WetLavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
 
@@ -74,5 +83,11 @@ public class BlockRegistry {
         } else {
             Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new PortableTankBlockItem(block, new FabricItemSettings().maxCount(1).fireproof().group(CoxinhaUtilities.ITEM_GROUP)));
         }
+    }
+
+    private static void initWallStandingBlock(String identifier, Block block, Block wallBlock) {
+        Registry.register(Registry.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, identifier), block);
+        Registry.register(Registry.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "wall_" + identifier), wallBlock);
+        Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new WallStandingBlockItem(block, wallBlock, new FabricItemSettings().group(CoxinhaUtilities.ITEM_GROUP)));
     }
 }
