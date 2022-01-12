@@ -39,8 +39,8 @@ public class PortableTankBlockItem extends BlockItem {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        ItemStack itemStack = user.getStackInHand(hand);
         if(!world.isClient()) {
-            ItemStack itemStack = user.getStackInHand(hand);
             TankTier tankTier = ((PortableTankBlock) getBlock()).getTankTier();
 
             NbtCompound tankCompound = itemStack.getOrCreateNbt().getCompound("BlockEntityTag");
@@ -56,7 +56,7 @@ public class PortableTankBlockItem extends BlockItem {
 
                 // FIXME: BlockHitResult behaves differently from buckets, not triggering if a block is behind the raycasted fluid.
                 BlockHitResult blockHitResult = raycast(world, user, hasSpace ? RaycastContext.FluidHandling.SOURCE_ONLY : RaycastContext.FluidHandling.NONE);
-                if (blockHitResult.getType() != HitResult.Type.BLOCK || blockHitResult.getType() == HitResult.Type.MISS) return TypedActionResult.pass(itemStack);
+                if (blockHitResult.getType() != HitResult.Type.BLOCK) return TypedActionResult.pass(itemStack);
                 BlockPos blockPos = blockHitResult.getBlockPos();
                 Direction direction = blockHitResult.getSide();
                 BlockPos blockPos2 = blockPos.offset(direction);
@@ -109,19 +109,19 @@ public class PortableTankBlockItem extends BlockItem {
                 // Change Tank's Bucket Mode if player isn't sneaking.
                 tankCompound.putBoolean("isBucketMode", !tankCompound.getBoolean("isBucketMode")); // FIXME: Can't set bucketMode if tank has no NBT
                 user.sendMessage(new TranslatableText("message.coxinhautilities.tank.bucketMode")
-                                        .formatted(tankTier.getPrimaryColor())
+                        .formatted(tankTier.getPrimaryColor())
                         .append(tankCompound.getBoolean("isBucketMode") ?
                                 new TranslatableText("tooltip.coxinhautilities.tank.bucketMode.on")
                                         .formatted(tankTier.getSecondaryColor()) :
                                 new TranslatableText("tooltip.coxinhautilities.tank.bucketMode.off")
                                         .formatted(tankTier.getSecondaryColor())), true);
                 user.playSound(tankCompound.getBoolean("isBucketMode") ?
-                        SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN : SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE,
+                                SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN : SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE,
                         SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return TypedActionResult.success(itemStack);
             }
         }
-        return super.use(world, user, hand);
+        return TypedActionResult.fail(itemStack);
     }
 
     @Override

@@ -39,6 +39,13 @@
   "unit.coxinhautilities.droplet": " droplets",
   "unit.coxinhautilities.milliBuckets": "mB",
 
+  "block.coxinhautilities.grannys_sink": "Granny's Sink",
+  "tooltip.coxinhautilities.grannys_sink.1": "Scientists estimate that all of Earth's oceans",
+  "tooltip.coxinhautilities.grannys_sink.2": "combined have a total water volume of ~1,332,000,000",
+  "tooltip.coxinhautilities.grannys_sink.3": "cubic kilometers. That might seem like a",
+  "tooltip.coxinhautilities.grannys_sink.4": "lot of water, but it's only a mere fraction",
+  "tooltip.coxinhautilities.grannys_sink.5": "of the water contained in Granny's Sink.",
+
 
   "block.coxinhautilities.overworld_cake": "Overworld Cake",
   "block.coxinhautilities.nether_cake": "Nether Cake",

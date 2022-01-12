@@ -1,6 +1,8 @@
 package me.luligabi.coxinhautilities.common.block;
 
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
+import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlockEntity;
+import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlockEntityRenderer;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockEntity;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockEntityRenderer;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlockEntity;
@@ -20,6 +22,8 @@ public class BlockEntityRegistry {
         PORTABLE_TANK_MK3_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "portable_tank_mk3"), FabricBlockEntityTypeBuilder.create(PortableTankBlockEntity::new, BlockRegistry.PORTABLE_TANK_MK3).build(null));
         PORTABLE_TANK_MK4_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "portable_tank_mk4"), FabricBlockEntityTypeBuilder.create(PortableTankBlockEntity::new, BlockRegistry.PORTABLE_TANK_MK4).build(null));
         PORTABLE_TANK_MK5_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "portable_tank_mk5"), FabricBlockEntityTypeBuilder.create(PortableTankBlockEntity::new, BlockRegistry.PORTABLE_TANK_MK5).build(null));
+
+        GRANNYS_SINK_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "grannys_sink"), FabricBlockEntityTypeBuilder.create(GrannysSinkBlockEntity::new, BlockRegistry.GRANNYS_SINK).build(null));
     }
 
     public static void clientInit() {
@@ -28,6 +32,8 @@ public class BlockEntityRegistry {
         BlockEntityRendererRegistry.register(BlockEntityRegistry.PORTABLE_TANK_MK3_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(BlockEntityRegistry.PORTABLE_TANK_MK4_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(BlockEntityRegistry.PORTABLE_TANK_MK5_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
+
+        BlockEntityRendererRegistry.register(BlockEntityRegistry.GRANNYS_SINK_BLOCK_ENTITY, GrannysSinkBlockEntityRenderer::new);
     }
 
     public static BlockEntityType<WoodenHopperBlockEntity> WOODEN_HOPPER_ENTITY;
@@ -37,4 +43,6 @@ public class BlockEntityRegistry {
     public static BlockEntityType<PortableTankBlockEntity> PORTABLE_TANK_MK3_BLOCK_ENTITY;
     public static BlockEntityType<PortableTankBlockEntity> PORTABLE_TANK_MK4_BLOCK_ENTITY;
     public static BlockEntityType<PortableTankBlockEntity> PORTABLE_TANK_MK5_BLOCK_ENTITY;
+
+    public static BlockEntityType<GrannysSinkBlockEntity> GRANNYS_SINK_BLOCK_ENTITY;
 }

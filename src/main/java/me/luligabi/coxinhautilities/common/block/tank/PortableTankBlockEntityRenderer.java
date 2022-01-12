@@ -1,6 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.tank;
 
-import me.luligabi.coxinhautilities.common.util.Util;
+import me.luligabi.coxinhautilities.common.util.RenderUtil;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
@@ -16,7 +16,7 @@ public class PortableTankBlockEntityRenderer implements BlockEntityRenderer<Port
         //System.out.println(entity.fluidStorage.isResourceBlank() + "/" + entity.fluidStorage.getAmount());
         if (!entity.fluidStorage.isResourceBlank() && entity.fluidStorage.amount > 0) { //FIXME: This check is broken.
             //System.out.println("TANK RENDERING!");
-            Util.drawFluidInTank(entity.getWorld(), entity.getPos(), matrices, vertexConsumers,
+            RenderUtil.drawFluidInTank(entity.getWorld(), entity.getPos(), matrices, vertexConsumers,
                     entity.fluidStorage.variant, (float) entity.fluidStorage.amount / entity.fluidStorage.getCapacity());
         }
     }

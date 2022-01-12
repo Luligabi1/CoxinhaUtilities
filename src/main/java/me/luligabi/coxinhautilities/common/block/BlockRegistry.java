@@ -5,6 +5,7 @@ import me.luligabi.coxinhautilities.common.block.aquatictorch.AquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.aquatictorch.WallAquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.cake.DimensionalCakeBlock;
 import me.luligabi.coxinhautilities.common.block.cake.NetherCakeBlock;
+import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlock;
 import me.luligabi.coxinhautilities.common.block.sponge.LavaSpongeBlock;
 import me.luligabi.coxinhautilities.common.block.sponge.WetLavaSpongeBlock;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlock;
@@ -13,10 +14,7 @@ import me.luligabi.coxinhautilities.common.block.tank.TankTier;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HopperBlock;
-import net.minecraft.block.Material;
+import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.WallStandingBlockItem;
 import net.minecraft.sound.BlockSoundGroup;
@@ -37,6 +35,7 @@ public class BlockRegistry {
         initPortableTankBlock("portable_tank_mk4", PORTABLE_TANK_MK4);
         initPortableTankBlock("portable_tank_mk5", PORTABLE_TANK_MK5);
 
+        initBlock("grannys_sink", GRANNYS_SINK, Rarity.UNCOMMON);
 
         initBlock("overworld_cake", OVERWORLD_CAKE, Rarity.UNCOMMON); // TODO: Fix first usage triggering the Credits Screen
         initBlock("nether_cake", NETHER_CAKE, Rarity.UNCOMMON); // TODO: Fix Nether Cake being borked
@@ -44,8 +43,8 @@ public class BlockRegistry {
 
         initWallStandingBlock("aquatic_torch", AQUATIC_TORCH, WALL_AQUATIC_TORCH);
 
-        initBlock("lava_sponge", LAVA_SPONGE_BLOCK, Rarity.COMMON);
-        initBlock("wet_lava_sponge", WET_LAVA_SPONGE_BLOCK, Rarity.COMMON);
+        initBlock("lava_sponge", LAVA_SPONGE, Rarity.COMMON);
+        initBlock("wet_lava_sponge", WET_LAVA_SPONGE, Rarity.COMMON);
 
         initBlock("tinted_glass_pane", TINTED_GLASS_PANE, Rarity.COMMON);
     }
@@ -58,6 +57,8 @@ public class BlockRegistry {
     public static final PortableTankBlock PORTABLE_TANK_MK4 = new PortableTankBlock(TankTier.MK4);
     public static final PortableTankBlock PORTABLE_TANK_MK5 = new PortableTankBlock(TankTier.MK5);
 
+    public static final GrannysSinkBlock GRANNYS_SINK = new GrannysSinkBlock(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).requiresTool().strength(0.8F));
+
     public static final Block OVERWORLD_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.OVERWORLD);
     public static final Block NETHER_CAKE = new NetherCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL));
     public static final Block ENDER_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.END);
@@ -66,8 +67,8 @@ public class BlockRegistry {
     public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
 
 
-    public static final Block LAVA_SPONGE_BLOCK = new LavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
-    public static final Block WET_LAVA_SPONGE_BLOCK = new WetLavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
+    public static final Block LAVA_SPONGE = new LavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
+    public static final Block WET_LAVA_SPONGE = new WetLavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
 
     public static final Block TINTED_GLASS_PANE = new TintedPaneBlock(FabricBlockSettings.copyOf(Blocks.TINTED_GLASS));
 

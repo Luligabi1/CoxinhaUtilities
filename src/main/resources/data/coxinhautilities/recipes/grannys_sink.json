@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "WBW",
+    "WWW"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gray_concrete"
+    },
+    "W": {
+      "item": "minecraft:white_concrete"
+    },
+    "B": {
+      "item": "minecraft:water_bucket"
+    }
+  },
+  "result": {
+    "item": "coxinhautilities:grannys_sink",
+    "count": 1
+  }
+}
