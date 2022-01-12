@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "coxinhautilities:portable_tank_mk1"
+    "coxinhautilities:portable_tank_mk1",
+    "coxinhautilities:grannys_sink"
   ]
 }
