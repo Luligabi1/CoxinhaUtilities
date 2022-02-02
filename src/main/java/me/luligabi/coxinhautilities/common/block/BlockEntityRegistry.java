@@ -1,10 +1,10 @@
 package me.luligabi.coxinhautilities.common.block;
 
+import me.luligabi.coxinhautilities.client.renderer.blockentity.GrannysSinkBlockEntityRenderer;
+import me.luligabi.coxinhautilities.client.renderer.blockentity.PortableTankBlockEntityRenderer;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlockEntity;
-import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlockEntityRenderer;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockEntity;
-import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockEntityRenderer;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlockEntity;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
