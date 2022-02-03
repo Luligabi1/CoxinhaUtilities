@@ -1,6 +1,5 @@
 package me.luligabi.coxinhautilities.client.renderer.item;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlockEntity;
 import me.luligabi.coxinhautilities.common.util.RenderUtil;
@@ -31,7 +30,6 @@ public class GrannysSinkItemRenderer implements BuiltinItemRendererRegistry.Dyna
         MinecraftClient.getInstance().getBlockEntityRenderDispatcher().renderEntity(
                 sinkBlockEntity, ms, vcp, light, overlay);
         DiffuseLighting.enableGuiDepthLighting();
-        RenderSystem.enableDepthTest();
     }
 
     private final BlockState sinkBlockState = BlockRegistry.GRANNYS_SINK.getDefaultState();

@@ -33,7 +33,7 @@ public class RenderUtil {
      */
     @SuppressWarnings("UnstableApiUsage")
     public static void drawFluidInTank(FluidVariant fluid, float fill, MatrixStack ms, VertexConsumerProvider vcp, @Nullable World world, @Nullable BlockPos pos) {
-        VertexConsumer vc = vcp.getBuffer(RenderLayer.getTranslucent());
+        VertexConsumer vc = vcp.getBuffer(RenderLayer.getCutout());
         Sprite sprite = FluidVariantRendering.getSprite(fluid);
         int color = (world == null && pos == null) ? FluidVariantRendering.getColor(fluid, null, null) : FluidVariantRendering.getColor(fluid, world, pos);
         float r = ((color >> 16) & 255) / 256f;
@@ -68,7 +68,7 @@ public class RenderUtil {
         }
     }
 
-    public static final float TANK_W = 0.01F;
+    public static final float TANK_W = 0.07F;
     public static final float TANK_START = 0.16F;
     public static final float TANK_FINAL = 0.84F;
 
@@ -81,7 +81,7 @@ public class RenderUtil {
     @SuppressWarnings("UnstableApiUsage")
     public static void drawFluidInSink(MatrixStack ms, VertexConsumerProvider vcp, @Nullable World world, @Nullable BlockPos pos) {
         FluidVariant water = FluidVariant.of(Fluids.WATER);
-        VertexConsumer vc = vcp.getBuffer(RenderLayer.getTranslucent());
+        VertexConsumer vc = vcp.getBuffer(RenderLayer.getCutout());
         Sprite sprite = FluidVariantRendering.getSprite(water);
         int color = (world == null && pos == null) ? FluidVariantRendering.getColor(water, null, null) : FluidVariantRendering.getColor(water, world, pos);
         float r = ((color >> 16) & 255) / 256f;

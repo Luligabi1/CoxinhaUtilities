@@ -25,11 +25,13 @@ public class CoxinhaUtilitiesClient implements ClientModInitializer {
     public void onInitializeClient() {
         portableTanks.forEach(portableTanks -> BlockRenderLayerMap.INSTANCE.putBlock(portableTanks, RenderLayer.getCutoutMipped()));
 
+        //BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.GRANNYS_SINK, RenderLayer);
+
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
                 BlockRegistry.AQUATIC_TORCH,
                 BlockRegistry.WALL_AQUATIC_TORCH);
 
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(), BlockRegistry.TINTED_GLASS_PANE);
+        //BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(), BlockRegistry.TINTED_GLASS_PANE);
 
         BlockEntityRegistry.clientInit();
 
