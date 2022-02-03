@@ -37,16 +37,16 @@ public class BlockRegistry {
 
         initBlock("grannys_sink", GRANNYS_SINK, Rarity.UNCOMMON);
 
-        initBlock("overworld_cake", OVERWORLD_CAKE, Rarity.UNCOMMON); // TODO: Fix first usage triggering the Credits Screen
+        /*initBlock("overworld_cake", OVERWORLD_CAKE, Rarity.UNCOMMON); // TODO: Fix first usage triggering the Credits Screen
         initBlock("nether_cake", NETHER_CAKE, Rarity.UNCOMMON); // TODO: Fix Nether Cake being borked
-        initBlock("ender_cake", ENDER_CAKE, Rarity.UNCOMMON);
+        initBlock("ender_cake", ENDER_CAKE, Rarity.UNCOMMON);*/
 
         initWallStandingBlock("aquatic_torch", AQUATIC_TORCH, WALL_AQUATIC_TORCH);
 
-        initBlock("lava_sponge", LAVA_SPONGE, Rarity.COMMON);
-        initBlock("wet_lava_sponge", WET_LAVA_SPONGE, Rarity.COMMON);
+        /*initBlock("lava_sponge", LAVA_SPONGE, Rarity.COMMON);
+        initBlock("wet_lava_sponge", WET_LAVA_SPONGE, Rarity.COMMON);*/
 
-        initBlock("tinted_glass_pane", TINTED_GLASS_PANE, Rarity.COMMON);
+        //initBlock("tinted_glass_pane", TINTED_GLASS_PANE, Rarity.COMMON);
     }
 
     public static final HopperBlock WOODEN_HOPPER = new WoodenHopperBlock(FabricBlockSettings.of(Material.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
