@@ -1,18 +1,25 @@
 plugins {
     id 'fabric-loom' version '0.10-SNAPSHOT'
+    id "com.matthewprenger.cursegradle" version '1.4.0'
+    id "com.modrinth.minotaur" version '1.2.1'
     id 'maven-publish'
 }
 
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
-repositories {
-    maven {
-        url = 'https://maven.cafeteria.dev'
-        content {
-            includeGroup 'dev.cafeteria'
-        }
-    }
+def ENV = System.getenv()
+
+def RELEASE_NAME = "[${project.minecraft_version}] ${version}"
+def RELEASE_FILE = "${buildDir}/libs/${archivesBaseName}-${version}.jar"
+
+@SuppressWarnings('GrMethodMayBeStatic')
+def getChangeLog() {
+    return ""
 }
 
 dependencies {
@@ -21,9 +28,6 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    modImplementation "dev.cafeteria:fake-player-api:0.3.0"
-    include "dev.cafeteria:fake-player-api:0.3.0"
 }
 
 processResources {
@@ -55,4 +59,58 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
+}
+
+curseforge {
+    if (ENV.CURSEFORGE_API_KEY) {
+        apiKey = ENV.CURSEFORGE_API_KEY
+    }
+
+    project {
+        id = project.curseforge_id
+        changelog = getChangeLog()
+        releaseType = "release"
+        addGameVersion project.minecraft_version
+        addGameVersion "Fabric"
+
+        mainArtifact(file(RELEASE_FILE)) {
+            displayName = RELEASE_NAME
+            relations {
+                requiredDependency 'fabric-api'
+
+                optionalDependency 'roughly-enough-items'
+            }
+        }
+
+        afterEvaluate {
+            uploadTask.dependsOn("remapJar")
+        }
+    }
+
+    options {
+        forgeGradleIntegration = false
+    }
+}
+
+//Modrinth publishing
+import com.modrinth.minotaur.TaskModrinthUpload
+import com.modrinth.minotaur.request.VersionType
+
+task modrinth(type: TaskModrinthUpload, dependsOn: remapJar, group: "upload") {
+    onlyIf {
+        ENV.MODRINTH_TOKEN
+    }
+    token = ENV.MODRINTH_TOKEN
+
+    projectId = project.modrinth_id
+    changelog = getChangeLog()
+
+    versionNumber = version
+    versionName = RELEASE_NAME
+    versionType = VersionType.valueOf("RELEASE")
+
+    uploadFile = file(RELEASE_FILE)
+
+    addGameVersion(project.minecraft_version as String)
+    addLoader("fabric")
 }
