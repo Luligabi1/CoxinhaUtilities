@@ -9,7 +9,9 @@ import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class CoxinhaUtilities implements ModInitializer {
 
@@ -20,6 +22,7 @@ public class CoxinhaUtilities implements ModInitializer {
 
         BlockRegistry.init();
         BlockEntityRegistry.init();
+        Registry.register(Registry.LOOT_FUNCTION_TYPE, new Identifier(MOD_ID, "tank_copy_data"), TANK_COPY_DATA);
 
         ScreenHandlingRegistry.init();
 
@@ -38,4 +41,6 @@ public class CoxinhaUtilities implements ModInitializer {
                     new Identifier(MOD_ID, "item_group"))
             .icon(() -> new ItemStack(ItemRegistry.COXINHA))
             .build();
+
+    public static final LootFunctionType TANK_COPY_DATA = new LootFunctionType(new TankCopyDataLootFunction.TankCopyDataLootFunctionSerializer());
 }

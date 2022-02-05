@@ -38,6 +38,10 @@ public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
         return Util.interactPlayerHand(fluidStorage, player, hand, true, true);
     }
 
+    public boolean hasWrittenNbt() {
+        return fluidStorage.amount > 0 || !fluidStorage.isResourceBlank() /*|| isBucketMode*/;
+    }
+
     @Override
     public void markDirty() {
         super.markDirty();

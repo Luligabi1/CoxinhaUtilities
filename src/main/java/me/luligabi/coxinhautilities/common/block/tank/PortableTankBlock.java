@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.LiteralText;
@@ -84,6 +85,12 @@ public class PortableTankBlock extends BlockWithEntity {
 
     @Override
     public BlockRenderType getRenderType(BlockState state) { return BlockRenderType.MODEL; }
+
+    public void saveTankNbtToStack(BlockEntity blockEntity, ItemStack stack) {
+        if (blockEntity instanceof PortableTankBlockEntity tank && tank.hasWrittenNbt()) {
+            BlockItem.setBlockEntityNbt(stack, tank.getType(), tank.createNbt());
+        }
+    }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) { return BOUNDING_SHAPE; }

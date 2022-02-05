@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "coxinhautilities:portable_tank_mk1",
+          "name": "coxinhautilities:portable_tank_mk2",
           "functions": [
             {
               "function": "coxinhautilities:tank_copy_data"
