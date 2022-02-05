@@ -1,6 +1,5 @@
 package me.luligabi.coxinhautilities.common.block.tank;
 
-import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.ClientSyncedBlockEntity;
 import me.luligabi.coxinhautilities.common.util.Util;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -16,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
 
     public PortableTankBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.PORTABLE_TANK_MK1_BLOCK_ENTITY, pos, state); // FIXME: Only Portable Tanks MK1 are able to render fluids due to them being passes on super here
+        super(Util.getTankBlockEntityType(state.getBlock()), pos, state);
     }
 
     //private boolean isBucketMode = false; // TODO: Reimplement bucket mode whenever it's more stable
