@@ -25,14 +25,6 @@
   "tooltip.coxinhautilities.tank.capacity.1": "Capacity: ",
   "tooltip.coxinhautilities.tank.capacity.2": "%d/%d%d",
 
-  "tooltip.coxinhautilities.tank.bucketMode": "Bucket Mode: ",
-
-  "tooltip.coxinhautilities.tank.bucketMode.on": "ON",
-  "tooltip.coxinhautilities.tank.bucketMode.off": "OFF",
-
-  "message.coxinhautilities.tank.bucketMode": "Bucket Mode: ",
-
-
   "tooltip.coxinhautilities.tank.holdShift": "Hold Shift to see unit as droplets.",
   "tooltip.coxinhautilities.tank.releaseShift": "Release Shift to see unit as MilliBuckets (mB).",
 
@@ -46,10 +38,6 @@
   "tooltip.coxinhautilities.grannys_sink.4": "lot of water, but it's only a mere fraction",
   "tooltip.coxinhautilities.grannys_sink.5": "of the water contained in Granny's Sink.",
 
-
-  "block.coxinhautilities.overworld_cake": "Overworld Cake",
-  "block.coxinhautilities.nether_cake": "Nether Cake",
-  "block.coxinhautilities.ender_cake": "Ender Cake",
 
   "block.coxinhautilities.aquatic_torch": "Aquatic Torch",
 

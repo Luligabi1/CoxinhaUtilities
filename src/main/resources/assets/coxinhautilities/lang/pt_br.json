@@ -1,0 +1,40 @@
+{
+  "item.coxinhautilities.coxinha": "Coxinha",
+  "tooltip.coxinhautilities.coxinha": "Um salgado delicioso de procedência Franco-Brasileira.",
+
+  "item.coxinhautilities.cursed_coxinha": "Coxinha Amaldiçoada",
+  "item.coxinhautilities.golden_coxinha": "Coxinha Dourada",
+  "item.coxinhautilities.diamond_coxinha": "Coxinha de Diamante",
+
+  "block.coxinhautilities.wooden_hopper": "Funil de Madeira",
+  "tooltip.coxinhautilities.wooden_hopper.1": "A cheaper, single slot hopper",
+  "tooltip.coxinhautilities.wooden_hopper.2": "Não pode ser travado com um sinal de redstone.",
+
+
+  "block.coxinhautilities.portable_tank_mk1": "Tanque Portátil MK1",
+  "block.coxinhautilities.portable_tank_mk2": "Tanque Portátil MK2",
+  "block.coxinhautilities.portable_tank_mk3": "Tanque Portátil MK3",
+  "block.coxinhautilities.portable_tank_mk4": "Tanque Portátil MK4",
+  "block.coxinhautilities.portable_tank_mk5": "Tanque Portátil MK5",
+
+  "tooltip.coxinhautilities.tank.fluidVariant.1": "Líquido: ",
+
+  "tooltip.coxinhautilities.tank.none": "Nenhum",
+
+  "tooltip.coxinhautilities.tank.capacity.1": "Capacidade: ",
+
+  "tooltip.coxinhautilities.tank.holdShift": "Segure Shift para visualizar unidades em droplets.",
+  "tooltip.coxinhautilities.tank.releaseShift": "Solte Shift para visualizar unidades MilliBuckets (mB).",
+
+  "block.coxinhautilities.grannys_sink": "Pia da Vovó",
+  "tooltip.coxinhautilities.grannys_sink.1": "Cientistas estimam que todos os oceanos da Terra",
+  "tooltip.coxinhautilities.grannys_sink.2": "combinados possuem um volume de água total de ~1,332,000,000",
+  "tooltip.coxinhautilities.grannys_sink.3": "quilômetros cúbicos. Isto pode parecer",
+  "tooltip.coxinhautilities.grannys_sink.4": "muita água, mas é apenas uma mera fração",
+  "tooltip.coxinhautilities.grannys_sink.5": "da água contida na Pia da Vovó.",
+
+
+  "block.coxinhautilities.aquatic_torch": "Tocha Aquática",
+
+  "itemGroup.coxinhautilities.item_group": "Coxinha Utilities"
+}
