@@ -9,6 +9,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.LiteralText;
@@ -25,6 +26,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PortableTankBlock extends BlockWithEntity {
@@ -36,12 +38,10 @@ public class PortableTankBlock extends BlockWithEntity {
 
     private final TankTier tankTier;
 
-    //TODO: Fluids should render inside the tank on inventory too
-
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (((PortableTankBlockEntity) world.getBlockEntity(pos)).onPlayerUse(player)) {
-            return ActionResult.success(world.isClient);
+        if (((PortableTankBlockEntity) Objects.requireNonNull(world.getBlockEntity(pos))).fluidIo(player, hand) != null) {
+            return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
     }
@@ -56,7 +56,7 @@ public class PortableTankBlock extends BlockWithEntity {
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
         tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.fluidVariant.1")
                     .formatted(tankTier.getPrimaryColor())
-                .append(!stack.hasNbt() ?
+                .append(!stack.hasNbt() || FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant")).isOf(Fluids.EMPTY) ?
                         new TranslatableText("tooltip.coxinhautilities.tank.none").formatted(tankTier.getSecondaryColor()) :
                         new TranslatableText("tooltip.coxinhautilities.tank.fluidVariant.2", FluidVariantRendering.getName(FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant"))))
                     .formatted(tankTier.getSecondaryColor())));
@@ -69,12 +69,12 @@ public class PortableTankBlock extends BlockWithEntity {
                         Screen.hasShiftDown() ? new TranslatableText("unit.coxinhautilities.droplet") : new TranslatableText("unit.coxinhautilities.milliBuckets")) // Liquid unit
                     .formatted(tankTier.getSecondaryColor())));
 
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.bucketMode")
+        /*tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.bucketMode")
                     .formatted(tankTier.getPrimaryColor())
                 .append(!stack.hasNbt() || !stack.getNbt().getCompound("BlockEntityTag").getBoolean("isBucketMode") ?
                         new TranslatableText("tooltip.coxinhautilities.tank.bucketMode.off").formatted(tankTier.getSecondaryColor()) :
                         new TranslatableText("tooltip.coxinhautilities.tank.bucketMode.on")
-                    .formatted(tankTier.getSecondaryColor())));
+                    .formatted(tankTier.getSecondaryColor())));*/
 
         tooltip.add(new LiteralText(" "));
         tooltip.add((Screen.hasShiftDown() ? new TranslatableText("tooltip.coxinhautilities.tank.releaseShift") : new TranslatableText("tooltip.coxinhautilities.tank.holdShift")).formatted(Formatting.GRAY, Formatting.ITALIC));

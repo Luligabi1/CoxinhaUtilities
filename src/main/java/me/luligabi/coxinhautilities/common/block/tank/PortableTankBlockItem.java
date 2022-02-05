@@ -1,43 +1,16 @@
 package me.luligabi.coxinhautilities.common.block.tank;
 
-import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FluidBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.FluidTags;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.RaycastContext;
-import net.minecraft.world.World;
 
-@SuppressWarnings("UnstableApiUsage")
+
+//@SuppressWarnings("UnstableApiUsage")
 public class PortableTankBlockItem extends BlockItem {
 
     public PortableTankBlockItem(PortableTankBlock block, Settings settings) {
         super(block, settings);
     }
 
-
-    @Override
+    /*@Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         if(!world.isClient()) {
@@ -79,8 +52,8 @@ public class PortableTankBlockItem extends BlockItem {
                                             SoundCategory.BLOCKS, 1.0F, 1.0F);
                                     Criteria.FILLED_BUCKET.trigger((ServerPlayerEntity) user, itemStack);
                                     return TypedActionResult.success(itemStack);
-                                } else { /* Cancel transaction if conditions aren't met. */ }
-                            }
+                                } else { /* Cancel transaction if conditions aren't met. */ //}
+                            /*}
                         }
                         return TypedActionResult.pass(itemStack);
                     } else if (world.getBlockState(blockPos).getBlock() instanceof FluidBlock && hasBucket) { // FIXME: This never triggers (possibly due to BlockHitResult's issue)
@@ -95,13 +68,11 @@ public class PortableTankBlockItem extends BlockItem {
                                 }
                                 transaction.commit();
                                 world.setBlockState(blockPos, fluid.getDefaultState().getBlockState());
-                                /*world.playSound(null, blockPos, fluid.getBucketFillSound().isPresent() ? fluid.getBucketFillSound().get() : SoundEvents.ITEM_BUCKET_FILL,
-                                    SoundCategory.BLOCKS, 1.0F, 1.0F);*/
                                 fluid.getBucketFillSound().ifPresent((sound) -> user.playSound(sound, 1.0F, 1.0F));
                                 Criteria.PLACED_BLOCK.trigger((ServerPlayerEntity) user, blockPos, itemStack);
                                 return TypedActionResult.success(itemStack);
-                            } else { /* Cancel transaction if conditions aren't met. */ }
-                        }
+                            } else { /* Cancel transaction if conditions aren't met. */ //}
+                        /*}
                         return TypedActionResult.pass(itemStack);
                     }
                 }
@@ -126,6 +97,7 @@ public class PortableTankBlockItem extends BlockItem {
 
     @Override
     protected boolean canPlace(ItemPlacementContext context, BlockState state) {
-        return context.getStack().getOrCreateNbt().getCompound("BlockEntityTag").getBoolean("isBucketMode") ? false : super.canPlace(context, state);
-    }
+        return super.canPlace(context, state) && !context.getStack().getOrCreateNbt().getCompound("BlockEntityTag").getBoolean("isBucketMode");
+    }*/
+
 }

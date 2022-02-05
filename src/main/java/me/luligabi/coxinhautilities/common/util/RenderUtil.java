@@ -35,6 +35,8 @@ public class RenderUtil {
     public static void drawFluidInTank(FluidVariant fluid, float fill, MatrixStack ms, VertexConsumerProvider vcp, @Nullable World world, @Nullable BlockPos pos) {
         VertexConsumer vc = vcp.getBuffer(RenderLayer.getCutout());
         Sprite sprite = FluidVariantRendering.getSprite(fluid);
+        if(sprite == null) return;
+
         int color = (world == null && pos == null) ? FluidVariantRendering.getColor(fluid, null, null) : FluidVariantRendering.getColor(fluid, world, pos);
         float r = ((color >> 16) & 255) / 256f;
         float g = ((color >> 8) & 255) / 256f;

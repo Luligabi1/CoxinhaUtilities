@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEntityProvider {
 
@@ -32,8 +33,8 @@ public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEnti
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (((GrannysSinkBlockEntity) world.getBlockEntity(pos)).onPlayerUse(player)) {
-            return ActionResult.success(world.isClient);
+        if (((GrannysSinkBlockEntity) Objects.requireNonNull(world.getBlockEntity(pos))).fluidIo(player, hand) != null) {
+            return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
     }
