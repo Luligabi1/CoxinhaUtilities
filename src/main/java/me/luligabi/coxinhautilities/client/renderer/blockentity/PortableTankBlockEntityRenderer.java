@@ -17,12 +17,9 @@ public class PortableTankBlockEntityRenderer implements BlockEntityRenderer<Port
 
     @Override
     public void render(PortableTankBlockEntity entity, float tickDelta, MatrixStack ms, VertexConsumerProvider vcp, int light, int overlay) {
-        //System.out.println(entity.fluidStorage.isResourceBlank() + "/" + entity.fluidStorage.getAmount());
-        if (!entity.fluidStorage.isResourceBlank() && entity.fluidStorage.amount > 0) { //FIXME: This check is broken.
-            //System.out.println("TANK RENDERING!");
-            RenderUtil.drawFluidInTank(entity.fluidStorage.variant, (float) entity.fluidStorage.amount / entity.fluidStorage.getCapacity(),
-                    ms, vcp, entity.getWorld(), entity.getPos());
-        }
+        if (entity.fluidStorage.isResourceBlank() && entity.fluidStorage.amount <= 0) return;
+        RenderUtil.drawFluidInTank(entity.fluidStorage.variant, (float) entity.fluidStorage.amount / entity.fluidStorage.getCapacity(),
+                ms, vcp, entity.getWorld(), entity.getPos());
     }
 
 }

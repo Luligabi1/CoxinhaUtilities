@@ -23,9 +23,11 @@ public class GrannysSinkItemRenderer implements BuiltinItemRendererRegistry.Dyna
     public void render(ItemStack stack, ModelTransformation.Mode mode, MatrixStack ms, VertexConsumerProvider vcp, int light, int overlay) {
         BakedModel bakedModel = MinecraftClient.getInstance().getBlockRenderManager().getModel(sinkBlockState);
 
+        // Render item model itself
         RenderUtil.renderItemWithWrappedModel(MinecraftClient.getInstance().getItemRenderer(),
                 bakedModel, sinkModel, stack, light, overlay, ms, vcp);
 
+        // Renders fluid using the sink's BER
         DiffuseLighting.disableGuiDepthLighting();
         MinecraftClient.getInstance().getBlockEntityRenderDispatcher().renderEntity(
                 sinkBlockEntity, ms, vcp, light, overlay);
