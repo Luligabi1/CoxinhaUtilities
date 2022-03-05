@@ -6,6 +6,13 @@
   "item.coxinhautilities.golden_coxinha": "Golden Coxinha",
   "item.coxinhautilities.diamond_coxinha": "Diamond Coxinha",
 
+  "item.coxinhautilities.potato_battery": "Potato Battery",
+
+  "tooltip.coxinhautilities.potato_battery.1": "Energy: ",
+  "tooltip.coxinhautilities.potato_battery.2": "%d/%d",
+  "tooltip.coxinhautilities.potato_battery.3": "Absolutely NOT endorsed by Aperture Science.",
+
+
   "block.coxinhautilities.wooden_hopper": "Wooden Hopper",
   "tooltip.coxinhautilities.wooden_hopper.1": "A cheaper, single slot hopper",
   "tooltip.coxinhautilities.wooden_hopper.2": "Cannot be blocked with a redstone signal.",

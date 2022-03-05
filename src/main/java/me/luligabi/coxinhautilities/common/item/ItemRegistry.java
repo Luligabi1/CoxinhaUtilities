@@ -1,6 +1,7 @@
 package me.luligabi.coxinhautilities.common.item;
 
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
+import me.luligabi.coxinhautilities.common.item.battery.PotatoBatteryItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.FoodComponent;
@@ -25,6 +26,7 @@ public class ItemRegistry {
         Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, "golden_coxinha"), GOLDEN_COXINHA);
         Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, "diamond_coxinha"), DIAMOND_COXINHA);
 
+        Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, "potato_battery"), POTATO_BATTERY);
     }
 
     public static final Item COXINHA = new Item(new FabricItemSettings().food(new FoodComponent.Builder().hunger(6).saturationModifier(0.8F).meat().build()).group(CoxinhaUtilities.ITEM_GROUP)) {
@@ -46,5 +48,7 @@ public class ItemRegistry {
         @Override
         public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) { tooltip.add(new TranslatableText("tooltip.kibe.lore.diamond_kibe")); }
     };
+
+    public static final Item POTATO_BATTERY = new PotatoBatteryItem(new FabricItemSettings().group(CoxinhaUtilities.ITEM_GROUP));
 
 }
