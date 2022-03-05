@@ -3,25 +3,23 @@ package me.luligabi.coxinhautilities.common.block;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.aquatictorch.AquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.aquatictorch.WallAquaticTorchBlock;
-import me.luligabi.coxinhautilities.common.block.cake.DimensionalCakeBlock;
-import me.luligabi.coxinhautilities.common.block.cake.NetherCakeBlock;
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlock;
-import me.luligabi.coxinhautilities.common.block.sponge.LavaSpongeBlock;
-import me.luligabi.coxinhautilities.common.block.sponge.WetLavaSpongeBlock;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlock;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockItem;
 import me.luligabi.coxinhautilities.common.block.tank.TankTier;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.HopperBlock;
+import net.minecraft.block.MapColor;
+import net.minecraft.block.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.WallStandingBlockItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 
 public class BlockRegistry {
 
@@ -59,18 +57,18 @@ public class BlockRegistry {
 
     public static final GrannysSinkBlock GRANNYS_SINK = new GrannysSinkBlock(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).requiresTool().strength(0.8F));
 
-    public static final Block OVERWORLD_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.OVERWORLD);
-    public static final Block NETHER_CAKE = new NetherCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL));
-    public static final Block ENDER_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.END);
+    //public static final Block OVERWORLD_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.OVERWORLD);
+    //public static final Block NETHER_CAKE = new NetherCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL));
+    //public static final Block ENDER_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.END);
 
     public static final Block AQUATIC_TORCH = new AquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
     public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
 
 
-    public static final Block LAVA_SPONGE = new LavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
-    public static final Block WET_LAVA_SPONGE = new WetLavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
+    //public static final Block LAVA_SPONGE = new LavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
+    //public static final Block WET_LAVA_SPONGE = new WetLavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
 
-    public static final Block TINTED_GLASS_PANE = new TintedPaneBlock(FabricBlockSettings.copyOf(Blocks.TINTED_GLASS));
+    //public static final Block TINTED_GLASS_PANE = new TintedPaneBlock(FabricBlockSettings.copyOf(Blocks.TINTED_GLASS));
 
     private static void initBlock(String identifier, Block block, Rarity rarity) {
         Registry.register(Registry.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, identifier), block);

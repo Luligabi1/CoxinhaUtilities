@@ -1,7 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.sponge;
 
 import com.google.common.collect.Lists;
-import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.tag.FluidTags;
@@ -20,7 +19,7 @@ public class LavaSpongeBlock extends SpongeBlock {
 
     protected void update(World world, BlockPos pos) {
         if (this.absorbLava(world, pos)) {
-            world.setBlockState(pos, BlockRegistry.WET_LAVA_SPONGE.getDefaultState(), 2);
+            //world.setBlockState(pos, BlockRegistry.WET_LAVA_SPONGE.getDefaultState(), 2);
             world.syncWorldEvent(2001, pos, Block.getRawIdFromState(Blocks.LAVA.getDefaultState()));
         }
 
