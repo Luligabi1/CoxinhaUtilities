@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#R#",
+    "PBP",
+    "#R#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:redstone"
+    },
+    "R": {
+      "item": "minecraft:redstone_torch"
+    },
+    "P": {
+      "item": "coxinhautilities:potato_battery"
+    },
+    "B": {
+      "item": "minecraft:baked_potato"
+    }
+  },
+  "result": {
+    "item": "coxinhautilities:baked_potato_battery",
+    "count": 1
+  }
+}

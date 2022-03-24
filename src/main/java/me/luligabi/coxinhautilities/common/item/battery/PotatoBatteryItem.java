@@ -20,7 +20,7 @@ public class PotatoBatteryItem extends Item implements SimpleBatteryItem {
     }
 
     @Override
-    public long getEnergyCapacity() { return 2048; }
+    public long getEnergyCapacity() { return 4096; }
 
     @Override
     public long getEnergyMaxInput() { return Long.MAX_VALUE; }
@@ -30,12 +30,16 @@ public class PotatoBatteryItem extends Item implements SimpleBatteryItem {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.potato_battery.1")
-                .formatted(Formatting.GOLD)
-                .append(new TranslatableText("tooltip.coxinhautilities.potato_battery.2", stack.getOrCreateNbt().getLong(ENERGY_KEY), getEnergyCapacity())
-                        .formatted(Formatting.YELLOW)));
-        tooltip.add(new LiteralText(" "));
+        appendPowerInfo(tooltip, stack, Formatting.YELLOW, Formatting.YELLOW);
         tooltip.add(new TranslatableText("tooltip.coxinhautilities.potato_battery.3").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+    }
+
+    protected void appendPowerInfo(List<Text> tooltip, ItemStack stack, Formatting primaryColor, Formatting secondaryColor) {
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.potato_battery.1")
+                .formatted(primaryColor)
+                .append(new TranslatableText("tooltip.coxinhautilities.potato_battery.2", stack.getOrCreateNbt().getLong(ENERGY_KEY), getEnergyCapacity())
+                        .formatted(secondaryColor)));
+        tooltip.add(new LiteralText(" "));
     }
 
 }
