@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cRg",
+    "KPK",
+    "gRc"
+  ],
+  "key": {
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone_torch"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    },
+    "K": {
+      "item": "minecraft:redstone_block"
+    },
+    "P": {
+      "item": "minecraft:potato"
+    }
+  },
+  "result": {
+    "item": "coxinhautilities:potato_battery",
+    "count": 1
+  }
+}
