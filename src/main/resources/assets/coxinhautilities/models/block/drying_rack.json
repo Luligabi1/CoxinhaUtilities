@@ -1,0 +1,21 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"rack": "minecraft:block/oak_planks"
+	},
+	"elements": [
+		{
+			"name": "rack",
+			"from": [0, 14, 0],
+			"to": [16, 16, 2],
+			"faces": {
+				"north": {"uv": [0, 2, 16, 4], "texture": "#rack"},
+				"east": {"uv": [0, 2, 2, 4], "texture": "#rack"},
+				"south": {"uv": [0, 2, 16, 4], "texture": "#rack"},
+				"west": {"uv": [0, 2, 2, 4], "texture": "#rack"},
+				"up": {"uv": [0, 1, 16, 3], "texture": "#rack"},
+				"down": {"uv": [0, 1, 16, 3], "texture": "#rack"}
+			}
+		}
+	]
+}

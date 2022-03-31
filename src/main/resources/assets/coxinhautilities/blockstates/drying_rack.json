@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "coxinhautilities:block/drying_rack",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "coxinhautilities:block/drying_rack"
+    },
+    "facing=west": {
+      "model": "coxinhautilities:block/drying_rack",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "coxinhautilities:block/drying_rack",
+      "y": 270
+    }
+  }
+}
