@@ -2,6 +2,7 @@ package me.luligabi.coxinhautilities.client.compat.rei.drying;
 
 import com.google.common.collect.Lists;
 import me.luligabi.coxinhautilities.client.compat.rei.ReiPlugin;
+import me.luligabi.coxinhautilities.client.compat.rei.widget.TooltippedArrow;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
@@ -22,13 +23,14 @@ public class DryingDisplayCategory implements DisplayCategory<DryingRecipeDispla
     public List<Widget> setupDisplay(DryingRecipeDisplay display, Rectangle bounds) {
         Point startPoint = new Point(bounds.getCenterX() - 41, bounds.getCenterY() - 13);
         List<Widget> widgets = Lists.newArrayList();
+
         widgets.add(Widgets.createRecipeBase(bounds));
-        widgets.add(Widgets.createArrow(new Point(startPoint.x + 27, startPoint.y + 4)));
+        widgets.add(new TooltippedArrow(new Point(startPoint.x + 27, startPoint.y + 4),
+                tooltip -> tooltip.add(new TranslatableText("category.rei.campfire.time", display.getDryingTime() / 20)))
+                .animationDurationTicks(display.getDryingTime()));
         widgets.add(Widgets.createResultSlotBackground(new Point(startPoint.x + 61, startPoint.y + 5)));
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y + 5)).entries(display.getInputEntries().get(0)).markInput());
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 61, startPoint.y + 5)).entries(display.getOutputEntries().get(0)).disableBackground().markOutput());
-        widgets.add(Widgets.createLabel(new Point(bounds.x + bounds.width - 5, bounds.y + 5),
-                new TranslatableText("category.rei.campfire.time", display.getDryingTime() / 20)).noShadow().rightAligned().color(0xFF404040, 0xFFBBBBBB));
         return widgets;
     }
 

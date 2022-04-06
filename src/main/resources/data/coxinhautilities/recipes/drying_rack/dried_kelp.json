@@ -5,5 +5,5 @@
     "item": "minecraft:kelp"
   },
   "outputItem": "minecraft:dried_kelp",
-  "dryingTime": 640
+  "dryingTime": 160
 }
