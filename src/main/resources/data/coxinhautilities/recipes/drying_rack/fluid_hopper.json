@@ -1,0 +1,9 @@
+{
+  "type": "coxinhautilities:drying",
+
+  "ingredient": {
+    "item": "kibe:fluid_hopper"
+  },
+  "outputItem": "minecraft:hopper",
+  "dryingTime": 20
+}
