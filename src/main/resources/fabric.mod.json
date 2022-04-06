@@ -16,11 +16,14 @@
   "icon": "assets/coxinhautilities/textures/item/coxinha.png",
   "environment": "*",
   "entrypoints": {
+    "main": [
+      "me.luligabi.coxinhautilities.common.CoxinhaUtilities"
+    ],
     "client": [
       "me.luligabi.coxinhautilities.client.CoxinhaUtilitiesClient"
     ],
-    "main": [
-      "me.luligabi.coxinhautilities.common.CoxinhaUtilities"
+    "rei_plugins": [
+      "me.luligabi.coxinhautilities.client.compat.rei.ReiPlugin"
     ]
   },
   "mixins": [
