@@ -1,5 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.sink;
 
+import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
@@ -21,10 +22,11 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEntityProvider {
+public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEntityProvider, IWittyComment {
 
     public GrannysSinkBlock(Settings settings) {
         super(settings);
@@ -68,6 +70,14 @@ public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEnti
         tooltip.add(new TranslatableText("tooltip.coxinhautilities.grannys_sink.3").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         tooltip.add(new TranslatableText("tooltip.coxinhautilities.grannys_sink.4").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         tooltip.add(new TranslatableText("tooltip.coxinhautilities.grannys_sink.5").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        addWittyComment(tooltip);
+    }
+
+    @Override
+    public List<TranslatableText> wittyComments() {
+        List<TranslatableText> wittyComments = new ArrayList<>();
+        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.grannys_sink.witty"));
+        return wittyComments;
     }
 
     @Override

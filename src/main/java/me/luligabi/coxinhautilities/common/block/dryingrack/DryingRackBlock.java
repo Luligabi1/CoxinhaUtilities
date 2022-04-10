@@ -3,10 +3,12 @@ package me.luligabi.coxinhautilities.common.block.dryingrack;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
+import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -15,6 +17,8 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -26,9 +30,11 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-public class DryingRackBlock extends BlockWithEntity {
+public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
 
     public static final DirectionProperty FACING =  Properties.HORIZONTAL_FACING;
     private final Map<Direction, VoxelShape> SHAPE_MAP;
@@ -70,6 +76,19 @@ public class DryingRackBlock extends BlockWithEntity {
             }
         }
         return ActionResult.PASS;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.drying_rack").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        addWittyComment(tooltip);
+    }
+
+    @Override
+    public List<TranslatableText> wittyComments() {
+        List<TranslatableText> wittyComments = new ArrayList<>();
+        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.drying_rack.witty"));
+        return wittyComments;
     }
 
     @Nullable
@@ -142,7 +161,5 @@ public class DryingRackBlock extends BlockWithEntity {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
-
-
 
 }

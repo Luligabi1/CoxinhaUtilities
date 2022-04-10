@@ -13,18 +13,19 @@
   "tooltip.coxinhautilities.potato_battery.1": "Energy: ",
   "tooltip.coxinhautilities.potato_battery.2": "%d/%d",
 
-  "tooltip.coxinhautilities.potato_battery.3": "Absolutely NOT endorsed by Aperture Science.",
+  "tooltip.coxinhautilities.potato_battery.witty": "Absolutely NOT endorsed by Aperture Science.",
 
-  "tooltip.coxinhautilities.baked_potato_battery.1": "Delicious!",
-  "tooltip.coxinhautilities.baked_potato_battery.2": "But still not endorsed by Aperture Science.",
+  "tooltip.coxinhautilities.baked_potato_battery.witty.1": "Delicious!",
+  "tooltip.coxinhautilities.baked_potato_battery.witty.2": "But still not endorsed by Aperture Science.",
 
-  "tooltip.coxinhautilities.poisonous_potato_battery.1": "There's poison inside it...",
-  "tooltip.coxinhautilities.poisonous_potato_battery.2": "so maybe there's a slim chance?",
+  "tooltip.coxinhautilities.poisonous_potato_battery.witty.1": "There's poison inside it...",
+  "tooltip.coxinhautilities.poisonous_potato_battery.witty.2": "so maybe there's a slim chance?",
 
 
   "block.coxinhautilities.wooden_hopper": "Wooden Hopper",
-  "tooltip.coxinhautilities.wooden_hopper.1": "A cheaper, single slot hopper",
+  "tooltip.coxinhautilities.wooden_hopper.1": "A cheaper, single slot hopper alternative.",
   "tooltip.coxinhautilities.wooden_hopper.2": "Cannot be blocked with a redstone signal.",
+  "tooltip.coxinhautilities.wooden_hopper.witty": "Screams 'penny-pincher' but you do you, I guess.",
 
 
   "block.coxinhautilities.portable_tank_mk1": "Portable Tank MK1",
@@ -43,6 +44,8 @@
 
   "tooltip.coxinhautilities.tank.holdShift": "Hold Shift to see unit as droplets.",
   "tooltip.coxinhautilities.tank.releaseShift": "Release Shift to see unit as MilliBuckets (mB).",
+  "tooltip.coxinhautilities.tank.witty.1": "Kinda odd they're considered 'portable' when",
+  "tooltip.coxinhautilities.tank.witty.2": "they can hold fluids amounts from 16 up to 256 buckets.",
 
   "unit.coxinhautilities.droplet": " droplets",
   "unit.coxinhautilities.milliBuckets": "mB",
@@ -53,11 +56,16 @@
   "tooltip.coxinhautilities.grannys_sink.3": "cubic kilometers. That might seem like a",
   "tooltip.coxinhautilities.grannys_sink.4": "lot of water, but it's only a mere fraction",
   "tooltip.coxinhautilities.grannys_sink.5": "of the water contained in Granny's Sink.",
+  "tooltip.coxinhautilities.grannys_sink.witty": "...and that's a mouthful to say 'infinite water'.",
 
   "block.coxinhautilities.drying_rack": "Drying Rack",
+  "tooltip.coxinhautilities.drying_rack": "A rack able to dry items. That's it.",
+  "tooltip.coxinhautilities.drying_rack.witty": "Seriously, that's it. No overcomplicated mechanic here :)",
 
 
   "block.coxinhautilities.aquatic_torch": "Aquatic Torch",
+  "tooltip.coxinhautilities.aquatic_torch": "A special torch to illuminate your watery places.",
+  "tooltip.coxinhautilities.aquatic_torch.witty": "...and give Glow Squids one more use.",
 
   "itemGroup.coxinhautilities.item_group": "Coxinha Utilities"
 }

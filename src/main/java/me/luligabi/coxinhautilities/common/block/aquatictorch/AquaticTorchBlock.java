@@ -1,25 +1,34 @@
 package me.luligabi.coxinhautilities.common.block.aquatictorch;
 
+import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.TorchBlock;
 import net.minecraft.block.Waterloggable;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class AquaticTorchBlock extends TorchBlock implements Waterloggable {
+public class AquaticTorchBlock extends TorchBlock implements Waterloggable, IWittyComment {
 
     public AquaticTorchBlock(Settings settings) {
         super(settings, null);
@@ -53,6 +62,19 @@ public class AquaticTorchBlock extends TorchBlock implements Waterloggable {
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.aquatic_torch").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        addWittyComment(tooltip);
+    }
+
+    @Override
+    public List<TranslatableText> wittyComments() {
+        List<TranslatableText> wittyComments = new ArrayList<>();
+        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.aquatic_torch.witty"));
+        return wittyComments;
     }
 
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
