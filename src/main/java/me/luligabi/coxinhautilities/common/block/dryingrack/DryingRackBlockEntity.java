@@ -1,66 +1,40 @@
 package me.luligabi.coxinhautilities.common.block.dryingrack;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
+import me.luligabi.coxinhautilities.common.block.ClientSyncedBlockEntity;
 import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipe;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.PropertyDelegate;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.Iterator;
 import java.util.Optional;
 
-public class DryingRackBlockEntity extends LockableContainerBlockEntity /*implements SidedInventory*/ {
+public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements Inventory /*, SidedInventory*/ {
 
     public DryingRackBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, pos, state);
         this.inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
-        this.propertyDelegate = new PropertyDelegate() {
-
-            public int get(int index) {
-                return switch (index) {
-                    case 0 -> DryingRackBlockEntity.this.dryingTime;
-                    default -> 0;
-                };
-            }
-
-            public void set(int index, int value) {
-                switch (index) {
-                    case 0 -> DryingRackBlockEntity.this.dryingTime = value;
-                }
-
-            }
-
-            public int size() {
-                return 3;
-            }
-        };
     }
 
     private DefaultedList<ItemStack> inventory;
     int dryingTime;
     boolean checkedRecipe;
     boolean canDry;
-    protected final PropertyDelegate propertyDelegate;
 
 
     public static void tick(World world, BlockPos pos, BlockState state, DryingRackBlockEntity blockEntity) {
-        if(blockEntity.inventory.get(0).isEmpty()) return;
+        if(world.isClient || blockEntity.inventory.isEmpty()) return;
         if(!blockEntity.checkedRecipe) checkRecipe(blockEntity, world);
 
         if(blockEntity.canDry) {
             blockEntity.dryingTime++;
             craft(world, blockEntity);
-            markDirty(world, pos, state);
         }
     }
 
@@ -69,6 +43,7 @@ public class DryingRackBlockEntity extends LockableContainerBlockEntity /*implem
         if(recipeOptional.isEmpty()) {
             blockEntity.checkedRecipe = true;
             blockEntity.canDry = false;
+            markDirty(world, blockEntity.pos, blockEntity.getCachedState());
             return;
         }
 
@@ -87,12 +62,19 @@ public class DryingRackBlockEntity extends LockableContainerBlockEntity /*implem
         blockEntity.checkedRecipe = false;
         blockEntity.dryingTime = 0;
         markDirty(world, blockEntity.pos, blockEntity.getCachedState());
-        System.out.println("craft done!");
     }
 
 
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    @Override
+    public void toTag(NbtCompound nbt) {
+        Inventories.writeNbt(nbt, inventory);
+        nbt.putShort("DryingTime", (short) dryingTime);
+        nbt.putBoolean("CheckedRecipe", checkedRecipe);
+        nbt.putBoolean("CanDry", canDry);
+    }
+
+    @Override
+    public void fromTag(NbtCompound nbt) {
         this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
         Inventories.readNbt(nbt, inventory);
         this.dryingTime = nbt.getShort("DryingTime");
@@ -100,12 +82,14 @@ public class DryingRackBlockEntity extends LockableContainerBlockEntity /*implem
         this.canDry = nbt.getBoolean("CanDry");
     }
 
-    protected void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
-        Inventories.writeNbt(nbt, inventory);
-        nbt.putShort("DryingTime", (short) dryingTime);
-        nbt.putBoolean("CheckedRecipe", checkedRecipe);
-        nbt.putBoolean("CanDry", canDry);
+    @Override
+    public void toClientTag(NbtCompound nbt) {
+        toTag(nbt);
+    }
+
+    @Override
+    public void fromClientTag(NbtCompound nbt) {
+        fromTag(nbt);
     }
 
     @Override
@@ -122,18 +106,7 @@ public class DryingRackBlockEntity extends LockableContainerBlockEntity /*implem
     }
 
     public boolean isEmpty() {
-        Iterator<ItemStack> var1 = this.inventory.iterator();
-
-        ItemStack itemStack;
-        do {
-            if (!var1.hasNext()) {
-                return true;
-            }
-
-            itemStack = var1.next();
-        } while(itemStack.isEmpty());
-
-        return false;
+        return this.inventory.get(0).isEmpty();
     }
 
     public ItemStack getStack(int slot) {
@@ -158,11 +131,6 @@ public class DryingRackBlockEntity extends LockableContainerBlockEntity /*implem
         this.inventory.clear();
     }
 
-    @Override
-    protected Text getContainerName() { return null; }
-
-    @Override
-    protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) { return null; }
 
     /*public boolean isValid(int slot, ItemStack stack) { // TODO: Implement hopper interactions
         return switch(slot) {
@@ -191,6 +159,14 @@ public class DryingRackBlockEntity extends LockableContainerBlockEntity /*implem
             default -> false; // Never extract from sides
         };
     }*/
+
+    @Override
+    public void markDirty() {
+        super.markDirty();
+        if(!isClientSide()) {
+            sync();
+        }
+    }
 
     @SuppressWarnings("ConstantConditions")
     private static Optional<DryingRecipe> createRecipeOptional(DryingRackBlockEntity blockEntity, World world) {

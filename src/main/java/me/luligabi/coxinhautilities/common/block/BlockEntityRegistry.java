@@ -1,5 +1,6 @@
 package me.luligabi.coxinhautilities.common.block;
 
+import me.luligabi.coxinhautilities.client.renderer.blockentity.DryingRackBlockEntityRenderer;
 import me.luligabi.coxinhautilities.client.renderer.blockentity.GrannysSinkBlockEntityRenderer;
 import me.luligabi.coxinhautilities.client.renderer.blockentity.PortableTankBlockEntityRenderer;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
@@ -37,6 +38,7 @@ public class BlockEntityRegistry {
         BlockEntityRendererRegistry.register(BlockEntityRegistry.PORTABLE_TANK_MK5_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
 
         BlockEntityRendererRegistry.register(BlockEntityRegistry.GRANNYS_SINK_BLOCK_ENTITY, GrannysSinkBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, DryingRackBlockEntityRenderer::new);
     }
 
     public static BlockEntityType<WoodenHopperBlockEntity> WOODEN_HOPPER_ENTITY;

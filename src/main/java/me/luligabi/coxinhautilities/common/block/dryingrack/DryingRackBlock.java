@@ -52,7 +52,6 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(world.isClient()) return ActionResult.PASS;
         DryingRackBlockEntity blockEntity = (DryingRackBlockEntity) world.getBlockEntity(pos);
         ItemStack dryingItem = blockEntity.getInventory().get(0);
         ItemStack handStack = player.getStackInHand(hand);
@@ -69,13 +68,13 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
                 blockEntity.canDry = false;
                 blockEntity.checkedRecipe = false;
                 blockEntity.dryingTime = 0;
-                blockEntity.markDirty();
                 ItemScatterer.spawn(world, pos, blockEntity);
+                blockEntity.markDirty();
                 world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return ActionResult.SUCCESS;
             }
         }
-        return ActionResult.PASS;
+        return ActionResult.CONSUME;
     }
 
     @Override
