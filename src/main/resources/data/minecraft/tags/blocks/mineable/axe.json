@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "coxinhautilities:wooden_hopper"
+    "coxinhautilities:wooden_hopper",
+    "coxinhautilities:drying_rack"
   ]
 }
