@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 import java.util.Optional;
 
-public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements Inventory /*, SidedInventory*/ {
+public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements Inventory {
 
     public DryingRackBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, pos, state);
@@ -128,34 +128,6 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
         this.inventory.clear();
     }
 
-
-    /*public boolean isValid(int slot, ItemStack stack) { // TODO: Implement hopper interactions
-        return switch(slot) {
-            case 3 -> true; // input slots
-            case 4 -> EssenceExtractorScreenHandler.isCatalyst(stack); // catalyst slot
-            default -> inventory.get(slot).isEmpty() && stack.isOf(Items.GLASS_BOTTLE); // bottle slots
-        };
-    }
-
-    public int[] getAvailableSlots(Direction side) {
-        return switch(side.getId()) {
-            case 0 -> new int[]{0, 1, 2}; // DOWN - bottle slots
-            case 1 -> new int[]{3}; // UP - input slot
-            default -> new int[]{4, 0, 1, 2}; // SIDES - catalyst slot, bottle slots
-        };
-    }
-
-    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-        return isValid(slot, stack);
-    }
-
-    public boolean canExtract(int slot, ItemStack stack, Direction side) {
-        return switch(side.getId()) {
-            case 0 -> brewTime <= 0 && inventory.get(3).isEmpty() && !stack.isOf(Items.GLASS_BOTTLE); // Extract downward if nothing is being brewed, the input slot is empty and the extracted is not a glass bottle.
-            case 1 -> brewTime <= 0; // Extract upward if nothing is being brewed.
-            default -> false; // Never extract from sides
-        };
-    }*/
 
     @Override
     public void markDirty() {
