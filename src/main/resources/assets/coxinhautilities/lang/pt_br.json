@@ -6,9 +6,26 @@
   "item.coxinhautilities.golden_coxinha": "Coxinha Dourada",
   "item.coxinhautilities.diamond_coxinha": "Coxinha de Diamante",
 
+
+  "item.coxinhautilities.potato_battery": "Bateria de Batata",
+  "item.coxinhautilities.baked_potato_battery": "Bateria de Batata Assada",
+  "item.coxinhautilities.poisonous_potato_battery": "Bateria de Batata Venenosa",
+
+  "tooltip.coxinhautilities.potato_battery.1": "Energia: ",
+
+  "tooltip.coxinhautilities.potato_battery.witty": "De jeito NENHUM patrocionado pela Aperture Science.",
+
+  "tooltip.coxinhautilities.baked_potato_battery.witty.1": "Delicioso!",
+  "tooltip.coxinhautilities.baked_potato_battery.witty.2": "Mas continua sem patrocínio da Aperture Science.",
+
+  "tooltip.coxinhautilities.poisonous_potato_battery.witty.1": "Tem veneno dentro dela...",
+  "tooltip.coxinhautilities.poisonous_potato_battery.witty.2": "então talvez tenha uma pequena chance?",
+
+
   "block.coxinhautilities.wooden_hopper": "Funil de Madeira",
-  "tooltip.coxinhautilities.wooden_hopper.1": "A cheaper, single slot hopper",
+  "tooltip.coxinhautilities.wooden_hopper.1": "Um funil alternativo mais barato e de slot único.",
   "tooltip.coxinhautilities.wooden_hopper.2": "Não pode ser travado com um sinal de redstone.",
+  "tooltip.coxinhautilities.wooden_hopper.witty": "Usar um desses grita 'pão duro', mas você quem sabe.",
 
 
   "block.coxinhautilities.portable_tank_mk1": "Tanque Portátil MK1",
@@ -25,6 +42,8 @@
 
   "tooltip.coxinhautilities.tank.holdShift": "Segure Shift para visualizar unidades em droplets.",
   "tooltip.coxinhautilities.tank.releaseShift": "Solte Shift para visualizar unidades MilliBuckets (mB).",
+  "tooltip.coxinhautilities.tank.witty.1": "Meio estranho eles serem considerados 'portáteis'",
+  "tooltip.coxinhautilities.tank.witty.2": "quando eles armazenam de 16 até 256 baldes.",
 
   "block.coxinhautilities.grannys_sink": "Pia da Vovó",
   "tooltip.coxinhautilities.grannys_sink.1": "Cientistas estimam que todos os oceanos da Terra",
@@ -32,9 +51,15 @@
   "tooltip.coxinhautilities.grannys_sink.3": "quilômetros cúbicos. Isto pode parecer",
   "tooltip.coxinhautilities.grannys_sink.4": "muita água, mas é apenas uma mera fração",
   "tooltip.coxinhautilities.grannys_sink.5": "da água contida na Pia da Vovó.",
+  "tooltip.coxinhautilities.grannys_sink.witty": "...e isso é uma baboseira pra falar 'água infinita'.",
 
+  "block.coxinhautilities.drying_rack": "Laje de Secar",
+  "tooltip.coxinhautilities.drying_rack": "Uma laje capaz de secar items. É isso.",
+  "tooltip.coxinhautilities.drying_rack.witty": "Sério, é só isso. Sem mecânicas estranhas aqui :)",
 
   "block.coxinhautilities.aquatic_torch": "Tocha Aquática",
+  "tooltip.coxinhautilities.aquatic_torch": "Uma tocha especial para iluminar seus lugares molhados.",
+  "tooltip.coxinhautilities.aquatic_torch.witty": "...e dar mais um uso às Lulas Brilhantes.",
 
   "itemGroup.coxinhautilities.item_group": "Coxinha Utilities"
 }

@@ -1,0 +1,9 @@
+{
+  "type": "coxinhautilities:drying",
+
+  "ingredient": {
+    "item": "minecraft:chorus_fruit"
+  },
+  "outputItem": "minecraft:popped_chorus_fruit",
+  "dryingTime": 220
+}

@@ -1,6 +1,7 @@
 package me.luligabi.coxinhautilities.common.block.woodenhopper;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
+import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HopperBlock;
@@ -24,9 +25,10 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class WoodenHopperBlock extends HopperBlock {
+public class WoodenHopperBlock extends HopperBlock implements IWittyComment {
 
     public WoodenHopperBlock(Settings settings) {
         super(settings);
@@ -67,6 +69,13 @@ public class WoodenHopperBlock extends HopperBlock {
         tooltip.add(new TranslatableText("tooltip.coxinhautilities.wooden_hopper.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         tooltip.add(new LiteralText(""));
         tooltip.add(new TranslatableText("tooltip.coxinhautilities.wooden_hopper.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        addWittyComment(tooltip);
     }
 
+    @Override
+    public List<TranslatableText> wittyComments() {
+        List<TranslatableText> wittyComments = new ArrayList<>();
+        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.wooden_hopper.witty"));
+        return wittyComments;
+    }
 }

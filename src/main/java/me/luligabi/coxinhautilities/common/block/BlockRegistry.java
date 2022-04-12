@@ -3,6 +3,7 @@ package me.luligabi.coxinhautilities.common.block;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.aquatictorch.AquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.aquatictorch.WallAquaticTorchBlock;
+import me.luligabi.coxinhautilities.common.block.dryingrack.DryingRackBlock;
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlock;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlock;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockItem;
@@ -10,10 +11,7 @@ import me.luligabi.coxinhautilities.common.block.tank.TankTier;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.HopperBlock;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
+import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.WallStandingBlockItem;
 import net.minecraft.sound.BlockSoundGroup;
@@ -34,6 +32,8 @@ public class BlockRegistry {
         initPortableTankBlock("portable_tank_mk5", PORTABLE_TANK_MK5);
 
         initBlock("grannys_sink", GRANNYS_SINK, Rarity.UNCOMMON);
+
+        initBlock("drying_rack", DRYING_RACK, Rarity.COMMON);
 
         /*initBlock("overworld_cake", OVERWORLD_CAKE, Rarity.UNCOMMON); // TODO: Fix first usage triggering the Credits Screen
         initBlock("nether_cake", NETHER_CAKE, Rarity.UNCOMMON); // TODO: Fix Nether Cake being borked
@@ -56,6 +56,8 @@ public class BlockRegistry {
     public static final PortableTankBlock PORTABLE_TANK_MK5 = new PortableTankBlock(TankTier.MK5);
 
     public static final GrannysSinkBlock GRANNYS_SINK = new GrannysSinkBlock(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).requiresTool().strength(0.8F));
+
+    public static final DryingRackBlock DRYING_RACK = new DryingRackBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
 
     //public static final Block OVERWORLD_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.OVERWORLD);
     //public static final Block NETHER_CAKE = new NetherCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL));

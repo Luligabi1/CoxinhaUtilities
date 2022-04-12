@@ -1,5 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.tank;
 
+import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
@@ -26,11 +27,12 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @SuppressWarnings("UnstableApiUsage")
-public class PortableTankBlock extends BlockWithEntity {
+public class PortableTankBlock extends BlockWithEntity implements IWittyComment {
 
     public PortableTankBlock(TankTier tankTier) {
         super(FabricBlockSettings.of(Material.METAL).strength(5.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.METAL));
@@ -77,8 +79,17 @@ public class PortableTankBlock extends BlockWithEntity {
                         new TranslatableText("tooltip.coxinhautilities.tank.bucketMode.on")
                     .formatted(tankTier.getSecondaryColor())));*/
 
+        addWittyComment(tooltip);
         tooltip.add(new LiteralText(" "));
         tooltip.add((Screen.hasShiftDown() ? new TranslatableText("tooltip.coxinhautilities.tank.releaseShift") : new TranslatableText("tooltip.coxinhautilities.tank.holdShift")).formatted(Formatting.GRAY, Formatting.ITALIC));
+    }
+
+    @Override
+    public List<TranslatableText> wittyComments() {
+        List<TranslatableText> wittyComments = new ArrayList<>();
+        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.tank.witty.1"));
+        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.tank.witty.2"));
+        return wittyComments;
     }
 
     public TankTier getTankTier() { return tankTier; }
@@ -96,4 +107,5 @@ public class PortableTankBlock extends BlockWithEntity {
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) { return BOUNDING_SHAPE; }
 
     private static final VoxelShape BOUNDING_SHAPE = Block.createCuboidShape(2.5D, 0.0D, 2.5D, 13.5D, 16.0D, 13.5D);
+
 }

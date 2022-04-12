@@ -1,0 +1,9 @@
+{
+  "type": "coxinhautilities:drying",
+
+  "ingredient": {
+    "tag": "c:cooked_meat"
+  },
+  "outputItem": "minecraft:leather",
+  "dryingTime": 1520
+}
