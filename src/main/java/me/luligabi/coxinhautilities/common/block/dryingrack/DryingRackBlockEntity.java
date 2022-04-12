@@ -29,23 +29,19 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
 
 
     public static void tick(World world, BlockPos pos, BlockState state, DryingRackBlockEntity blockEntity) {
-        if(world.isClient || blockEntity.inventory.isEmpty()) return;
+        if(blockEntity.isEmpty()) return;
         if(!blockEntity.checkedRecipe) checkRecipe(blockEntity, world);
 
         if(blockEntity.canDry) {
             blockEntity.dryingTime++;
             craft(world, blockEntity);
+            markDirty(world, blockEntity.pos, blockEntity.getCachedState());
         }
     }
 
     private static void checkRecipe(DryingRackBlockEntity blockEntity, World world) {
         Optional<DryingRecipe> recipeOptional = createRecipeOptional(blockEntity, world);
-        if(recipeOptional.isEmpty()) {
-            blockEntity.checkedRecipe = true;
-            blockEntity.canDry = false;
-            markDirty(world, blockEntity.pos, blockEntity.getCachedState());
-            return;
-        }
+        if(recipeOptional.isEmpty()) return;
 
         blockEntity.checkedRecipe = true;
         blockEntity.canDry = recipeOptional.get().getIngredient().test(blockEntity.inventory.get(0));
@@ -56,8 +52,8 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
         Optional<DryingRecipe> recipeOptional = createRecipeOptional(blockEntity, world);
         if(recipeOptional.isEmpty() || blockEntity.dryingTime < recipeOptional.get().getDryingTime()) return;
 
-        blockEntity.inventory.set(0, recipeOptional.get().getOutput());
 
+        blockEntity.inventory.set(0, recipeOptional.get().getOutput());
         blockEntity.canDry = false;
         blockEntity.checkedRecipe = false;
         blockEntity.dryingTime = 0;
@@ -84,12 +80,13 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
 
     @Override
     public void toClientTag(NbtCompound nbt) {
-        toTag(nbt);
+        Inventories.writeNbt(nbt, inventory);
     }
 
     @Override
     public void fromClientTag(NbtCompound nbt) {
-        fromTag(nbt);
+        this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
+        Inventories.readNbt(nbt, inventory);
     }
 
     @Override
@@ -169,8 +166,19 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
     }
 
     @SuppressWarnings("ConstantConditions")
+    protected static void markDirty(World world, BlockPos pos, BlockState state) {
+        world.markDirty(pos);
+        if (!state.isAir()) {
+            world.updateComparators(pos, state.getBlock());
+        }
+        if(!((DryingRackBlockEntity) world.getBlockEntity(pos)).isClientSide()) {
+            ((DryingRackBlockEntity) world.getBlockEntity(pos)).sync();
+        }
+
+    }
+
     private static Optional<DryingRecipe> createRecipeOptional(DryingRackBlockEntity blockEntity, World world) {
         return world.getServer().getRecipeManager().getFirstMatch(DryingRecipe.Type.INSTANCE, blockEntity, world);
     }
-    
+
 }

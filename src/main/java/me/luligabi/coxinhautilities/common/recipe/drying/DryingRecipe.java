@@ -43,12 +43,12 @@ public class DryingRecipe implements Recipe<Inventory> {
 
     @Override
     public boolean matches(Inventory inventory, World world) {
-        return true;
+        return ingredient.test(inventory.getStack(0));
     }
 
     @Override
     public boolean fits(int var1, int var2) {
-        return false;
+        return true;
     }
 
     @Override
