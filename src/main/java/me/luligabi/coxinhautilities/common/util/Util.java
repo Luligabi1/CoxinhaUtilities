@@ -72,5 +72,16 @@ public class Util {
         return BlockEntityRegistry.PORTABLE_TANK_MK1_BLOCK_ENTITY;
     }
 
+    public static ItemStack singleCopy(ItemStack stack) {
+        if (stack.isEmpty()) return ItemStack.EMPTY;
+
+        ItemStack itemStack = new ItemStack(stack.getItem());
+        itemStack.setBobbingAnimationTime(stack.getBobbingAnimationTime());
+        if (stack.getNbt() != null) {
+            itemStack.setNbt(stack.getNbt().copy());
+        }
+        return itemStack;
+    }
+
     public static final DustParticleEffect AQUATIC_TORCH_PARTICLE = new DustParticleEffect(new Vec3f(Vec3d.unpackRgb(0x2f9799)), 1.0F);
 }
