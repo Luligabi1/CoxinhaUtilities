@@ -1,0 +1,9 @@
+{
+  "parent": "kibe:block/trash_can",
+  "textures": {
+    "0": "coxinhautilities:block/trashcan/energy/energy_trash_can_lines",
+    "1": "coxinhautilities:block/trashcan/energy/energy_trash_can_square",
+    "2": "coxinhautilities:block/trashcan/energy/energy_trash_can_handle",
+    "particle": "coxinhautilities:block/trashcan/energy/energy_trash_can_lines"
+  }
+}

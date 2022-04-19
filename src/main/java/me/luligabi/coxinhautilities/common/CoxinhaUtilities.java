@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import team.reborn.energy.api.EnergyStorage;
 
 public class CoxinhaUtilities implements ModInitializer {
 
@@ -37,6 +38,8 @@ public class CoxinhaUtilities implements ModInitializer {
         FluidStorage.SIDED.registerForBlockEntity((sink, direction) -> sink.fluidStorage, BlockEntityRegistry.GRANNYS_SINK_BLOCK_ENTITY);
 
         FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockEntityRegistry.FLUID_TRASH_CAN_BLOCK_ENTITY);
+
+        EnergyStorage.SIDED.registerForBlockEntity((battery, direction) -> battery.energyStorage, BlockEntityRegistry.ENERGY_TRASH_CAN_BLOCK_ENTITY);
     }
 
     public static final String MOD_ID = "coxinhautilities";
