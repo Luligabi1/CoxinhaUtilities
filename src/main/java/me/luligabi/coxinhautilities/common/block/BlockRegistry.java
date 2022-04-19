@@ -8,6 +8,8 @@ import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlock;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlock;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockItem;
 import me.luligabi.coxinhautilities.common.block.tank.TankTier;
+import me.luligabi.coxinhautilities.common.block.trashcan.energy.EnergyTrashCanBlock;
+import me.luligabi.coxinhautilities.common.block.trashcan.fluid.FluidTrashCanBlock;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -33,6 +35,9 @@ public class BlockRegistry {
 
         initBlock("grannys_sink", GRANNYS_SINK, Rarity.UNCOMMON);
 
+        initBlock("fluid_trash_can", FLUID_TRASH_CAN, Rarity.COMMON);
+        initBlock("energy_trash_can", ENERGY_TRASH_CAN, Rarity.COMMON);
+
         initBlock("drying_rack", DRYING_RACK, Rarity.COMMON);
 
         /*initBlock("overworld_cake", OVERWORLD_CAKE, Rarity.UNCOMMON); // TODO: Fix first usage triggering the Credits Screen
@@ -56,6 +61,10 @@ public class BlockRegistry {
     public static final PortableTankBlock PORTABLE_TANK_MK5 = new PortableTankBlock(TankTier.MK5);
 
     public static final GrannysSinkBlock GRANNYS_SINK = new GrannysSinkBlock(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).requiresTool().strength(0.8F));
+
+    public static final FluidTrashCanBlock FLUID_TRASH_CAN = new FluidTrashCanBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5F, 6.0F));
+    public static final EnergyTrashCanBlock ENERGY_TRASH_CAN = new EnergyTrashCanBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5F, 6.0F));
+
 
     public static final DryingRackBlock DRYING_RACK = new DryingRackBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
 
