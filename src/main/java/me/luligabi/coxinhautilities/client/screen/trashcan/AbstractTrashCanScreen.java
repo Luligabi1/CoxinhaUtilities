@@ -1,8 +1,7 @@
-package me.luligabi.coxinhautilities.client.screen;
+package me.luligabi.coxinhautilities.client.screen.trashcan;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import joptsimple.internal.Strings;
-import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.mixin.HandledScreenAccessor;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -15,9 +14,9 @@ import net.minecraft.util.Identifier;
 import java.util.Arrays;
 import java.util.List;
 
-public class EnergyTrashCanScreen extends HandledScreen<ScreenHandler> {
+public abstract class AbstractTrashCanScreen extends HandledScreen<ScreenHandler> {
 
-    public EnergyTrashCanScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public AbstractTrashCanScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title.shallowCopy().formatted(Formatting.WHITE));
         this.backgroundHeight = 167;
 
@@ -28,7 +27,7 @@ public class EnergyTrashCanScreen extends HandledScreen<ScreenHandler> {
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+        RenderSystem.setShaderTexture(0, getTextureIdentifier());
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
     }
 
@@ -50,6 +49,6 @@ public class EnergyTrashCanScreen extends HandledScreen<ScreenHandler> {
     String titleline1 = titleString.get(0);
     List<String> titleLine2 = titleString.subList(1, titleString.size());
 
-    private static final Identifier TEXTURE = new Identifier(CoxinhaUtilities.MOD_ID, "textures/gui/energy_trash_can.png");
+    protected abstract Identifier getTextureIdentifier();
 
 }

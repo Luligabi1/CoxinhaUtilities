@@ -1,22 +1,36 @@
 package me.luligabi.coxinhautilities.common.block.trashcan.fluid;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
-import me.luligabi.coxinhautilities.common.util.Util;
+import me.luligabi.coxinhautilities.common.block.trashcan.AbstractTrashCanBlockEntity;
+import me.luligabi.coxinhautilities.common.screenhandler.FluidTrashCanScreenHandler;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Iterator;
 
 @SuppressWarnings("UnstableApiUsage")
-public class FluidTrashCanBlockEntity extends BlockEntity {
+public class FluidTrashCanBlockEntity extends AbstractTrashCanBlockEntity {
 
     public FluidTrashCanBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.FLUID_TRASH_CAN_BLOCK_ENTITY, pos, state);
     }
+
 
     public final SingleVariantStorage<FluidVariant> fluidStorage = new SingleVariantStorage<>() {
 
@@ -43,8 +57,41 @@ public class FluidTrashCanBlockEntity extends BlockEntity {
 
     };
 
-    public ActionResult fluidIo(PlayerEntity player, Hand hand) {
-        return Util.interactPlayerHand(fluidStorage, player, hand, true, false);
+    public static void tick(World world, BlockPos pos, BlockState state, FluidTrashCanBlockEntity blockEntity) {
+        ItemStack stack = blockEntity.inventory.get(0);
+        if(stack.isEmpty()) return;
+
+        if(blockEntity.getFluidStorage(stack) != null) {
+            try (Transaction transaction = Transaction.openOuter()) {
+                Storage<FluidVariant> fluidStorage = blockEntity.getFluidStorage(stack);
+                Iterator<? extends StorageView<FluidVariant>> storageViewIterator = fluidStorage.iterator(transaction);
+
+                if (storageViewIterator.hasNext()) {
+                    StorageView<FluidVariant> fluidStorageView = storageViewIterator.next();
+
+                    if (!fluidStorageView.isResourceBlank()) {
+                        fluidStorage.extract(fluidStorageView.getResource(), Long.MAX_VALUE, transaction);
+                    }
+                }
+                transaction.commit();
+            }
+        }
+    }
+
+    @Override
+    public Text getDisplayName() {
+        return new TranslatableText("block.coxinhautilities.fluid_trash_can");
+    }
+
+    @Nullable
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+        return new FluidTrashCanScreenHandler(syncId, inv, this);
+    }
+
+    @Nullable
+    private Storage<FluidVariant> getFluidStorage(ItemStack stack) {
+        return FluidStorage.ITEM.find(stack, ContainerItemContext.ofSingleSlot(InventoryStorage.of(this, null).getSlot(0)));
     }
 
 }
