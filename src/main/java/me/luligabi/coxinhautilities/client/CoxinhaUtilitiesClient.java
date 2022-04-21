@@ -2,6 +2,7 @@ package me.luligabi.coxinhautilities.client;
 
 import me.luligabi.coxinhautilities.client.renderer.item.GrannysSinkItemRenderer;
 import me.luligabi.coxinhautilities.client.renderer.item.PortableTankItemRenderer;
+import me.luligabi.coxinhautilities.client.screen.EnergyTrashCanScreen;
 import me.luligabi.coxinhautilities.client.screen.WoodenHopperScreen;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
@@ -11,8 +12,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
-import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 
 import java.util.Arrays;
@@ -38,7 +39,8 @@ public class CoxinhaUtilitiesClient implements ClientModInitializer {
         portableTanks.forEach(portableTanks -> BuiltinItemRendererRegistry.INSTANCE.register(portableTanks, new PortableTankItemRenderer(portableTanks.getDefaultState())));
         BuiltinItemRendererRegistry.INSTANCE.register(BlockRegistry.GRANNYS_SINK, new GrannysSinkItemRenderer());
 
-        ScreenRegistry.register(ScreenHandlingRegistry.WOODEN_HOPPER_SCREEN_HANDLER, WoodenHopperScreen::new);
+        HandledScreens.register(ScreenHandlingRegistry.WOODEN_HOPPER_SCREEN_HANDLER, WoodenHopperScreen::new);
+        HandledScreens.register(ScreenHandlingRegistry.ENERGY_TRASH_CAN_SCREEN_HANDLER, EnergyTrashCanScreen::new);
     }
 
     private final List<Block> portableTanks = Arrays.asList(

@@ -58,6 +58,9 @@
   "tooltip.coxinhautilities.grannys_sink.5": "of the water contained in Granny's Sink.",
   "tooltip.coxinhautilities.grannys_sink.witty": "...and that's a mouthful to say 'infinite water'.",
 
+  "block.coxinhautilities.fluid_trash_can": "Fluid Trash Can",
+  "block.coxinhautilities.energy_trash_can": "Energy Trash Can",
+
   "block.coxinhautilities.drying_rack": "Drying Rack",
   "tooltip.coxinhautilities.drying_rack": "A rack able to dry items. That's it.",
   "tooltip.coxinhautilities.drying_rack.witty": "Seriously, that's it. No overcomplicated mechanic here :)",
