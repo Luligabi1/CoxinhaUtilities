@@ -1,8 +1,9 @@
 package me.luligabi.coxinhautilities.common.block.sponge;
 
+import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ConcretePowderBlock;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
@@ -17,10 +18,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class WetLavaSpongeBlock extends Block implements IWittyComment {
+public class WetLavaSpongeBlock extends ConcretePowderBlock implements IWittyComment {
 
     public WetLavaSpongeBlock(Settings settings) {
-        super(settings);
+        super(BlockRegistry.LAVA_SPONGE, settings);
     }
 
     @Override

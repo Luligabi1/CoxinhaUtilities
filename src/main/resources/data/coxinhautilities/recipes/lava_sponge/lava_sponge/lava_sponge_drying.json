@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "coxinhautilities:wet_lava_sponge"
+  },
+  "addition": {
+    "item": "minecraft:water_bucket"
+  },
+  "result": {
+    "item": "coxinhautilities:lava_sponge"
+  }
+}
