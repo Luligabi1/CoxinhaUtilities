@@ -31,7 +31,6 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -88,9 +87,7 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
 
     @Override
     public List<TranslatableText> wittyComments() {
-        List<TranslatableText> wittyComments = new ArrayList<>();
-        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.drying_rack.witty"));
-        return wittyComments;
+        return List.of(new TranslatableText("tooltip.coxinhautilities.drying_rack.witty"));
     }
 
     @Nullable

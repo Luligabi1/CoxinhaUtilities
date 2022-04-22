@@ -50,6 +50,7 @@
   "unit.coxinhautilities.droplet": " droplets",
   "unit.coxinhautilities.milliBuckets": "mB",
 
+
   "block.coxinhautilities.grannys_sink": "Granny's Sink",
   "tooltip.coxinhautilities.grannys_sink.1": "Scientists estimate that all of Earth's oceans",
   "tooltip.coxinhautilities.grannys_sink.2": "combined have a total water volume of ~1,332,000,000",
@@ -58,8 +59,18 @@
   "tooltip.coxinhautilities.grannys_sink.5": "of the water contained in Granny's Sink.",
   "tooltip.coxinhautilities.grannys_sink.witty": "...and that's a mouthful to say 'infinite water'.",
 
+
   "block.coxinhautilities.fluid_trash_can": "Fluid Trash Can",
+  "tooltip.coxinhautilities.fluid_trash_can.1": "Voids any fluids inserted into it.",
+  "tooltip.coxinhautilities.fluid_trash_can.2": "Can interact with surrounding pipes.",
+  "tooltip.coxinhautilities.fluid_trash_can.witty": "Granny's Sink's greatest enemy.",
+
+
   "block.coxinhautilities.energy_trash_can": "Energy Trash Can",
+  "tooltip.coxinhautilities.energy_trash_can.1": "Voids energy inserted into it.",
+  "tooltip.coxinhautilities.energy_trash_can.2": "Can interact with surrounding cables.",
+  "tooltip.coxinhautilities.energy_trash_can.witty": "Sustainability's greatest enemy.",
+
 
   "block.coxinhautilities.drying_rack": "Drying Rack",
   "tooltip.coxinhautilities.drying_rack": "A rack able to dry items. That's it.",
@@ -69,6 +80,13 @@
   "block.coxinhautilities.aquatic_torch": "Aquatic Torch",
   "tooltip.coxinhautilities.aquatic_torch": "A special torch to illuminate your watery places.",
   "tooltip.coxinhautilities.aquatic_torch.witty": "...and give Glow Squids one more use.",
+
+
+  "block.coxinhautilities.lava_sponge": "Lava Sponge",
+  "tooltip.coxinhautilities.lava_sponge.witty": "You don't need an explanation for this one, right?",
+
+  "block.coxinhautilities.wet_lava_sponge": "Wet Lava Sponge",
+
 
   "itemGroup.coxinhautilities.item_group": "Coxinha Utilities"
 }

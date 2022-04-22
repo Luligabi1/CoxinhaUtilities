@@ -27,7 +27,6 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -86,10 +85,10 @@ public class PortableTankBlock extends BlockWithEntity implements IWittyComment 
 
     @Override
     public List<TranslatableText> wittyComments() {
-        List<TranslatableText> wittyComments = new ArrayList<>();
-        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.tank.witty.1"));
-        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.tank.witty.2"));
-        return wittyComments;
+        return List.of(
+                new TranslatableText("tooltip.coxinhautilities.tank.witty.1"),
+                new TranslatableText("tooltip.coxinhautilities.tank.witty.2")
+        );
     }
 
     public TankTier getTankTier() { return tankTier; }

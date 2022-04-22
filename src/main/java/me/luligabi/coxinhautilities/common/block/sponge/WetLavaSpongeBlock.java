@@ -1,15 +1,23 @@
 package me.luligabi.coxinhautilities.common.block.sponge;
 
+import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Random;
 
-public class WetLavaSpongeBlock extends Block {
+public class WetLavaSpongeBlock extends Block implements IWittyComment {
 
     public WetLavaSpongeBlock(Settings settings) {
         super(settings);
@@ -51,6 +59,16 @@ public class WetLavaSpongeBlock extends Block {
                 world.addParticle(ParticleTypes.DRIPPING_LAVA, x, y, z, 0.0D, 0.0D, 0.0D);
             }
         }
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        addWittyComment(tooltip);
+    }
+
+    @Override
+    public List<TranslatableText> wittyComments() {
+        return List.of(new TranslatableText("tooltip.coxinhautilities.lava_sponge.witty"));
     }
 
 }
