@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "SPS",
+    "SRS"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stone"
+    },
+    "S": {
+      "item": "minecraft:stone_bricks"
+    },
+    "P": {
+      "tag": "coxinhautilities:batteries"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "coxinhautilities:energy_trash_can",
+    "count": 1
+  }
+}
