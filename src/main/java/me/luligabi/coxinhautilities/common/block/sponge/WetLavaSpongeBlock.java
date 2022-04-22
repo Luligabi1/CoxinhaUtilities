@@ -2,26 +2,69 @@ package me.luligabi.coxinhautilities.common.block.sponge;
 
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ConcretePowderBlock;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Random;
 
-public class WetLavaSpongeBlock extends ConcretePowderBlock implements IWittyComment {
+public class WetLavaSpongeBlock extends Block implements IWittyComment {
 
     public WetLavaSpongeBlock(Settings settings) {
-        super(BlockRegistry.LAVA_SPONGE, settings);
+        super(settings);
+    }
+
+    private final BlockState hardenedState = BlockRegistry.LAVA_SPONGE.getDefaultState();
+
+
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        BlockView blockView = ctx.getWorld();
+        BlockPos blockPos = ctx.getBlockPos();
+        BlockState blockState = blockView.getBlockState(blockPos);
+        return shouldHarden(blockView, blockPos, blockState) ? this.hardenedState : super.getPlacementState(ctx);
+    }
+
+    private static boolean shouldHarden(BlockView world, BlockPos pos, BlockState state) {
+        return hardensIn(state) || hardensOnAnySide(world, pos);
+    }
+
+    private static boolean hardensOnAnySide(BlockView world, BlockPos pos) {
+        boolean hardensOnAnySide = false;
+        BlockPos.Mutable mutablePos = pos.mutableCopy();
+
+        for(Direction direction : Direction.values()) {
+            BlockState blockState = world.getBlockState(mutablePos);
+            if(direction != Direction.DOWN || hardensIn(blockState)) {
+                mutablePos.set(pos, direction);
+                blockState = world.getBlockState(mutablePos);
+                if (hardensIn(blockState) && !blockState.isSideSolidFullSquare(world, pos, direction.getOpposite())) {
+                    hardensOnAnySide = true;
+                    break;
+                }
+            }
+        }
+        return hardensOnAnySide;
+    }
+
+    private static boolean hardensIn(BlockState state) {
+        return state.getFluidState().isIn(FluidTags.WATER);
+    }
+
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        return hardensOnAnySide(world, pos) ? this.hardenedState : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
     @Override
