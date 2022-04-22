@@ -5,6 +5,8 @@ import me.luligabi.coxinhautilities.common.block.aquatictorch.AquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.aquatictorch.WallAquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.dryingrack.DryingRackBlock;
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlock;
+import me.luligabi.coxinhautilities.common.block.sponge.LavaSpongeBlock;
+import me.luligabi.coxinhautilities.common.block.sponge.WetLavaSpongeBlock;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlock;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockItem;
 import me.luligabi.coxinhautilities.common.block.tank.TankTier;
@@ -26,7 +28,7 @@ public class BlockRegistry {
     public static void init() {
         initBlock("wooden_hopper", WOODEN_HOPPER, Rarity.COMMON);
 
-        // Portable Tanks
+
         initPortableTankBlock("portable_tank_mk1", PORTABLE_TANK_MK1);
         initPortableTankBlock("portable_tank_mk2", PORTABLE_TANK_MK2);
         initPortableTankBlock("portable_tank_mk3", PORTABLE_TANK_MK3);
@@ -46,8 +48,8 @@ public class BlockRegistry {
 
         initWallStandingBlock("aquatic_torch", AQUATIC_TORCH, WALL_AQUATIC_TORCH);
 
-        /*initBlock("lava_sponge", LAVA_SPONGE, Rarity.COMMON);
-        initBlock("wet_lava_sponge", WET_LAVA_SPONGE, Rarity.COMMON);*/
+        initBlock("lava_sponge", LAVA_SPONGE, Rarity.COMMON);
+        initBlock("wet_lava_sponge", WET_LAVA_SPONGE, Rarity.COMMON);
 
         //initBlock("tinted_glass_pane", TINTED_GLASS_PANE, Rarity.COMMON);
     }
@@ -76,8 +78,8 @@ public class BlockRegistry {
     public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
 
 
-    //public static final Block LAVA_SPONGE = new LavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
-    //public static final Block WET_LAVA_SPONGE = new WetLavaSpongeBlock(FabricBlockSettings.of(Material.SPONGE).strength(0.6F).sounds(BlockSoundGroup.GRASS));
+    public static final Block LAVA_SPONGE = new LavaSpongeBlock(FabricBlockSettings.copyOf(Blocks.SPONGE));
+    public static final Block WET_LAVA_SPONGE = new WetLavaSpongeBlock(FabricBlockSettings.copyOf(Blocks.WET_SPONGE));
 
     //public static final Block TINTED_GLASS_PANE = new TintedPaneBlock(FabricBlockSettings.copyOf(Blocks.TINTED_GLASS));
 

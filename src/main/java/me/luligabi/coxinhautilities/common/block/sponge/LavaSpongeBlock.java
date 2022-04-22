@@ -1,6 +1,7 @@
 package me.luligabi.coxinhautilities.common.block.sponge;
 
 import com.google.common.collect.Lists;
+import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.tag.FluidTags;
@@ -8,6 +9,7 @@ import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
 
 import java.util.Queue;
 
@@ -19,8 +21,8 @@ public class LavaSpongeBlock extends SpongeBlock {
 
     protected void update(World world, BlockPos pos) {
         if (this.absorbLava(world, pos)) {
-            //world.setBlockState(pos, BlockRegistry.WET_LAVA_SPONGE.getDefaultState(), 2);
-            world.syncWorldEvent(2001, pos, Block.getRawIdFromState(Blocks.LAVA.getDefaultState()));
+            world.setBlockState(pos, BlockRegistry.WET_LAVA_SPONGE.getDefaultState(), 2);
+            world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(Blocks.LAVA.getDefaultState()));
         }
 
     }

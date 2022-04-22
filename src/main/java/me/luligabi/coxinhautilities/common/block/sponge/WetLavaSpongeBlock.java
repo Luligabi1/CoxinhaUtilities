@@ -26,8 +26,8 @@ public class WetLavaSpongeBlock extends Block {
                 double y = pos.getY();
                 double z = pos.getZ();
                 if (direction == Direction.DOWN) {
-                    x += random.nextDouble();
                     y -= 0.05D;
+                    x += random.nextDouble();
                     z += random.nextDouble();
                 } else {
                     y += random.nextDouble() * 0.8D;
@@ -52,4 +52,5 @@ public class WetLavaSpongeBlock extends Block {
             }
         }
     }
+
 }

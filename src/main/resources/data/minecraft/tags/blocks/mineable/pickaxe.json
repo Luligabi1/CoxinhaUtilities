@@ -6,6 +6,8 @@
     "coxinhautilities:portable_tank_mk3",
     "coxinhautilities:portable_tank_mk4",
     "coxinhautilities:portable_tank_mk5",
-    "coxinhautilities:grannys_sink"
+    "coxinhautilities:grannys_sink",
+    "coxinhautilities:fluid_trash_can",
+    "coxinhautilities:energy_trash_can"
   ]
 }

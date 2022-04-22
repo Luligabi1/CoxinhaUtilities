@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "coxinhautilities:portable_tank_mk1",
-    "coxinhautilities:grannys_sink"
+    "coxinhautilities:grannys_sink",
+    "coxinhautilities:fluid_trash_can",
+    "coxinhautilities:energy_trash_can"
   ]
 }
