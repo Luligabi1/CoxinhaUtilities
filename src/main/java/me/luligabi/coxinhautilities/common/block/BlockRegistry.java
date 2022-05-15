@@ -4,6 +4,7 @@ import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.aquatictorch.AquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.aquatictorch.WallAquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.dryingrack.DryingRackBlock;
+import me.luligabi.coxinhautilities.common.block.misc.CopperLadderBlock;
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlock;
 import me.luligabi.coxinhautilities.common.block.sponge.LavaSpongeBlock;
 import me.luligabi.coxinhautilities.common.block.sponge.WetLavaSpongeBlock;
@@ -48,6 +49,18 @@ public class BlockRegistry {
 
         initWallStandingBlock("aquatic_torch", AQUATIC_TORCH, WALL_AQUATIC_TORCH);
 
+        // Copper Ladder and it's oxidation/wax variants
+        initBlock("copper_ladder", COPPER_LADDER, Rarity.COMMON);
+        initBlock("exposed_copper_ladder", EXPOSED_COPPER_LADDER, Rarity.COMMON);
+        initBlock("weathered_copper_ladder", WEATHERED_COPPER_LADDER, Rarity.COMMON);
+        initBlock("oxidized_copper_ladder", OXIDIZED_COPPER_LADDER, Rarity.COMMON);
+
+        initBlock("waxed_copper_ladder", WAXED_COPPER_LADDER, Rarity.COMMON);
+        initBlock("waxed_exposed_copper_ladder", WAXED_EXPOSED_COPPER_LADDER, Rarity.COMMON);
+        initBlock("waxed_weathered_copper_ladder", WAXED_WEATHERED_COPPER_LADDER, Rarity.COMMON);
+        initBlock("waxed_oxidized_copper_ladder", WAXED_OXIDIZED_COPPER_LADDER, Rarity.COMMON);
+
+
         initBlock("lava_sponge", LAVA_SPONGE, Rarity.COMMON);
         initBlock("wet_lava_sponge", WET_LAVA_SPONGE, Rarity.COMMON);
 
@@ -67,7 +80,6 @@ public class BlockRegistry {
     public static final FluidTrashCanBlock FLUID_TRASH_CAN = new FluidTrashCanBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5F, 6.0F));
     public static final EnergyTrashCanBlock ENERGY_TRASH_CAN = new EnergyTrashCanBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5F, 6.0F));
 
-
     public static final DryingRackBlock DRYING_RACK = new DryingRackBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
 
     //public static final Block OVERWORLD_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.OVERWORLD);
@@ -77,6 +89,15 @@ public class BlockRegistry {
     public static final Block AQUATIC_TORCH = new AquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
     public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
 
+    public static final Block COPPER_LADDER = new CopperLadderBlock();
+    public static final Block EXPOSED_COPPER_LADDER = new CopperLadderBlock();
+    public static final Block WEATHERED_COPPER_LADDER = new CopperLadderBlock();
+    public static final Block OXIDIZED_COPPER_LADDER = new CopperLadderBlock();
+
+    public static final Block WAXED_COPPER_LADDER = new CopperLadderBlock();
+    public static final Block WAXED_EXPOSED_COPPER_LADDER = new CopperLadderBlock();
+    public static final Block WAXED_WEATHERED_COPPER_LADDER = new CopperLadderBlock();
+    public static final Block WAXED_OXIDIZED_COPPER_LADDER = new CopperLadderBlock();
 
     public static final Block LAVA_SPONGE = new LavaSpongeBlock(FabricBlockSettings.copyOf(Blocks.SPONGE));
     public static final Block WET_LAVA_SPONGE = new WetLavaSpongeBlock(FabricBlockSettings.copyOf(Blocks.WET_SPONGE));

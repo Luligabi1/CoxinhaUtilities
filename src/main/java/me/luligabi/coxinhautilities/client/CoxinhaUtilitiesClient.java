@@ -27,11 +27,20 @@ public class CoxinhaUtilitiesClient implements ClientModInitializer {
     public void onInitializeClient() {
         portableTanks.forEach(portableTanks -> BlockRenderLayerMap.INSTANCE.putBlock(portableTanks, RenderLayer.getCutoutMipped()));
 
-        //BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.GRANNYS_SINK, RenderLayer);
-
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
                 BlockRegistry.AQUATIC_TORCH,
-                BlockRegistry.WALL_AQUATIC_TORCH);
+                BlockRegistry.WALL_AQUATIC_TORCH,
+
+                BlockRegistry.COPPER_LADDER,
+                BlockRegistry.EXPOSED_COPPER_LADDER,
+                BlockRegistry.WEATHERED_COPPER_LADDER,
+                BlockRegistry.OXIDIZED_COPPER_LADDER,
+
+                BlockRegistry.WAXED_COPPER_LADDER,
+                BlockRegistry.WAXED_EXPOSED_COPPER_LADDER,
+                BlockRegistry.WAXED_WEATHERED_COPPER_LADDER,
+                BlockRegistry.WAXED_OXIDIZED_COPPER_LADDER
+        );
 
         //BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(), BlockRegistry.TINTED_GLASS_PANE);
 

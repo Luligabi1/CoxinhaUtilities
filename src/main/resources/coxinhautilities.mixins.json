@@ -4,6 +4,7 @@
   "package": "me.luligabi.coxinhautilities.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "LivingEntityMixin",
     "PlayerEntityMixin"
   ],
   "client": [
