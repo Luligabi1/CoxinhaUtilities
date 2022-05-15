@@ -81,6 +81,23 @@
   "tooltip.coxinhautilities.aquatic_torch": "A special torch to illuminate your watery places.",
   "tooltip.coxinhautilities.aquatic_torch.witty": "...and give Glow Squids one more use.",
 
+  "block.coxinhautilities.copper_ladder": "Copper Ladder",
+  "block.coxinhautilities.exposed_copper_ladder": "Exposed Copper Ladder",
+  "block.coxinhautilities.weathered_copper_ladder": "Weathered Copper Ladder",
+  "block.coxinhautilities.oxidized_copper_ladder": "Oxidized Copper Ladder",
+
+  "block.coxinhautilities.waxed_copper_ladder": "Waxed Copper Ladder",
+  "block.coxinhautilities.waxed_exposed_copper_ladder": "Waxed Exposed Copper Ladder",
+  "block.coxinhautilities.waxed_weathered_copper_ladder": "Waxed Weathered Copper Ladder",
+  "block.coxinhautilities.waxed_oxidized_copper_ladder": "Waxed Oxidized Copper Ladder",
+
+  "tooltip.coxinhautilities.copper_ladder.1": "A ladder alternative that is faster to climb.",
+  "tooltip.coxinhautilities.copper_ladder.2": "Becomes slower to climb as it oxidizes.",
+
+  "tooltip.coxinhautilities.copper_ladder.witty.1": "Psst... did you know these work like pre-Beta",
+  "tooltip.coxinhautilities.copper_ladder.witty.2": "1.5 ladders with no oxidation? Try it!",
+
+
 
   "block.coxinhautilities.lava_sponge": "Lava Sponge",
   "tooltip.coxinhautilities.lava_sponge.witty": "You don't need an explanation for this one, right?",

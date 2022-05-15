@@ -75,10 +75,25 @@
   "tooltip.coxinhautilities.aquatic_torch.witty": "...e dar mais um uso às Lulas Brilhantes.",
 
 
+  "block.coxinhautilities.copper_ladder": "Escada de Cobre",
+  "block.coxinhautilities.exposed_copper_ladder": "Escada de Cobre Exposta",
+  "block.coxinhautilities.weathered_copper_ladder": "Escada de Cobre Desgastada",
+  "block.coxinhautilities.oxidized_copper_ladder": "Escada de Cobre Oxidada",
+
+  "block.coxinhautilities.waxed_copper_ladder": "Escada de Cobre Encerada",
+  "block.coxinhautilities.waxed_exposed_copper_ladder": "scada de Cobre Exposta Encerada",
+  "block.coxinhautilities.waxed_weathered_copper_ladder": "Escada de Cobre Desgastada Encerada",
+  "block.coxinhautilities.waxed_oxidized_copper_ladder": "Escada de Cobre Oxidada Encerada",
+
+  "tooltip.coxinhautilities.copper_ladder.1": "Uma alternativa de escada mais rápida para escalar.",
+  "tooltip.coxinhautilities.copper_ladder.2": "Se torna mais lenta para escalar ao oxidar.",
+
+  "tooltip.coxinhautilities.copper_ladder.witty.1": "Ei... sabia que essas escadas funcionam que nem as",
+  "tooltip.coxinhautilities.copper_ladder.witty.2": "escadas pré-Beta 1.5 sem a oxidação? Tenta aí!",
+
+
   "block.coxinhautilities.lava_sponge": "Esponja de Lava",
   "tooltip.coxinhautilities.lava_sponge.witty": "Você não precisa de uma explicação pra esse, né?",
 
-  "block.coxinhautilities.wet_lava_sponge": "Esponja de Lava molhada",
-
-  "itemGroup.coxinhautilities.item_group": "Coxinha Utilities"
+  "block.coxinhautilities.wet_lava_sponge": "Esponja de Lava molhada"
 }
