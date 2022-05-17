@@ -8,6 +8,15 @@
     "coxinhautilities:portable_tank_mk5",
     "coxinhautilities:grannys_sink",
     "coxinhautilities:fluid_trash_can",
-    "coxinhautilities:energy_trash_can"
+    "coxinhautilities:energy_trash_can",
+    "coxinhautilities:copper_ladder",
+    "coxinhautilities:exposed_copper_ladder",
+    "coxinhautilities:weathered_copper_ladder",
+    "coxinhautilities:oxidized_copper_ladder",
+
+    "coxinhautilities:waxed_copper_ladder",
+    "coxinhautilities:waxed_exposed_copper_ladder",
+    "coxinhautilities:waxed_weathered_copper_ladder",
+    "coxinhautilities:waxed_oxidized_copper_ladder"
   ]
 }
