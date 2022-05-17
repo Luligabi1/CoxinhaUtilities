@@ -16,6 +16,7 @@ import me.luligabi.coxinhautilities.common.block.trashcan.fluid.FluidTrashCanBlo
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.WallStandingBlockItem;
@@ -60,6 +61,15 @@ public class BlockRegistry {
         initBlock("waxed_weathered_copper_ladder", WAXED_WEATHERED_COPPER_LADDER, Rarity.COMMON);
         initBlock("waxed_oxidized_copper_ladder", WAXED_OXIDIZED_COPPER_LADDER, Rarity.COMMON);
 
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(COPPER_LADDER, EXPOSED_COPPER_LADDER);
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(EXPOSED_COPPER_LADDER, WEATHERED_COPPER_LADDER);
+        OxidizableBlocksRegistry.registerOxidizableBlockPair(WEATHERED_COPPER_LADDER, OXIDIZED_COPPER_LADDER);
+
+        OxidizableBlocksRegistry.registerWaxableBlockPair(COPPER_LADDER, WAXED_COPPER_LADDER);
+        OxidizableBlocksRegistry.registerWaxableBlockPair(EXPOSED_COPPER_LADDER, WAXED_EXPOSED_COPPER_LADDER);
+        OxidizableBlocksRegistry.registerWaxableBlockPair(WEATHERED_COPPER_LADDER, WAXED_WEATHERED_COPPER_LADDER);
+        OxidizableBlocksRegistry.registerWaxableBlockPair(OXIDIZED_COPPER_LADDER, WAXED_OXIDIZED_COPPER_LADDER);
+
 
         initBlock("lava_sponge", LAVA_SPONGE, Rarity.COMMON);
         initBlock("wet_lava_sponge", WET_LAVA_SPONGE, Rarity.COMMON);
@@ -89,10 +99,10 @@ public class BlockRegistry {
     public static final Block AQUATIC_TORCH = new AquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
     public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
 
-    public static final Block COPPER_LADDER = new CopperLadderBlock();
-    public static final Block EXPOSED_COPPER_LADDER = new CopperLadderBlock();
-    public static final Block WEATHERED_COPPER_LADDER = new CopperLadderBlock();
-    public static final Block OXIDIZED_COPPER_LADDER = new CopperLadderBlock();
+    public static final Block COPPER_LADDER = new CopperLadderBlock(Oxidizable.OxidationLevel.UNAFFECTED);
+    public static final Block EXPOSED_COPPER_LADDER = new CopperLadderBlock(Oxidizable.OxidationLevel.EXPOSED);
+    public static final Block WEATHERED_COPPER_LADDER = new CopperLadderBlock(Oxidizable.OxidationLevel.WEATHERED);
+    public static final Block OXIDIZED_COPPER_LADDER = new CopperLadderBlock(Oxidizable.OxidationLevel.OXIDIZED);
 
     public static final Block WAXED_COPPER_LADDER = new CopperLadderBlock();
     public static final Block WAXED_EXPOSED_COPPER_LADDER = new CopperLadderBlock();
