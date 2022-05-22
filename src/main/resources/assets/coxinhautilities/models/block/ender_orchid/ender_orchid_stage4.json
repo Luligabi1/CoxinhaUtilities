@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "coxinhautilities:block/ender_orchid/ender_orchid_stage4"
+  }
+}

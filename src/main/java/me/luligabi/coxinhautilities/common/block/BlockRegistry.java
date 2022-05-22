@@ -5,6 +5,7 @@ import me.luligabi.coxinhautilities.common.block.aquatictorch.AquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.aquatictorch.WallAquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.dryingrack.DryingRackBlock;
 import me.luligabi.coxinhautilities.common.block.misc.CopperLadderBlock;
+import me.luligabi.coxinhautilities.common.block.misc.EnderOrchidBlock;
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlock;
 import me.luligabi.coxinhautilities.common.block.sponge.LavaSpongeBlock;
 import me.luligabi.coxinhautilities.common.block.sponge.WetLavaSpongeBlock;
@@ -28,7 +29,9 @@ import net.minecraft.util.registry.Registry;
 public class BlockRegistry {
 
     public static void init() {
-        initBlock("wooden_hopper", WOODEN_HOPPER, Rarity.COMMON);
+        Registry.register(Registry.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "ender_orchid"), ENDER_ORCHID);
+
+        initBlock("wooden_hopper", WOODEN_HOPPER);
 
 
         initPortableTankBlock("portable_tank_mk1", PORTABLE_TANK_MK1);
@@ -39,10 +42,10 @@ public class BlockRegistry {
 
         initBlock("grannys_sink", GRANNYS_SINK, Rarity.UNCOMMON);
 
-        initBlock("fluid_trash_can", FLUID_TRASH_CAN, Rarity.COMMON);
-        initBlock("energy_trash_can", ENERGY_TRASH_CAN, Rarity.COMMON);
+        initBlock("fluid_trash_can", FLUID_TRASH_CAN);
+        initBlock("energy_trash_can", ENERGY_TRASH_CAN);
 
-        initBlock("drying_rack", DRYING_RACK, Rarity.COMMON);
+        initBlock("drying_rack", DRYING_RACK);
 
         /*initBlock("overworld_cake", OVERWORLD_CAKE, Rarity.UNCOMMON); // TODO: Fix first usage triggering the Credits Screen
         initBlock("nether_cake", NETHER_CAKE, Rarity.UNCOMMON); // TODO: Fix Nether Cake being borked
@@ -51,15 +54,15 @@ public class BlockRegistry {
         initWallStandingBlock("aquatic_torch", AQUATIC_TORCH, WALL_AQUATIC_TORCH);
 
         // Copper Ladder and it's oxidation/wax variants
-        initBlock("copper_ladder", COPPER_LADDER, Rarity.COMMON);
-        initBlock("exposed_copper_ladder", EXPOSED_COPPER_LADDER, Rarity.COMMON);
-        initBlock("weathered_copper_ladder", WEATHERED_COPPER_LADDER, Rarity.COMMON);
-        initBlock("oxidized_copper_ladder", OXIDIZED_COPPER_LADDER, Rarity.COMMON);
+        initBlock("copper_ladder", COPPER_LADDER);
+        initBlock("exposed_copper_ladder", EXPOSED_COPPER_LADDER);
+        initBlock("weathered_copper_ladder", WEATHERED_COPPER_LADDER);
+        initBlock("oxidized_copper_ladder", OXIDIZED_COPPER_LADDER);
 
-        initBlock("waxed_copper_ladder", WAXED_COPPER_LADDER, Rarity.COMMON);
-        initBlock("waxed_exposed_copper_ladder", WAXED_EXPOSED_COPPER_LADDER, Rarity.COMMON);
-        initBlock("waxed_weathered_copper_ladder", WAXED_WEATHERED_COPPER_LADDER, Rarity.COMMON);
-        initBlock("waxed_oxidized_copper_ladder", WAXED_OXIDIZED_COPPER_LADDER, Rarity.COMMON);
+        initBlock("waxed_copper_ladder", WAXED_COPPER_LADDER);
+        initBlock("waxed_exposed_copper_ladder", WAXED_EXPOSED_COPPER_LADDER);
+        initBlock("waxed_weathered_copper_ladder", WAXED_WEATHERED_COPPER_LADDER);
+        initBlock("waxed_oxidized_copper_ladder", WAXED_OXIDIZED_COPPER_LADDER);
 
         OxidizableBlocksRegistry.registerOxidizableBlockPair(COPPER_LADDER, EXPOSED_COPPER_LADDER);
         OxidizableBlocksRegistry.registerOxidizableBlockPair(EXPOSED_COPPER_LADDER, WEATHERED_COPPER_LADDER);
@@ -71,10 +74,10 @@ public class BlockRegistry {
         OxidizableBlocksRegistry.registerWaxableBlockPair(OXIDIZED_COPPER_LADDER, WAXED_OXIDIZED_COPPER_LADDER);
 
 
-        initBlock("lava_sponge", LAVA_SPONGE, Rarity.COMMON);
-        initBlock("wet_lava_sponge", WET_LAVA_SPONGE, Rarity.COMMON);
+        initBlock("lava_sponge", LAVA_SPONGE);
+        initBlock("wet_lava_sponge", WET_LAVA_SPONGE);
 
-        //initBlock("tinted_glass_pane", TINTED_GLASS_PANE, Rarity.COMMON);
+        //initBlock("tinted_glass_pane", TINTED_GLASS_PANE);
     }
 
     public static final HopperBlock WOODEN_HOPPER = new WoodenHopperBlock(FabricBlockSettings.of(Material.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
@@ -82,7 +85,7 @@ public class BlockRegistry {
     public static final PortableTankBlock PORTABLE_TANK_MK1 = new PortableTankBlock(TankTier.MK1);
     public static final PortableTankBlock PORTABLE_TANK_MK2 = new PortableTankBlock(TankTier.MK2);
     public static final PortableTankBlock PORTABLE_TANK_MK3 = new PortableTankBlock(TankTier.MK3);
-    public static final PortableTankBlock PORTABLE_TANK_MK4 = new PortableTankBlock(TankTier.MK4);
+    public static final PortableTankBlock PORTABLE_TANK_MK4 =  new PortableTankBlock(TankTier.MK4);
     public static final PortableTankBlock PORTABLE_TANK_MK5 = new PortableTankBlock(TankTier.MK5);
 
     public static final GrannysSinkBlock GRANNYS_SINK = new GrannysSinkBlock(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).requiresTool().strength(0.8F));
@@ -95,6 +98,8 @@ public class BlockRegistry {
     //public static final Block OVERWORLD_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.OVERWORLD);
     //public static final Block NETHER_CAKE = new NetherCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL));
     //public static final Block ENDER_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.END);
+
+    public static final Block ENDER_ORCHID = new EnderOrchidBlock();
 
     public static final Block AQUATIC_TORCH = new AquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
     public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
@@ -119,6 +124,10 @@ public class BlockRegistry {
         Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new BlockItem(block, new FabricItemSettings().rarity(rarity).group(CoxinhaUtilities.ITEM_GROUP)));
     }
 
+    private static void initBlock(String identifier, Block block) {
+        initBlock(identifier, block, Rarity.COMMON);
+    }
+
     private static void initPortableTankBlock(String identifier, PortableTankBlock block) {
         Registry.register(Registry.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, identifier), block);
         if(block != PORTABLE_TANK_MK5) {
@@ -133,4 +142,5 @@ public class BlockRegistry {
         Registry.register(Registry.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "wall_" + identifier), wallBlock);
         Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new WallStandingBlockItem(block, wallBlock, new FabricItemSettings().group(CoxinhaUtilities.ITEM_GROUP)));
     }
+
 }
