@@ -45,8 +45,9 @@ public class EnderOrchidBlock extends CropBlock {
 
     }
 
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) { // TODO: Figure out why this is being a lil' bitch
-        return canPlantOnTop(state, world, pos);
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+        BlockPos blockPos = pos.down();
+        return canPlantOnTop(world.getBlockState(blockPos), world, blockPos);
     }
 
     // Doesn't break on any sort of entity collision
