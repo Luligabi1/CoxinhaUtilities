@@ -64,5 +64,6 @@ public class ItemRegistry {
     public static final Item POISONOUS_POTATO_BATTERY = new PoisonousPotatoBatteryItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE).group(CoxinhaUtilities.ITEM_GROUP));
 
 
-    public static final Item ENDER_ORCHID_SEEDS = new AliasedBlockItem(BlockRegistry.ENDER_ORCHID, new FabricItemSettings().maxCount(1).group(CoxinhaUtilities.ITEM_GROUP));
+    public static final Item ENDER_ORCHID_SEEDS = new AliasedBlockItem(BlockRegistry.ENDER_ORCHID, new FabricItemSettings().group(CoxinhaUtilities.ITEM_GROUP));
+
 }
