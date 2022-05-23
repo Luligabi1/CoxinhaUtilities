@@ -33,16 +33,11 @@ public class EnderOrchidBlock extends CropBlock {
     }
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (world.getBaseLightLevel(pos, 0) >= 9) {
-            int i = this.getAge(state);
-            if (i < this.getMaxAge()) {
-                float f = getAvailableMoisture(this, world, pos);
-                if (random.nextInt((int)(25.0F / f) + 1) == 0) {
-                    world.setBlockState(pos, this.withAge(i + 1), 2);
-                }
-            }
+        int age = this.getAge(state);
+        if (age >= this.getMaxAge()) return;
+        if (random.nextInt(8) == 0) {
+            world.setBlockState(pos, this.withAge(age + 1), 2);
         }
-
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
