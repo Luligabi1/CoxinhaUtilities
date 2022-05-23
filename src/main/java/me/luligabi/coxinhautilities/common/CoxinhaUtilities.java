@@ -5,6 +5,7 @@ import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
 import me.luligabi.coxinhautilities.common.recipe.RecipeRegistry;
 import me.luligabi.coxinhautilities.common.screenhandler.ScreenHandlingRegistry;
+import me.luligabi.coxinhautilities.common.worldgen.FeatureRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
@@ -40,6 +41,8 @@ public class CoxinhaUtilities implements ModInitializer {
         FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockEntityRegistry.FLUID_TRASH_CAN_BLOCK_ENTITY);
 
         EnergyStorage.SIDED.registerForBlockEntity((battery, direction) -> battery.energyStorage, BlockEntityRegistry.ENERGY_TRASH_CAN_BLOCK_ENTITY);
+
+        FeatureRegistry.init();
     }
 
     public static final String MOD_ID = "coxinhautilities";
