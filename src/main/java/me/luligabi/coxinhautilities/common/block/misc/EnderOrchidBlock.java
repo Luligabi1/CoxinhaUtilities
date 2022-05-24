@@ -2,23 +2,31 @@ package me.luligabi.coxinhautilities.common.block.misc;
 
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
+import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Random;
 
-public class EnderOrchidBlock extends CropBlock {
+public class EnderOrchidBlock extends CropBlock implements IWittyComment {
 
     public EnderOrchidBlock() {
         super(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP));
@@ -97,5 +105,20 @@ public class EnderOrchidBlock extends CropBlock {
             Block.createCuboidShape(5, 0, 5, 11, 11, 11), // Age 6
             Block.createCuboidShape(5, 0, 5, 11, 11.5, 11) // Age 7
     };
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.ender_orchid.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.ender_orchid.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        addWittyComment(tooltip);
+    }
+
+    @Override
+    public List<TranslatableText> wittyComments() {
+        return List.of(
+                new TranslatableText("tooltip.coxinhautilities.ender_orchid.witty.1"),
+                new TranslatableText("tooltip.coxinhautilities.ender_orchid.witty.2")
+        );
+    }
 
 }

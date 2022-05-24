@@ -22,6 +22,15 @@
   "tooltip.coxinhautilities.poisonous_potato_battery.witty.2": "então talvez tenha uma pequena chance?",
 
 
+  "item.coxinhautilities.ender_orchid_seeds": "Sementes de Orquídea do Fim",
+
+  "block.coxinhautilities.ender_orchid": "Orquídea do Fim",
+  "tooltip.coxinhautilities.ender_orchid.1": "Uma planta de outro mundo que cresce",
+  "tooltip.coxinhautilities.ender_orchid.2": "Pérolas do Fim como suas flores.",
+  "tooltip.coxinhautilities.ender_orchid.witty.1": "Não a fertilize! A Natureza",
+  "tooltip.coxinhautilities.ender_orchid.witty.2": "não gosta de ser apressada.",
+
+
   "block.coxinhautilities.wooden_hopper": "Funil de Madeira",
   "tooltip.coxinhautilities.wooden_hopper.1": "Um funil alternativo mais barato e de slot único.",
   "tooltip.coxinhautilities.wooden_hopper.2": "Não pode ser travado com um sinal de redstone.",
@@ -95,5 +104,7 @@
   "block.coxinhautilities.lava_sponge": "Esponja de Lava",
   "tooltip.coxinhautilities.lava_sponge.witty": "Você não precisa de uma explicação pra esse, né?",
 
-  "block.coxinhautilities.wet_lava_sponge": "Esponja de Lava molhada"
+  "block.coxinhautilities.wet_lava_sponge": "Esponja de Lava molhada",
+
+  "config.coxinhautilities.coxinhautilities": "Coxinha Utilities - Configurações & Preferências"
 }

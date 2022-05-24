@@ -22,6 +22,15 @@
   "tooltip.coxinhautilities.poisonous_potato_battery.witty.2": "so maybe there's a slim chance?",
 
 
+  "item.coxinhautilities.ender_orchid_seeds": "Ender Orchid Seeds",
+
+  "block.coxinhautilities.ender_orchid": "Ender Orchid",
+  "tooltip.coxinhautilities.ender_orchid.1": "An otherwordly plant that grows",
+  "tooltip.coxinhautilities.ender_orchid.2": "Ender Pearls as its flowers.",
+  "tooltip.coxinhautilities.ender_orchid.witty.1": "Don't bone meal it! Nature",
+  "tooltip.coxinhautilities.ender_orchid.witty.2": "doesn't like to be rushed.",
+
+
   "block.coxinhautilities.wooden_hopper": "Wooden Hopper",
   "tooltip.coxinhautilities.wooden_hopper.1": "A cheaper, single slot hopper alternative.",
   "tooltip.coxinhautilities.wooden_hopper.2": "Cannot be blocked with a redstone signal.",
@@ -104,6 +113,6 @@
 
   "block.coxinhautilities.wet_lava_sponge": "Wet Lava Sponge",
 
-
+  "config.coxinhautilities.coxinhautilities": "Coxinha Utilities - Configuration & Customization",
   "itemGroup.coxinhautilities.item_group": "Coxinha Utilities"
 }
