@@ -1,10 +1,12 @@
 package me.luligabi.coxinhautilities.client;
 
+import draylar.omegaconfiggui.OmegaConfigGui;
 import me.luligabi.coxinhautilities.client.renderer.item.GrannysSinkItemRenderer;
 import me.luligabi.coxinhautilities.client.renderer.item.PortableTankItemRenderer;
-import me.luligabi.coxinhautilities.client.screen.trashcan.EnergyTrashCanScreen;
 import me.luligabi.coxinhautilities.client.screen.WoodenHopperScreen;
+import me.luligabi.coxinhautilities.client.screen.trashcan.EnergyTrashCanScreen;
 import me.luligabi.coxinhautilities.client.screen.trashcan.FluidTrashCanScreen;
+import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.screenhandler.ScreenHandlingRegistry;
@@ -55,6 +57,8 @@ public class CoxinhaUtilitiesClient implements ClientModInitializer {
 
         HandledScreens.register(ScreenHandlingRegistry.FLUID_TRASH_CAN_SCREEN_HANDLER, FluidTrashCanScreen::new);
         HandledScreens.register(ScreenHandlingRegistry.ENERGY_TRASH_CAN_SCREEN_HANDLER, EnergyTrashCanScreen::new);
+
+        OmegaConfigGui.registerConfigScreen(CoxinhaUtilities.CONFIG);
     }
 
     private final List<Block> portableTanks = Arrays.asList(

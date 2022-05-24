@@ -5,9 +5,6 @@ plugins {
     id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
 archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
@@ -24,6 +21,8 @@ def getChangeLog() {
 
 repositories {
     maven { url "https://maven.shedaniel.me/" }
+    maven { url "https://jitpack.io" }
+    maven { url 'https://maven.terraformersmc.com/releases/' }
 }
 
 dependencies {
@@ -37,8 +36,17 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
+    modImplementation "com.github.Draylar.omega-config:omega-config-base:${project.omega_config_version}"
+    include "com.github.Draylar.omega-config:omega-config-base:${project.omega_config_version}"
+
+    modImplementation "com.github.Draylar.omega-config:omega-config-gui:${project.omega_config_version}"
+    include "com.github.Draylar.omega-config:omega-config-gui:${project.omega_config_version}"
+
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+
+    modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+    modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
 processResources {

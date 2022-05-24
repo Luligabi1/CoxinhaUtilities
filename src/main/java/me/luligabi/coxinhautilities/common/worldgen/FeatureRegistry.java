@@ -1,5 +1,6 @@
 package me.luligabi.coxinhautilities.common.worldgen;
 
+import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.block.misc.EnderOrchidBlock;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -18,10 +19,10 @@ import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import java.util.function.Predicate;
 
 @SuppressWarnings("unused")
-public class FeatureRegistry { // TODO: Add config to disable and modify ender orchid worldgen
+public class FeatureRegistry {
 
     public static void init() {
-        addFeature(FeatureRegistry.ENDER_ORCHID_ID, BiomeSelectors.foundInTheEnd(), true);
+        addFeature(FeatureRegistry.ENDER_ORCHID_ID, BiomeSelectors.foundInTheEnd(), CoxinhaUtilities.CONFIG.canGenerateEnderOrchids);
     }
 
 
@@ -33,7 +34,7 @@ public class FeatureRegistry { // TODO: Add config to disable and modify ender o
 
 
     private static final RegistryEntry<ConfiguredFeature<RandomPatchFeatureConfig, ?>> ENDER_ORCHID_CONFIGURED_FEATURE =
-            ConfiguredFeatures.register(FeatureRegistry.ENDER_ORCHID_ID, Feature.FLOWER, new RandomPatchFeatureConfig(2, 7, 2,
+            ConfiguredFeatures.register(FeatureRegistry.ENDER_ORCHID_ID, Feature.FLOWER, new RandomPatchFeatureConfig(CoxinhaUtilities.CONFIG.enderOrchidSpawnRatio, 7, 2,
                     PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK,
                     new SimpleBlockFeatureConfig(BlockStateProvider.of(BlockRegistry.ENDER_ORCHID.getDefaultState().with(EnderOrchidBlock.AGE, 7)))))
             );
