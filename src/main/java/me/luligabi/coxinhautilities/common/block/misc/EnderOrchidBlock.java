@@ -1,5 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.misc;
 
+import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -24,8 +25,8 @@ public class EnderOrchidBlock extends CropBlock {
     }
 
 
-    protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) { // TODO: Add config to allow other blocks
-        return floor.isOf(Blocks.END_STONE);
+    protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
+        return floor.isOf(Blocks.END_STONE) || !CoxinhaUtilities.CONFIG.hasEnderOrchidStrictPlacement;
     }
 
     protected ItemConvertible getSeedsItem() {
@@ -35,7 +36,8 @@ public class EnderOrchidBlock extends CropBlock {
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int age = this.getAge(state);
         if (age >= this.getMaxAge()) return;
-        if (random.nextInt(8) == 0) {
+        int growthOdds = world.getBlockState(pos.down()).isOf(Blocks.END_STONE) ? 8 : 12; // Ender Orchids planted on top of non-end stone blocks take longer to grow
+        if (random.nextInt(growthOdds) == 0) {
             world.setBlockState(pos, this.withAge(age + 1), 2);
         }
     }
@@ -68,15 +70,15 @@ public class EnderOrchidBlock extends CropBlock {
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         if(state.get(getAgeProperty()) != 7) return;
         for(int i = 0; i < 2; ++i) {
-            int xMultiplier = random.nextInt(2) * 2 - 1;
-            int zMultiplier = random.nextInt(2) * 2 - 1;
+            int xMultiplier = random.nextInt(2) - 1;
+            int zMultiplier = random.nextInt(2) - 1;
 
             double x = (double)pos.getX() + 0.5 + 0.25 * (double) xMultiplier;
-            double y = (float)pos.getY() + random.nextFloat();
+            double y = (float) pos.getY() + random.nextFloat();
             double z = (double)pos.getZ() + 0.5 + 0.25 * (double) zMultiplier;
-            double velocityX = random.nextFloat() * (float) xMultiplier;
+            double velocityX = random.nextFloat() * (float) random.nextInt(2) * 2 - 1;
             double velocityY = ((double)random.nextFloat() - 0.5) * 0.125;
-            double velocityZ = random.nextFloat() * (float) zMultiplier;
+            double velocityZ = random.nextFloat() * (float) random.nextInt(2) * 2 - 1;
             world.addParticle(ParticleTypes.PORTAL, x, y, z, velocityX, velocityY, velocityZ);
         }
     }
