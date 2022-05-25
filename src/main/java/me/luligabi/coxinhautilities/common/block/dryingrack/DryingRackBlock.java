@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
+import me.luligabi.coxinhautilities.common.util.Util;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -30,7 +31,6 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +59,7 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
 
         if(dryingItem.isEmpty()) {
             if(!handStack.isEmpty()) {
-                blockEntity.getInventory().set(0, new ItemStack(handStack.getItem(), 1));
+                blockEntity.getInventory().set(0, Util.singleCopy(handStack));
                 handStack.decrement(1);
                 blockEntity.markDirty();
                 world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -87,9 +87,7 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
 
     @Override
     public List<TranslatableText> wittyComments() {
-        List<TranslatableText> wittyComments = new ArrayList<>();
-        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.drying_rack.witty"));
-        return wittyComments;
+        return List.of(new TranslatableText("tooltip.coxinhautilities.drying_rack.witty"));
     }
 
     @Nullable

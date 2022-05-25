@@ -3,8 +3,8 @@ package me.luligabi.coxinhautilities.common.block.tank;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.Screen;
@@ -27,7 +27,6 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,7 +60,7 @@ public class PortableTankBlock extends BlockWithEntity implements IWittyComment 
                     .formatted(tankTier.getPrimaryColor())
                 .append(!stack.hasNbt() || FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant")).isOf(Fluids.EMPTY) ?
                         new TranslatableText("tooltip.coxinhautilities.tank.none").formatted(tankTier.getSecondaryColor()) :
-                        new TranslatableText("tooltip.coxinhautilities.tank.fluidVariant.2", FluidVariantRendering.getName(FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant"))))
+                        new TranslatableText("tooltip.coxinhautilities.tank.fluidVariant.2", FluidVariantAttributes.getName(FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant"))))
                     .formatted(tankTier.getSecondaryColor())));
 
         tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.capacity.1")
@@ -86,10 +85,10 @@ public class PortableTankBlock extends BlockWithEntity implements IWittyComment 
 
     @Override
     public List<TranslatableText> wittyComments() {
-        List<TranslatableText> wittyComments = new ArrayList<>();
-        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.tank.witty.1"));
-        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.tank.witty.2"));
-        return wittyComments;
+        return List.of(
+                new TranslatableText("tooltip.coxinhautilities.tank.witty.1"),
+                new TranslatableText("tooltip.coxinhautilities.tank.witty.2")
+        );
     }
 
     public TankTier getTankTier() { return tankTier; }

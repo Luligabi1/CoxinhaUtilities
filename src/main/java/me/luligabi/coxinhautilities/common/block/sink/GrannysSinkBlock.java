@@ -22,7 +22,6 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -75,9 +74,7 @@ public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEnti
 
     @Override
     public List<TranslatableText> wittyComments() {
-        List<TranslatableText> wittyComments = new ArrayList<>();
-        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.grannys_sink.witty"));
-        return wittyComments;
+        return List.of(new TranslatableText("tooltip.coxinhautilities.grannys_sink.witty"));
     }
 
     @Override

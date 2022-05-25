@@ -1,4 +1,4 @@
-package me.luligabi.coxinhautilities.common.block;
+package me.luligabi.coxinhautilities.common.block.misc;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PaneBlock;

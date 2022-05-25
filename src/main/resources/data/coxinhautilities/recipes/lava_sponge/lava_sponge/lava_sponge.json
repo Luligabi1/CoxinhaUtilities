@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#N#",
+    "NLN",
+    "#N#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:soul_soil"
+    },
+    "N": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "L": {
+      "item": "minecraft:lava_bucket"
+    }
+  },
+  "result": {
+    "item": "coxinhautilities:lava_sponge",
+    "count": 1
+  }
+}

@@ -1,26 +1,37 @@
 package me.luligabi.coxinhautilities.common.block.sponge;
 
 import com.google.common.collect.Lists;
+import me.luligabi.coxinhautilities.common.block.BlockRegistry;
+import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.minecraft.block.*;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Queue;
 
-public class LavaSpongeBlock extends SpongeBlock {
+public class LavaSpongeBlock extends SpongeBlock implements IWittyComment {
 
     public LavaSpongeBlock(Settings settings) {
         super(settings);
     }
 
+
     protected void update(World world, BlockPos pos) {
         if (this.absorbLava(world, pos)) {
-            //world.setBlockState(pos, BlockRegistry.WET_LAVA_SPONGE.getDefaultState(), 2);
-            world.syncWorldEvent(2001, pos, Block.getRawIdFromState(Blocks.LAVA.getDefaultState()));
+            world.setBlockState(pos, BlockRegistry.WET_LAVA_SPONGE.getDefaultState(), 2);
+            world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(Blocks.LAVA.getDefaultState()));
         }
 
     }
@@ -63,4 +74,15 @@ public class LavaSpongeBlock extends SpongeBlock {
 
         return i > 0;
     }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        addWittyComment(tooltip);
+    }
+
+    @Override
+    public List<TranslatableText> wittyComments() {
+        return List.of(new TranslatableText("tooltip.coxinhautilities.lava_sponge.witty"));
+    }
+
 }

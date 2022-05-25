@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleBatteryItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PotatoBatteryItem extends Item implements SimpleBatteryItem, IWittyComment {
@@ -44,8 +43,7 @@ public class PotatoBatteryItem extends Item implements SimpleBatteryItem, IWitty
 
     @Override
     public List<TranslatableText> wittyComments() {
-        List<TranslatableText> wittyComments = new ArrayList<>();
-        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.potato_battery.witty"));
-        return wittyComments;
+        return List.of(new TranslatableText("tooltip.coxinhautilities.potato_battery.witty"));
     }
+
 }

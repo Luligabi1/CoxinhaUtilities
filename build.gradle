@@ -1,12 +1,9 @@
 plugins {
     id 'fabric-loom' version '0.10-SNAPSHOT'
     id "com.matthewprenger.cursegradle" version '1.4.0'
-    id "com.modrinth.minotaur" version '1.2.1'
+    id "com.modrinth.minotaur" version '2.2.0'
     id 'maven-publish'
 }
-
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version
@@ -24,6 +21,8 @@ def getChangeLog() {
 
 repositories {
     maven { url "https://maven.shedaniel.me/" }
+    maven { url "https://jitpack.io" }
+    maven { url 'https://maven.terraformersmc.com/releases/' }
 }
 
 dependencies {
@@ -37,8 +36,17 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
+    modImplementation "com.github.Draylar.omega-config:omega-config-base:${project.omega_config_version}"
+    include "com.github.Draylar.omega-config:omega-config-base:${project.omega_config_version}"
+
+    modImplementation "com.github.Draylar.omega-config:omega-config-gui:${project.omega_config_version}"
+    include "com.github.Draylar.omega-config:omega-config-gui:${project.omega_config_version}"
+
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+
+    modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+    modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
 processResources {
@@ -88,6 +96,7 @@ curseforge {
             displayName = RELEASE_NAME
             relations {
                 requiredDependency 'fabric-api'
+                requiredDependency 'kibe'
 
                 optionalDependency 'roughly-enough-items'
             }
@@ -104,24 +113,20 @@ curseforge {
 }
 
 //Modrinth publishing
-import com.modrinth.minotaur.TaskModrinthUpload
-import com.modrinth.minotaur.request.VersionType
+import com.modrinth.minotaur.dependencies.ModDependency
 
-task modrinth(type: TaskModrinthUpload, dependsOn: remapJar, group: "upload") {
-    onlyIf {
-        ENV.MODRINTH_TOKEN
+modrinth {
+    if (ENV.MODRINTH_TOKEN) {
+        token = ENV.MODRINTH_TOKEN
     }
-    token = ENV.MODRINTH_TOKEN
-
     projectId = project.modrinth_id
-    changelog = getChangeLog()
-
-    versionNumber = version
-    versionName = RELEASE_NAME
-    versionType = VersionType.valueOf("RELEASE")
-
-    uploadFile = file(RELEASE_FILE)
-
-    addGameVersion(project.minecraft_version as String)
-    addLoader("fabric")
+    versionNumber = project.mod_version
+    uploadFile = remapJar
+    gameVersions = [project.minecraft_version]
+    loaders = ['fabric']
+    versionType = "release"
+    dependencies = [
+            new ModDependency('P7dR8mSH', 'required'), // Fabric API
+            new ModDependency('OvlwmUdC', 'required')  // Kibe
+    ]
 }

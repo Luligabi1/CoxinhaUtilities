@@ -7,6 +7,8 @@ import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.dryingrack.DryingRackBlockEntity;
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlockEntity;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockEntity;
+import me.luligabi.coxinhautilities.common.block.trashcan.energy.EnergyTrashCanBlockEntity;
+import me.luligabi.coxinhautilities.common.block.trashcan.fluid.FluidTrashCanBlockEntity;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlockEntity;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -26,6 +28,10 @@ public class BlockEntityRegistry {
         PORTABLE_TANK_MK5_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "portable_tank_mk5"), FabricBlockEntityTypeBuilder.create(PortableTankBlockEntity::new, BlockRegistry.PORTABLE_TANK_MK5).build(null));
 
         GRANNYS_SINK_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "grannys_sink"), FabricBlockEntityTypeBuilder.create(GrannysSinkBlockEntity::new, BlockRegistry.GRANNYS_SINK).build(null));
+
+        FLUID_TRASH_CAN_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "fluid_trash_can"), FabricBlockEntityTypeBuilder.create(FluidTrashCanBlockEntity::new, BlockRegistry.FLUID_TRASH_CAN).build(null));
+        ENERGY_TRASH_CAN_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "energy_trash_can"), FabricBlockEntityTypeBuilder.create(EnergyTrashCanBlockEntity::new, BlockRegistry.ENERGY_TRASH_CAN).build(null));
+
 
         DRYING_RACK_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "drying_rack"), FabricBlockEntityTypeBuilder.create(DryingRackBlockEntity::new, BlockRegistry.DRYING_RACK).build(null));
     }
@@ -50,6 +56,9 @@ public class BlockEntityRegistry {
     public static BlockEntityType<PortableTankBlockEntity> PORTABLE_TANK_MK5_BLOCK_ENTITY;
 
     public static BlockEntityType<GrannysSinkBlockEntity> GRANNYS_SINK_BLOCK_ENTITY;
+
+    public static BlockEntityType<FluidTrashCanBlockEntity> FLUID_TRASH_CAN_BLOCK_ENTITY;
+    public static BlockEntityType<EnergyTrashCanBlockEntity> ENERGY_TRASH_CAN_BLOCK_ENTITY;
 
     public static BlockEntityType<DryingRackBlockEntity> DRYING_RACK_BLOCK_ENTITY;
 }

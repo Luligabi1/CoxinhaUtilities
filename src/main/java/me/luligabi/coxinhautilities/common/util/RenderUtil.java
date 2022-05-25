@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -49,7 +50,7 @@ public class RenderUtil {
         float topHeight = fill;
         float bottomHeight = TANK_W;
         // Render gas from top to bottom
-        if (FluidVariantRendering.fillsFromTop(fluid)) {
+        if (FluidVariantAttributes.isLighterThanAir(fluid)) {
             topHeight = 1 - TANK_W;
             bottomHeight = 1 - fill;
         }

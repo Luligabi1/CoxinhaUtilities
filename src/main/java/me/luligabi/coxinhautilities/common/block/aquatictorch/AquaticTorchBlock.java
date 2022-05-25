@@ -24,7 +24,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -72,9 +71,7 @@ public class AquaticTorchBlock extends TorchBlock implements Waterloggable, IWit
 
     @Override
     public List<TranslatableText> wittyComments() {
-        List<TranslatableText> wittyComments = new ArrayList<>();
-        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.aquatic_torch.witty"));
-        return wittyComments;
+        return List.of(new TranslatableText("tooltip.coxinhautilities.aquatic_torch.witty"));
     }
 
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;

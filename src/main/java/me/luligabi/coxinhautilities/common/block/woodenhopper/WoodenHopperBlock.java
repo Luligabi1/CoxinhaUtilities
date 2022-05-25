@@ -25,7 +25,6 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WoodenHopperBlock extends HopperBlock implements IWittyComment {
@@ -74,8 +73,6 @@ public class WoodenHopperBlock extends HopperBlock implements IWittyComment {
 
     @Override
     public List<TranslatableText> wittyComments() {
-        List<TranslatableText> wittyComments = new ArrayList<>();
-        wittyComments.add(new TranslatableText("tooltip.coxinhautilities.wooden_hopper.witty"));
-        return wittyComments;
+        return List.of(new TranslatableText("tooltip.coxinhautilities.wooden_hopper.witty"));
     }
 }

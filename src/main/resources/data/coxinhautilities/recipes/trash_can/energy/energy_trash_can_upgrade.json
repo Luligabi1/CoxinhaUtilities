@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "kibe:trash_can"
+    },
+    {
+      "tag": "coxinhautilities:batteries"
+    }
+  ],
+  "result": {
+    "item": "coxinhautilities:energy_trash_can",
+    "count": 1
+  }
+}

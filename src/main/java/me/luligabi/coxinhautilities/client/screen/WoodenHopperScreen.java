@@ -2,11 +2,13 @@ package me.luligabi.coxinhautilities.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
+import me.luligabi.coxinhautilities.mixin.HandledScreenAccessor;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 public class WoodenHopperScreen extends HandledScreen<ScreenHandler> {
@@ -14,8 +16,10 @@ public class WoodenHopperScreen extends HandledScreen<ScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(CoxinhaUtilities.MOD_ID, "textures/gui/wooden_hopper.png");
 
     public WoodenHopperScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
-        super(handler, inventory, title);
+        super(handler, inventory, title.shallowCopy().formatted(Formatting.WHITE));
         this.backgroundHeight = 133;
+
+        ((HandledScreenAccessor) this).setPlayerInventoryTitle(playerInventoryTitle.shallowCopy().formatted(Formatting.WHITE));
         this.playerInventoryTitleY = this.backgroundHeight - 94;
     }
 
