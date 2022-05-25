@@ -44,7 +44,9 @@ public class EnderOrchidBlock extends CropBlock implements IWittyComment {
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int age = this.getAge(state);
         if (age >= this.getMaxAge()) return;
-        int growthOdds = world.getBlockState(pos.down()).isOf(Blocks.END_STONE) ? 8 : 12; // Ender Orchids planted on top of non-end stone blocks take longer to grow
+        int growthOdds = world.getBlockState(pos.down()).isOf(Blocks.END_STONE) ? // Ender Orchids planted on top of non-end stone blocks take longer to grow
+                CoxinhaUtilities.CONFIG.enderOrchidRegularGrowthRatio : // 100/8 = 12.5%
+                CoxinhaUtilities.CONFIG.enderOrchidSpecialGrowthRatio; // 100/12 = 8.3%
         if (random.nextInt(growthOdds) == 0) {
             world.setBlockState(pos, this.withAge(age + 1), 2);
         }
