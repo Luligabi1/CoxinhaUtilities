@@ -28,7 +28,7 @@ public class TankCopyDataLootFunction extends ConditionalLootFunction {
 
 
     @Override
-    public LootFunctionType getType() { return CoxinhaUtilities.TANK_COPY_DATA; }
+    public LootFunctionType getType() { return LootFunctionRegistry.TANK_COPY_DATA; }
 
     public static class TankCopyDataLootFunctionSerializer extends ConditionalLootFunction.Serializer<TankCopyDataLootFunction> {
 

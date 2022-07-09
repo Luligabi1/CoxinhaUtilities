@@ -29,6 +29,10 @@ public class CardboardBoxBlockEntity extends BlockEntity {
         nbt.put("NbtCopy", nbtCopy);
     }
 
+    public boolean hasWrittenNbt() {
+        return !blockState.isAir() || !nbtCopy.isEmpty();
+    }
+
     protected BlockState blockState = Blocks.AIR.getDefaultState();
     protected NbtList nbtCopy = new NbtList();
 

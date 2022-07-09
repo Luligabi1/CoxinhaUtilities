@@ -6,6 +6,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtHelper;
@@ -88,6 +89,12 @@ public class CardboardBoxBlock extends BlockWithEntity {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    public void saveTankNbtToStack(BlockEntity blockEntity, ItemStack stack) {
+        if (blockEntity instanceof CardboardBoxBlockEntity cardboardBox && cardboardBox.hasWrittenNbt()) {
+            BlockItem.setBlockEntityNbt(stack, cardboardBox.getType(), cardboardBox.createNbt());
+        }
     }
 
     @Nullable
