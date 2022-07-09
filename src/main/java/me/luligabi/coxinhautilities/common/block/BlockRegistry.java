@@ -3,7 +3,9 @@ package me.luligabi.coxinhautilities.common.block;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.aquatictorch.AquaticTorchBlock;
 import me.luligabi.coxinhautilities.common.block.aquatictorch.WallAquaticTorchBlock;
+import me.luligabi.coxinhautilities.common.block.cardboardbox.CardboardBoxBlockItem;
 import me.luligabi.coxinhautilities.common.block.dryingrack.DryingRackBlock;
+import me.luligabi.coxinhautilities.common.block.cardboardbox.CardboardBoxBlock;
 import me.luligabi.coxinhautilities.common.block.misc.CopperLadderBlock;
 import me.luligabi.coxinhautilities.common.block.misc.EnderOrchidBlock;
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlock;
@@ -46,6 +48,9 @@ public class BlockRegistry {
         initBlock("energy_trash_can", ENERGY_TRASH_CAN);
 
         initBlock("drying_rack", DRYING_RACK);
+
+        Registry.register(Registry.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "cardboard_box"), CARDBOARD_BOX);
+        Registry.register(Registry.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, "cardboard_box"), new CardboardBoxBlockItem());
 
         /*initBlock("overworld_cake", OVERWORLD_CAKE, Rarity.UNCOMMON); // TODO: Fix first usage triggering the Credits Screen
         initBlock("nether_cake", NETHER_CAKE, Rarity.UNCOMMON); // TODO: Fix Nether Cake being borked
@@ -94,6 +99,8 @@ public class BlockRegistry {
     public static final EnergyTrashCanBlock ENERGY_TRASH_CAN = new EnergyTrashCanBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5F, 6.0F));
 
     public static final DryingRackBlock DRYING_RACK = new DryingRackBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
+
+    public static final CardboardBoxBlock CARDBOARD_BOX = new CardboardBoxBlock();
 
     //public static final Block OVERWORLD_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.OVERWORLD);
     //public static final Block NETHER_CAKE = new NetherCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL));
