@@ -2,6 +2,7 @@ package me.luligabi.coxinhautilities.common.block.cardboardbox;
 
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
+import me.luligabi.coxinhautilities.common.misc.TagRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -11,6 +12,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Clearable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -29,25 +31,27 @@ public class CardboardBoxBlockItem extends BlockItem {
         if(!world.isClient()) {
             if (context.getPlayer().isSneaking() && blockEntity != null) {
                 BlockState blockState = world.getBlockState(pos);
+                if (!blockState.isIn(TagRegistry.UNBOXABLE)) {
+                    NbtList nbtList = new NbtList();
+                    NbtCompound nbtCopy = blockEntity.createNbtWithId();
+                    nbtCopy.remove("id");
+                    nbtCopy.remove("x");
+                    nbtCopy.remove("y");
+                    nbtCopy.remove("z");
+                    nbtList.add(nbtCopy);
 
-                NbtList nbtList = new NbtList();
-                NbtCompound nbtCopy = blockEntity.createNbtWithId();
-                nbtCopy.remove("id");
-                nbtCopy.remove("x");
-                nbtCopy.remove("y");
-                nbtCopy.remove("z");
-                nbtList.add(nbtCopy);
-
-                world.setBlockState(pos, BlockRegistry.CARDBOARD_BOX.getPlacementState(new ItemPlacementContext(context)), 2); // FIXME: Fix this duplicating items
-                // TODO: Sound here?
-                blockEntity = world.getBlockEntity(pos); // refresh block entity
-                if(blockEntity instanceof CardboardBoxBlockEntity) {
-                    ((CardboardBoxBlockEntity) blockEntity).blockState = blockState;
-                    ((CardboardBoxBlockEntity) blockEntity).nbtCopy = nbtList;
-                    blockEntity.markDirty();
+                    Clearable.clear(blockEntity);
+                    world.setBlockState(pos, BlockRegistry.CARDBOARD_BOX.getPlacementState(new ItemPlacementContext(context)), 2);
+                    // TODO: Sound here?
+                    blockEntity = world.getBlockEntity(pos); // refresh block entity
+                    if (blockEntity instanceof CardboardBoxBlockEntity) {
+                        ((CardboardBoxBlockEntity) blockEntity).blockState = blockState;
+                        ((CardboardBoxBlockEntity) blockEntity).nbtCopy = nbtList;
+                        blockEntity.markDirty();
+                    }
+                    context.getStack().decrement(1);
+                    return ActionResult.PASS;
                 }
-                context.getStack().decrement(1);
-                return ActionResult.PASS;
             }
         }
         return super.useOnBlock(context);

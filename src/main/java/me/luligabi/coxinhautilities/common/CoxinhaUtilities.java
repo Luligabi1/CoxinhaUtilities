@@ -5,6 +5,7 @@ import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
 import me.luligabi.coxinhautilities.common.lootfunction.TankCopyDataLootFunction;
+import me.luligabi.coxinhautilities.common.misc.TagRegistry;
 import me.luligabi.coxinhautilities.common.recipe.RecipeRegistry;
 import me.luligabi.coxinhautilities.common.screenhandler.ScreenHandlingRegistry;
 import me.luligabi.coxinhautilities.common.worldgen.FeatureRegistry;
@@ -45,6 +46,7 @@ public class CoxinhaUtilities implements ModInitializer {
         EnergyStorage.SIDED.registerForBlockEntity((battery, direction) -> battery.energyStorage, BlockEntityRegistry.ENERGY_TRASH_CAN_BLOCK_ENTITY);
 
         FeatureRegistry.init();
+        TagRegistry.init();
     }
 
     public static final String MOD_ID = "coxinhautilities";

@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
@@ -47,7 +49,7 @@ public class CardboardBoxBlock extends BlockWithEntity {
             Objects.requireNonNull(blockEntity).readNbt(compound.getCompound(0));
 
             ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(BlockRegistry.CARDBOARD_BOX));
-            // TODO: Add sound here
+            world.playSound(null, pos, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.BLOCKS, 1F, 1F);
             return ActionResult.SUCCESS; // FIXME: Fix unwrapping boxes opening the box's content block's UI
         }
         return super.onUse(state, world, pos, player, hand, hit);
