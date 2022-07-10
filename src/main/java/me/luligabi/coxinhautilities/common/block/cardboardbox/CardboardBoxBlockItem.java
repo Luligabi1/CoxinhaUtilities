@@ -10,6 +10,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Clearable;
@@ -31,7 +32,7 @@ public class CardboardBoxBlockItem extends BlockItem {
         if(!world.isClient()) {
             if (context.getPlayer().isSneaking() && blockEntity != null) {
                 BlockState blockState = world.getBlockState(pos);
-                if (!blockState.isIn(TagRegistry.UNBOXABLE)) {
+                if (!blockState.isIn(TagRegistry.UNBOXABLE) && NbtHelper.toBlockState(context.getStack().getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState")).isAir()) {
                     NbtList nbtList = new NbtList();
                     NbtCompound nbtCopy = blockEntity.createNbtWithId();
                     nbtCopy.remove("id");
