@@ -9,6 +9,7 @@ import net.minecraft.util.registry.Registry;
 public class TagRegistry {
 
     public static final TagKey<Block> UNBOXABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(CoxinhaUtilities.MOD_ID, "unboxable"));
+    public static final TagKey<Block> CARRIER_BLACKLIST = TagKey.of(Registry.BLOCK_KEY, new Identifier("carrier", "blacklist"));
 
 
     public static void init() {

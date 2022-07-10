@@ -22,7 +22,9 @@ public class ModConfig implements Config {
     @Comment(value = "Changes the odds an Ender Orchid will grow on other blocks. The bigger the value, the less likely it is.")
     public int enderOrchidSpecialGrowthRatio = 12;
 
-
+    // Cardboard Box
+    @Comment(value = "Make blocks present on Carrier's blacklist unboxable")
+    public boolean useCarrierBlacklist = true;
 
 
     @Override

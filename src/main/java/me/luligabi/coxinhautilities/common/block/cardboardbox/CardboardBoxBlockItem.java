@@ -32,7 +32,7 @@ public class CardboardBoxBlockItem extends BlockItem {
         if(!world.isClient()) {
             if (context.getPlayer().isSneaking() && blockEntity != null) {
                 BlockState blockState = world.getBlockState(pos);
-                if (!blockState.isIn(TagRegistry.UNBOXABLE) && NbtHelper.toBlockState(context.getStack().getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState")).isAir()) {
+                if (!blockState.isIn(TagRegistry.UNBOXABLE) && !isOnCarrierBlackList(blockState) && NbtHelper.toBlockState(context.getStack().getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState")).isAir()) {
                     NbtList nbtList = new NbtList();
                     NbtCompound nbtCopy = blockEntity.createNbtWithId();
                     nbtCopy.remove("id");
@@ -56,6 +56,11 @@ public class CardboardBoxBlockItem extends BlockItem {
             }
         }
         return super.useOnBlock(context);
+    }
+
+    private boolean isOnCarrierBlackList(BlockState blockState) {
+        if(!CoxinhaUtilities.CONFIG.useCarrierBlacklist) return false;
+        return blockState.isIn(TagRegistry.CARRIER_BLACKLIST);
     }
 
 }
