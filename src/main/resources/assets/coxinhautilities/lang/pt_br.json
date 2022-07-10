@@ -13,7 +13,7 @@
 
   "tooltip.coxinhautilities.potato_battery.1": "Energia: ",
 
-  "tooltip.coxinhautilities.potato_battery.witty": "De jeito NENHUM patrocionado pela Aperture Science.",
+  "tooltip.coxinhautilities.potato_battery.witty": "De jeito NENHUM patrocinado pela Aperture Science.",
 
   "tooltip.coxinhautilities.baked_potato_battery.witty.1": "Delicioso!",
   "tooltip.coxinhautilities.baked_potato_battery.witty.2": "Mas continua sem patrocínio da Aperture Science.",
@@ -78,6 +78,14 @@
   "block.coxinhautilities.drying_rack": "Laje de Secar",
   "tooltip.coxinhautilities.drying_rack": "Uma laje capaz de secar items. É isso.",
   "tooltip.coxinhautilities.drying_rack.witty": "Sério, é só isso. Sem mecânicas estranhas aqui :)",
+
+  "block.coxinhautilities.cardboard_box": "Caixa de Papelão",
+  "tooltip.coxinhautilities.cardboard_box.1": "Uma caixa especial capaz de armazenar",
+  "tooltip.coxinhautilities.cardboard_box.2": "e mover blocos que retém informações.",
+  "tooltip.coxinhautilities.cardboard_box.3": "Shift-Clique para colocar/retirar um bloco.",
+  "tooltip.coxinhautilities.cardboard_box.witty": "\"Caixa especial\"? É literalmente papelão...",
+
+  "tooltip.coxinhautilities.empty": "Vazia",
 
   "block.coxinhautilities.aquatic_torch": "Tocha Aquática",
   "tooltip.coxinhautilities.aquatic_torch": "Uma tocha especial para iluminar seus lugares molhados.",

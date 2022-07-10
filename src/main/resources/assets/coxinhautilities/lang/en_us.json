@@ -80,11 +80,17 @@
   "tooltip.coxinhautilities.energy_trash_can.2": "Can interact with surrounding cables.",
   "tooltip.coxinhautilities.energy_trash_can.witty": "Sustainability's greatest enemy.",
 
-
   "block.coxinhautilities.drying_rack": "Drying Rack",
   "tooltip.coxinhautilities.drying_rack": "A rack able to dry items. That's it.",
   "tooltip.coxinhautilities.drying_rack.witty": "Seriously, that's it. No overcomplicated mechanic here :)",
 
+  "block.coxinhautilities.cardboard_box": "Cardboard Box",
+  "tooltip.coxinhautilities.cardboard_box.1": "A special box able to store and",
+  "tooltip.coxinhautilities.cardboard_box.2": "move content-holding blocks.",
+  "tooltip.coxinhautilities.cardboard_box.3": "Shift-Click to (un)pack a block.",
+  "tooltip.coxinhautilities.cardboard_box.witty": "\"Special box\"? It's literally cardboard...",
+
+  "tooltip.coxinhautilities.empty": "Empty",
 
   "block.coxinhautilities.aquatic_torch": "Aquatic Torch",
   "tooltip.coxinhautilities.aquatic_torch": "A special torch to illuminate your watery places.",

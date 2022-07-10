@@ -1,6 +1,7 @@
 package me.luligabi.coxinhautilities.common.block.cardboardbox;
 
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
+import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -17,6 +18,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
@@ -30,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-public class CardboardBoxBlock extends BlockWithEntity {
+public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment {
 
     public CardboardBoxBlock() {
         super(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(0.5F).sounds(BlockSoundGroup.WOOD));
@@ -65,6 +67,12 @@ public class CardboardBoxBlock extends BlockWithEntity {
         } else {
             tooltip.add(new TranslatableText("tooltip.coxinhautilities.empty").formatted(Formatting.GRAY));
         }
+        tooltip.add(new LiteralText(""));
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.cardboard_box.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.cardboard_box.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(new LiteralText(""));
+        tooltip.add(new TranslatableText("tooltip.coxinhautilities.cardboard_box.3").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        addWittyComment(tooltip);
     }
 
     @Override
@@ -101,6 +109,11 @@ public class CardboardBoxBlock extends BlockWithEntity {
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new CardboardBoxBlockEntity(pos, state);
+    }
+
+    @Override
+    public List<TranslatableText> wittyComments() {
+        return List.of(new TranslatableText("tooltip.coxinhautilities.cardboard_box.witty"));
     }
 
     private static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
