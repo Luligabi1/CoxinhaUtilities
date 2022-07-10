@@ -33,7 +33,7 @@ import java.util.Objects;
 public class CardboardBoxBlock extends BlockWithEntity {
 
     public CardboardBoxBlock() {
-        super(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).sounds(BlockSoundGroup.CANDLE));
+        super(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(0.5F).sounds(BlockSoundGroup.WOOD));
         setDefaultState(stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
 

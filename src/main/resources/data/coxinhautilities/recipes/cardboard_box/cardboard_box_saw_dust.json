@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "tag": "c:saw_dusts"
+    }
+  },
+  "result": {
+    "item": "coxinhautilities:cardboard_box",
+    "count": 1
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "indrev",
+        "techreborn"
+      ]
+    }
+  ]
+}
