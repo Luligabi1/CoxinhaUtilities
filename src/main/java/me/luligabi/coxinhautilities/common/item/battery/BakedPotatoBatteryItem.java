@@ -21,7 +21,7 @@ public class BakedPotatoBatteryItem extends PotatoBatteryItem {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        appendPowerInfo(tooltip, stack, Formatting.GOLD, Formatting.YELLOW);
+        appendPowerInfo(tooltip, stack);
         addWittyComment(tooltip);
     }
 
@@ -32,4 +32,13 @@ public class BakedPotatoBatteryItem extends PotatoBatteryItem {
                 new TranslatableText("tooltip.coxinhautilities.baked_potato_battery.witty.2")
         );
     }
+
+    protected Formatting getPrimaryColor() {
+        return Formatting.GOLD;
+    }
+
+    protected Formatting getSecondaryColor() {
+        return Formatting.YELLOW;
+    }
+
 }

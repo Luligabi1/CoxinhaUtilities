@@ -21,7 +21,7 @@ public class PoisonousPotatoBatteryItem extends PotatoBatteryItem {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        appendPowerInfo(tooltip, stack, Formatting.DARK_GREEN, Formatting.GREEN);
+        appendPowerInfo(tooltip, stack);
         addWittyComment(tooltip);
     }
 
@@ -32,4 +32,13 @@ public class PoisonousPotatoBatteryItem extends PotatoBatteryItem {
                 new TranslatableText("tooltip.coxinhautilities.poisonous_potato_battery.witty.2")
         );
     }
+
+    protected Formatting getPrimaryColor() {
+        return Formatting.DARK_GREEN;
+    }
+
+    protected Formatting getSecondaryColor() {
+        return Formatting.GREEN;
+    }
+
 }
