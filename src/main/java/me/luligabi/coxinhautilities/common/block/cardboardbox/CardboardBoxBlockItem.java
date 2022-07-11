@@ -12,6 +12,8 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Clearable;
 import net.minecraft.util.math.BlockPos;
@@ -43,7 +45,7 @@ public class CardboardBoxBlockItem extends BlockItem {
 
                     Clearable.clear(blockEntity);
                     world.setBlockState(pos, BlockRegistry.CARDBOARD_BOX.getPlacementState(new ItemPlacementContext(context)), 2);
-                    // TODO: Sound here?
+                    world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS, 1F, 1F);
                     blockEntity = world.getBlockEntity(pos); // refresh block entity
                     if (blockEntity instanceof CardboardBoxBlockEntity) {
                         ((CardboardBoxBlockEntity) blockEntity).blockState = blockState;
