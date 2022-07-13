@@ -4,6 +4,8 @@ import draylar.omegaconfig.OmegaConfig;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
+import me.luligabi.coxinhautilities.common.lootfunction.LootFunctionRegistry;
+import me.luligabi.coxinhautilities.common.misc.TagRegistry;
 import me.luligabi.coxinhautilities.common.recipe.RecipeRegistry;
 import me.luligabi.coxinhautilities.common.screenhandler.ScreenHandlingRegistry;
 import me.luligabi.coxinhautilities.common.worldgen.FeatureRegistry;
@@ -12,9 +14,7 @@ import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import team.reborn.energy.api.EnergyStorage;
 
 public class CoxinhaUtilities implements ModInitializer {
@@ -26,7 +26,6 @@ public class CoxinhaUtilities implements ModInitializer {
 
         BlockRegistry.init();
         BlockEntityRegistry.init();
-        Registry.register(Registry.LOOT_FUNCTION_TYPE, new Identifier(MOD_ID, "tank_copy_data"), TANK_COPY_DATA);
 
         RecipeRegistry.init();
         ScreenHandlingRegistry.init();
@@ -44,6 +43,8 @@ public class CoxinhaUtilities implements ModInitializer {
         EnergyStorage.SIDED.registerForBlockEntity((battery, direction) -> battery.energyStorage, BlockEntityRegistry.ENERGY_TRASH_CAN_BLOCK_ENTITY);
 
         FeatureRegistry.init();
+        TagRegistry.init();
+        LootFunctionRegistry.init();
     }
 
     public static final String MOD_ID = "coxinhautilities";
@@ -55,5 +56,4 @@ public class CoxinhaUtilities implements ModInitializer {
             .icon(() -> new ItemStack(ItemRegistry.COXINHA))
             .build();
 
-    public static final LootFunctionType TANK_COPY_DATA = new LootFunctionType(new TankCopyDataLootFunction.TankCopyDataLootFunctionSerializer());
 }

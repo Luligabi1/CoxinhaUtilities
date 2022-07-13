@@ -4,6 +4,7 @@ import me.luligabi.coxinhautilities.client.renderer.blockentity.DryingRackBlockE
 import me.luligabi.coxinhautilities.client.renderer.blockentity.GrannysSinkBlockEntityRenderer;
 import me.luligabi.coxinhautilities.client.renderer.blockentity.PortableTankBlockEntityRenderer;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
+import me.luligabi.coxinhautilities.common.block.cardboardbox.CardboardBoxBlockEntity;
 import me.luligabi.coxinhautilities.common.block.dryingrack.DryingRackBlockEntity;
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlockEntity;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockEntity;
@@ -34,6 +35,8 @@ public class BlockEntityRegistry {
 
 
         DRYING_RACK_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "drying_rack"), FabricBlockEntityTypeBuilder.create(DryingRackBlockEntity::new, BlockRegistry.DRYING_RACK).build(null));
+
+        CARDBOARD_BOX_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "cardboard_box"), FabricBlockEntityTypeBuilder.create(CardboardBoxBlockEntity::new, BlockRegistry.CARDBOARD_BOX).build(null));
     }
 
     public static void clientInit() {
@@ -61,4 +64,6 @@ public class BlockEntityRegistry {
     public static BlockEntityType<EnergyTrashCanBlockEntity> ENERGY_TRASH_CAN_BLOCK_ENTITY;
 
     public static BlockEntityType<DryingRackBlockEntity> DRYING_RACK_BLOCK_ENTITY;
+
+    public static BlockEntityType<CardboardBoxBlockEntity> CARDBOARD_BOX_BLOCK_ENTITY;
 }

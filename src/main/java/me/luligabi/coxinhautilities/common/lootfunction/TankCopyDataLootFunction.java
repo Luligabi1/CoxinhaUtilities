@@ -1,7 +1,8 @@
-package me.luligabi.coxinhautilities.common;
+package me.luligabi.coxinhautilities.common.lootfunction;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
+import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlock;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockItem;
 import net.minecraft.block.entity.BlockEntity;
@@ -27,9 +28,9 @@ public class TankCopyDataLootFunction extends ConditionalLootFunction {
 
 
     @Override
-    public LootFunctionType getType() { return CoxinhaUtilities.TANK_COPY_DATA; }
+    public LootFunctionType getType() { return LootFunctionRegistry.TANK_COPY_DATA; }
 
-    static class TankCopyDataLootFunctionSerializer extends ConditionalLootFunction.Serializer<TankCopyDataLootFunction> {
+    public static class TankCopyDataLootFunctionSerializer extends ConditionalLootFunction.Serializer<TankCopyDataLootFunction> {
 
         @Override
         public TankCopyDataLootFunction fromJson(JsonObject json, JsonDeserializationContext context, LootCondition[] conditions) {

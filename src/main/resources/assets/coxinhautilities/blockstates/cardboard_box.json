@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "coxinhautilities:block/cardboard_box"
+    },
+    "facing=south": {
+      "model": "coxinhautilities:block/cardboard_box",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "coxinhautilities:block/cardboard_box",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "coxinhautilities:block/cardboard_box",
+      "y": 90
+    }
+  }
+}
