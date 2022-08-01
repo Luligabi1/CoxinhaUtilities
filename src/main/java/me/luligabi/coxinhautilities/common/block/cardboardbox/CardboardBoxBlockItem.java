@@ -3,9 +3,11 @@ package me.luligabi.coxinhautilities.common.block.cardboardbox;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.misc.TagRegistry;
+import me.luligabi.coxinhautilities.mixin.LootableContainerBlockEntityAccessor;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemUsageContext;
@@ -34,7 +36,9 @@ public class CardboardBoxBlockItem extends BlockItem {
         if(!world.isClient()) {
             if (context.getPlayer().isSneaking() && blockEntity != null) {
                 BlockState blockState = world.getBlockState(pos);
-                if (!blockState.isIn(TagRegistry.UNBOXABLE) && !isOnCarrierBlackList(blockState) && NbtHelper.toBlockState(context.getStack().getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState")).isAir()) {
+                if (!blockState.isIn(TagRegistry.UNBOXABLE) && !isOnCarrierBlackList(blockState) && !hasLootTable(blockEntity) &&
+                        NbtHelper.toBlockState(context.getStack().getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState")).isAir()) {
+
                     NbtList nbtList = new NbtList();
                     NbtCompound nbtCopy = blockEntity.createNbtWithId();
                     nbtCopy.remove("id");
@@ -43,8 +47,11 @@ public class CardboardBoxBlockItem extends BlockItem {
                     nbtCopy.remove("z");
                     nbtList.add(nbtCopy);
 
+                    // Desperate attempt to cover every edge case :)
                     Clearable.clear(blockEntity);
-                    world.setBlockState(pos, BlockRegistry.CARDBOARD_BOX.getPlacementState(new ItemPlacementContext(context)), 2);
+                    world.removeBlockEntity(pos);
+
+                    world.setBlockState(pos, BlockRegistry.CARDBOARD_BOX.getPlacementState(new ItemPlacementContext(context)), 32);
                     world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS, 1F, 1F);
                     blockEntity = world.getBlockEntity(pos); // refresh block entity
                     if (blockEntity instanceof CardboardBoxBlockEntity) {
@@ -63,6 +70,13 @@ public class CardboardBoxBlockItem extends BlockItem {
     private boolean isOnCarrierBlackList(BlockState blockState) {
         if(!CoxinhaUtilities.CONFIG.useCarrierBlacklist) return false;
         return blockState.isIn(TagRegistry.CARRIER_BLACKLIST);
+    }
+
+    private boolean hasLootTable(BlockEntity blockEntity) {
+        if(blockEntity instanceof LootableContainerBlockEntity) {
+            return ((LootableContainerBlockEntityAccessor) blockEntity).getLootTableId() != null;
+        }
+        return false;
     }
 
 }
