@@ -10,6 +10,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
@@ -34,10 +35,10 @@ public class CardboardBoxBlockItem extends BlockItem {
         BlockPos pos = context.getBlockPos();
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if(!world.isClient()) {
-            if (context.getPlayer().isSneaking() && blockEntity != null) {
+            if(context.getPlayer().isSneaking() && blockEntity != null) {
                 BlockState blockState = world.getBlockState(pos);
-                if (!blockState.isIn(TagRegistry.UNBOXABLE) && !isOnCarrierBlackList(blockState) && !hasLootTable(blockEntity) &&
-                        NbtHelper.toBlockState(context.getStack().getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState")).isAir()) {
+                if(blockState.getBlock().getHardness() >= 0.01F && isNbtBlockAir(context.getStack()) &&
+                        !blockState.isIn(TagRegistry.UNBOXABLE) && !isOnCarrierBlackList(blockState) && !hasLootTable(blockEntity)) {
 
                     NbtList nbtList = new NbtList();
                     NbtCompound nbtCopy = blockEntity.createNbtWithId();
@@ -77,6 +78,10 @@ public class CardboardBoxBlockItem extends BlockItem {
             return ((LootableContainerBlockEntityAccessor) blockEntity).getLootTableId() != null;
         }
         return false;
+    }
+
+    private boolean isNbtBlockAir(ItemStack stack) {
+        return NbtHelper.toBlockState(stack.getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState")).isAir();
     }
 
 }

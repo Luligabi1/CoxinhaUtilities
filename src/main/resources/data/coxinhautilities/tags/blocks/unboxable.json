@@ -2,6 +2,13 @@
   "replace": false,
   "values": [
     "coxinhautilities:cardboard_box",
-    "#minecraft:beds"
+    "#minecraft:beds",
+    "minecraft:end_portal",
+    "minecraft:end_gateway",
+    "minecraft:command_block",
+    "minecraft:chain_command_block",
+    "minecraft:repeating_command_block",
+    "minecraft:structure_block",
+    "minecraft:jigsaw"
   ]
 }
