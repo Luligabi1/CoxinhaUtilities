@@ -67,7 +67,7 @@
   "tooltip.coxinhautilities.grannys_sink.3": "cubic kilometers. That might seem like a",
   "tooltip.coxinhautilities.grannys_sink.4": "lot of water, but it's only a mere fraction",
   "tooltip.coxinhautilities.grannys_sink.5": "of the water contained in Granny's Sink.",
-  "tooltip.coxinhautilities.grannys_sink.witty": "...and that's a mouthful to say 'infinite water'.",
+  "tooltip.coxinhautilities.grannys_sink.witty": "Cabinets for decorative purposes only.",
 
 
   "block.coxinhautilities.fluid_trash_can": "Fluid Trash Can",
@@ -83,7 +83,7 @@
 
   "block.coxinhautilities.drying_rack": "Drying Rack",
   "tooltip.coxinhautilities.drying_rack": "A rack able to dry items. That's it.",
-  "tooltip.coxinhautilities.drying_rack.witty": "Seriously, that's it. No overcomplicated mechanic here :)",
+  "tooltip.coxinhautilities.drying_rack.witty": "Oh the things we do for... easy leather?",
 
   "block.coxinhautilities.cardboard_box": "Cardboard Box",
   "tooltip.coxinhautilities.cardboard_box.1": "A special box able to store and",
@@ -114,12 +114,10 @@
   "tooltip.coxinhautilities.copper_ladder.witty.2": "1.5 ladders with no oxidation? Try it!",
 
 
-
   "block.coxinhautilities.lava_sponge": "Lava Sponge",
   "tooltip.coxinhautilities.lava_sponge.witty": "You don't need an explanation for this one, right?",
 
   "block.coxinhautilities.wet_lava_sponge": "Wet Lava Sponge",
 
-  "config.coxinhautilities.coxinhautilities": "Coxinha Utilities - Configuration & Customization",
   "itemGroup.coxinhautilities.item_group": "Coxinha Utilities"
 }

@@ -61,7 +61,7 @@
   "tooltip.coxinhautilities.grannys_sink.3": "quilômetros cúbicos. Isto pode parecer",
   "tooltip.coxinhautilities.grannys_sink.4": "muita água, mas é apenas uma mera fração",
   "tooltip.coxinhautilities.grannys_sink.5": "da água contida na Pia da Vovó.",
-  "tooltip.coxinhautilities.grannys_sink.witty": "...e isso é uma baboseira pra falar 'água infinita'.",
+  "tooltip.coxinhautilities.grannys_sink.witty": "Armários puramente decorativos.",
 
 
   "block.coxinhautilities.fluid_trash_can": "Lixeira de Fluídos",
@@ -78,7 +78,7 @@
 
   "block.coxinhautilities.drying_rack": "Laje de Secar",
   "tooltip.coxinhautilities.drying_rack": "Uma laje capaz de secar items. É isso.",
-  "tooltip.coxinhautilities.drying_rack.witty": "Sério, é só isso. Sem mecânicas estranhas aqui :)",
+  "tooltip.coxinhautilities.drying_rack.witty": "As coisas que fazemos por... couro fácil?",
 
   "block.coxinhautilities.cardboard_box": "Caixa de Papelão",
   "tooltip.coxinhautilities.cardboard_box.1": "Uma caixa especial capaz de armazenar",
@@ -113,7 +113,5 @@
   "block.coxinhautilities.lava_sponge": "Esponja de Lava",
   "tooltip.coxinhautilities.lava_sponge.witty": "Você não precisa de uma explicação pra esse, né?",
 
-  "block.coxinhautilities.wet_lava_sponge": "Esponja de Lava molhada",
-
-  "config.coxinhautilities.coxinhautilities": "Coxinha Utilities - Configurações & Preferências"
+  "block.coxinhautilities.wet_lava_sponge": "Esponja de Lava molhada"
 }
