@@ -2,17 +2,16 @@ package me.luligabi.coxinhautilities.common.item.battery;
 
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
-import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -48,7 +47,7 @@ public class PotatoBatteryItem extends Item implements SimpleBatteryItem, IWitty
 
             stackNbt.putBoolean("Enabled", !isEnabled);
             user.sendMessage(
-                    new TranslatableText("tooltip.coxinhautilities.potato_battery.3")
+                    Text.translatable("tooltip.coxinhautilities.potato_battery.3")
                             .formatted(getPrimaryColor())
                             .append(ScreenTexts.onOrOff(!isEnabled).copy()
                                     .formatted(getSecondaryColor())),
@@ -80,13 +79,13 @@ public class PotatoBatteryItem extends Item implements SimpleBatteryItem, IWitty
 
     protected void appendPowerInfo(List<Text> tooltip, ItemStack stack) {
         tooltip.add(
-                new TranslatableText("tooltip.coxinhautilities.potato_battery.1")
+                Text.translatable("tooltip.coxinhautilities.potato_battery.1")
                         .formatted(getPrimaryColor())
-                .append(new TranslatableText("tooltip.coxinhautilities.potato_battery.2", stack.getOrCreateNbt().getLong(ENERGY_KEY), getEnergyCapacity())
+                .append(Text.translatable("tooltip.coxinhautilities.potato_battery.2", stack.getOrCreateNbt().getLong(ENERGY_KEY), getEnergyCapacity())
                         .formatted(getSecondaryColor()))
         );
         tooltip.add(
-                new TranslatableText("tooltip.coxinhautilities.potato_battery.3")
+                Text.translatable("tooltip.coxinhautilities.potato_battery.3")
                         .formatted(getPrimaryColor())
                         .append(ScreenTexts.onOrOff(stack.getOrCreateNbt().getBoolean("Enabled")).copy()
                                 .formatted(getSecondaryColor()))
@@ -94,8 +93,8 @@ public class PotatoBatteryItem extends Item implements SimpleBatteryItem, IWitty
     }
 
     @Override
-    public List<TranslatableText> wittyComments() {
-        return List.of(new TranslatableText("tooltip.coxinhautilities.potato_battery.witty"));
+    public List<Text> wittyComments() {
+        return List.of(Text.translatable("tooltip.coxinhautilities.potato_battery.witty"));
     }
 
     protected Formatting getPrimaryColor() {

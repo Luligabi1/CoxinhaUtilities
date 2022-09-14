@@ -13,7 +13,6 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class DryingDisplayCategory implements DisplayCategory<DryingRecipeDispla
 
         widgets.add(Widgets.createRecipeBase(bounds));
         widgets.add(new TooltippedArrow(new Point(startPoint.x + 27, startPoint.y + 4),
-                tooltip -> tooltip.add(new TranslatableText("category.rei.campfire.time", display.getDryingTime() / 20)))
+                tooltip -> tooltip.add(Text.translatable("category.rei.campfire.time", display.getDryingTime() / 20)))
                 .animationDurationTicks(display.getDryingTime()));
         widgets.add(Widgets.createResultSlotBackground(new Point(startPoint.x + 61, startPoint.y + 5)));
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y + 5)).entries(display.getInputEntries().get(0)).markInput());
@@ -41,7 +40,7 @@ public class DryingDisplayCategory implements DisplayCategory<DryingRecipeDispla
 
     @Override
     public Text getTitle() {
-        return new TranslatableText("block.coxinhautilities.drying_rack");
+        return Text.translatable("block.coxinhautilities.drying_rack");
     }
 
     @Override

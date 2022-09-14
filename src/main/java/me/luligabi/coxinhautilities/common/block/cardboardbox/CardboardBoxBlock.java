@@ -18,9 +18,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -63,15 +61,15 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
         BlockState blockState = NbtHelper.toBlockState(stack.getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState"));
 
         if(!blockState.isOf(Blocks.AIR)) {
-            tooltip.add(new TranslatableText(blockState.getBlock().getTranslationKey()).formatted(Formatting.GOLD));
+            tooltip.add(Text.translatable(blockState.getBlock().getTranslationKey()).formatted(Formatting.GOLD));
         } else {
-            tooltip.add(new TranslatableText("tooltip.coxinhautilities.empty").formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("tooltip.coxinhautilities.empty").formatted(Formatting.GRAY));
         }
-        tooltip.add(new LiteralText(""));
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.cardboard_box.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.cardboard_box.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(new LiteralText(""));
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.cardboard_box.3").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.empty());
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.cardboard_box.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.cardboard_box.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.empty());
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.cardboard_box.3").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         addWittyComment(tooltip);
     }
 
@@ -112,8 +110,8 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
     }
 
     @Override
-    public List<TranslatableText> wittyComments() {
-        return List.of(new TranslatableText("tooltip.coxinhautilities.cardboard_box.witty"));
+    public List<Text> wittyComments() {
+        return List.of(Text.translatable("tooltip.coxinhautilities.cardboard_box.witty"));
     }
 
     private static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;

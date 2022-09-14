@@ -10,16 +10,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Random;
 
 public class WetLavaSpongeBlock extends Block implements IWittyComment {
 
@@ -111,8 +110,8 @@ public class WetLavaSpongeBlock extends Block implements IWittyComment {
     }
 
     @Override
-    public List<TranslatableText> wittyComments() {
-        return List.of(new TranslatableText("tooltip.coxinhautilities.lava_sponge.witty"));
+    public List<Text> wittyComments() {
+        return List.of(Text.translatable("tooltip.coxinhautilities.lava_sponge.witty"));
     }
 
 }

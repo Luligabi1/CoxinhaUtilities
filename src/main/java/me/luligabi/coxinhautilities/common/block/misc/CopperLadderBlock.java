@@ -2,20 +2,22 @@ package me.luligabi.coxinhautilities.common.block.misc;
 
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.LadderBlock;
+import net.minecraft.block.Material;
+import net.minecraft.block.Oxidizable;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Random;
 
 public class CopperLadderBlock extends LadderBlock implements Oxidizable, IWittyComment {
 
@@ -50,16 +52,16 @@ public class CopperLadderBlock extends LadderBlock implements Oxidizable, IWitty
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.copper_ladder.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.copper_ladder.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.copper_ladder.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.copper_ladder.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<TranslatableText> wittyComments() {
+    public List<Text> wittyComments() {
         return List.of(
-                new TranslatableText("tooltip.coxinhautilities.copper_ladder.witty.1"),
-                new TranslatableText("tooltip.coxinhautilities.copper_ladder.witty.2")
+                Text.translatable("tooltip.coxinhautilities.copper_ladder.witty.1"),
+                Text.translatable("tooltip.coxinhautilities.copper_ladder.witty.2")
         );
     }
 

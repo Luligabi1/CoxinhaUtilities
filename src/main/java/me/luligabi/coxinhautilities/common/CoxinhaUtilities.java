@@ -1,6 +1,5 @@
 package me.luligabi.coxinhautilities.common;
 
-import draylar.omegaconfig.OmegaConfig;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
@@ -48,8 +47,6 @@ public class CoxinhaUtilities implements ModInitializer {
     }
 
     public static final String MOD_ID = "coxinhautilities";
-
-    public static final ModConfig CONFIG = OmegaConfig.register(ModConfig.class);
 
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(
             new Identifier(MOD_ID, "item_group"))

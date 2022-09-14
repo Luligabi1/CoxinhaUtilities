@@ -14,9 +14,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -28,7 +26,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PortableTankBlock extends BlockWithEntity implements IWittyComment {
@@ -42,7 +39,7 @@ public class PortableTankBlock extends BlockWithEntity implements IWittyComment 
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (((PortableTankBlockEntity) Objects.requireNonNull(world.getBlockEntity(pos))).fluidIo(player, hand) != null) {
+        if (((PortableTankBlockEntity) world.getBlockEntity(pos)).fluidIo(player, hand)) {
             return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
@@ -56,19 +53,19 @@ public class PortableTankBlock extends BlockWithEntity implements IWittyComment 
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.fluidVariant.1")
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.tank.fluidVariant.1")
                     .formatted(tankTier.getPrimaryColor())
                 .append(!stack.hasNbt() || FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant")).isOf(Fluids.EMPTY) ?
-                        new TranslatableText("tooltip.coxinhautilities.tank.none").formatted(tankTier.getSecondaryColor()) :
-                        new TranslatableText("tooltip.coxinhautilities.tank.fluidVariant.2", FluidVariantAttributes.getName(FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant"))))
+                        Text.translatable("tooltip.coxinhautilities.tank.none").formatted(tankTier.getSecondaryColor()) :
+                        Text.translatable("tooltip.coxinhautilities.tank.fluidVariant.2", FluidVariantAttributes.getName(FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant"))))
                     .formatted(tankTier.getSecondaryColor())));
 
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.capacity.1")
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.tank.capacity.1")
                     .formatted(tankTier.getPrimaryColor())
-                .append(new TranslatableText("tooltip.coxinhautilities.tank.capacity.2",
+                .append(Text.translatable("tooltip.coxinhautilities.tank.capacity.2",
                         !stack.hasNbt() ? "0" : String.valueOf(Screen.hasShiftDown() ? stack.getNbt().getCompound("BlockEntityTag").getLong("amount") : Util.getMilliBuckets(stack.getNbt().getCompound("BlockEntityTag").getLong("amount"))), // Current amount on tank
                         (Screen.hasShiftDown() ? tankTier.getCapacity() : Util.getMilliBuckets(tankTier.getCapacity())), // Total capacity
-                        Screen.hasShiftDown() ? new TranslatableText("unit.coxinhautilities.droplet") : new TranslatableText("unit.coxinhautilities.milliBuckets")) // Liquid unit
+                        Screen.hasShiftDown() ? Text.translatable("unit.coxinhautilities.droplet") : Text.translatable("unit.coxinhautilities.milliBuckets")) // Liquid unit
                     .formatted(tankTier.getSecondaryColor())));
 
         /*tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.bucketMode")
@@ -79,15 +76,15 @@ public class PortableTankBlock extends BlockWithEntity implements IWittyComment 
                     .formatted(tankTier.getSecondaryColor())));*/
 
         addWittyComment(tooltip);
-        tooltip.add(new LiteralText(" "));
-        tooltip.add((Screen.hasShiftDown() ? new TranslatableText("tooltip.coxinhautilities.tank.releaseShift") : new TranslatableText("tooltip.coxinhautilities.tank.holdShift")).formatted(Formatting.GRAY, Formatting.ITALIC));
+        tooltip.add(Text.empty());
+        tooltip.add((Screen.hasShiftDown() ? Text.translatable("tooltip.coxinhautilities.tank.releaseShift") : Text.translatable("tooltip.coxinhautilities.tank.holdShift")).formatted(Formatting.GRAY, Formatting.ITALIC));
     }
 
     @Override
-    public List<TranslatableText> wittyComments() {
+    public List<Text> wittyComments() {
         return List.of(
-                new TranslatableText("tooltip.coxinhautilities.tank.witty.1"),
-                new TranslatableText("tooltip.coxinhautilities.tank.witty.2")
+                Text.translatable("tooltip.coxinhautilities.tank.witty.1"),
+                Text.translatable("tooltip.coxinhautilities.tank.witty.2")
         );
     }
 

@@ -1,10 +1,13 @@
 package me.luligabi.coxinhautilities.common.block.trashcan;
 
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
-import net.minecraft.block.*;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
@@ -42,7 +45,7 @@ public class AbstractTrashCanBlock extends BlockWithEntity implements IWittyComm
     private static final VoxelShape SHAPE = createCuboidShape(1.0, 0.0, 1.0, 15.0, 16.0, 15.0);
 
     @Override
-    public List<TranslatableText> wittyComments() {
+    public List<Text> wittyComments() {
         return null;
     }
 

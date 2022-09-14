@@ -2,12 +2,12 @@ package me.luligabi.coxinhautilities.common.block.tank;
 
 import me.luligabi.coxinhautilities.common.block.ClientSyncedBlockEntity;
 import me.luligabi.coxinhautilities.common.util.Util;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
@@ -34,8 +34,8 @@ public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
         protected void onFinalCommit() { markDirty(); }
     };
 
-    public ActionResult fluidIo(PlayerEntity player, Hand hand) {
-        return Util.interactPlayerHand(fluidStorage, player, hand, true, true);
+    public boolean fluidIo(PlayerEntity player, Hand hand) {
+        return FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand) && !player.world.isClient();
     }
 
     public boolean hasWrittenNbt() {

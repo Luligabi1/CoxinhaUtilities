@@ -1,6 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.misc;
 
-import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
+import me.luligabi.coxinhautilities.common.ModConfig;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -13,10 +13,10 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -24,7 +24,6 @@ import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Random;
 
 public class EnderOrchidBlock extends CropBlock implements IWittyComment {
 
@@ -34,7 +33,7 @@ public class EnderOrchidBlock extends CropBlock implements IWittyComment {
 
 
     protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
-        return floor.isOf(Blocks.END_STONE) || !CoxinhaUtilities.CONFIG.hasEnderOrchidStrictPlacement;
+        return floor.isOf(Blocks.END_STONE) || !ModConfig.enderOrchidStrictPlacement;
     }
 
     protected ItemConvertible getSeedsItem() {
@@ -45,8 +44,8 @@ public class EnderOrchidBlock extends CropBlock implements IWittyComment {
         int age = this.getAge(state);
         if (age >= this.getMaxAge()) return;
         int growthOdds = world.getBlockState(pos.down()).isOf(Blocks.END_STONE) ? // Ender Orchids planted on top of non-end stone blocks take longer to grow
-                CoxinhaUtilities.CONFIG.enderOrchidRegularGrowthRatio : // 100/8 = 12.5%
-                CoxinhaUtilities.CONFIG.enderOrchidSpecialGrowthRatio; // 100/12 = 8.3%
+                ModConfig.enderOrchidRegularGrowthRate : // 100/8 = 12.5%
+                ModConfig.enderOrchidSpecialGrowthRate; // 100/12 = 8.3%
         if (random.nextInt(growthOdds) == 0) {
             world.setBlockState(pos, this.withAge(age + 1), 2);
         }
@@ -110,16 +109,16 @@ public class EnderOrchidBlock extends CropBlock implements IWittyComment {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.ender_orchid.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.ender_orchid.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.ender_orchid.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.ender_orchid.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<TranslatableText> wittyComments() {
+    public List<Text> wittyComments() {
         return List.of(
-                new TranslatableText("tooltip.coxinhautilities.ender_orchid.witty.1"),
-                new TranslatableText("tooltip.coxinhautilities.ender_orchid.witty.2")
+                Text.translatable("tooltip.coxinhautilities.ender_orchid.witty.1"),
+                Text.translatable("tooltip.coxinhautilities.ender_orchid.witty.2")
         );
     }
 

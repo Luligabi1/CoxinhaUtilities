@@ -19,7 +19,6 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -81,13 +80,13 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.drying_rack").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.drying_rack").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<TranslatableText> wittyComments() {
-        return List.of(new TranslatableText("tooltip.coxinhautilities.drying_rack.witty"));
+    public List<Text> wittyComments() {
+        return List.of(Text.translatable("tooltip.coxinhautilities.drying_rack.witty"));
     }
 
     @Nullable

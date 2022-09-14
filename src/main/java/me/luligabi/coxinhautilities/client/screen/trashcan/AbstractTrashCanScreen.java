@@ -17,10 +17,10 @@ import java.util.List;
 public abstract class AbstractTrashCanScreen extends HandledScreen<ScreenHandler> {
 
     public AbstractTrashCanScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
-        super(handler, inventory, title.shallowCopy().formatted(Formatting.WHITE));
+        super(handler, inventory, title.copyContentOnly().formatted(Formatting.WHITE));
         this.backgroundHeight = 167;
 
-        ((HandledScreenAccessor) this).setPlayerInventoryTitle(playerInventoryTitle.shallowCopy().formatted(Formatting.WHITE));
+        ((HandledScreenAccessor) this).setPlayerInventoryTitle(playerInventoryTitle.copyContentOnly().formatted(Formatting.WHITE));
         this.playerInventoryTitleY = this.backgroundHeight - 93;
     }
 

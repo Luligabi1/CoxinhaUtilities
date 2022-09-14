@@ -17,7 +17,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -64,7 +63,7 @@ public class FluidTrashCanBlockEntity extends AbstractTrashCanBlockEntity {
         if(blockEntity.getFluidStorage(stack) != null) {
             try (Transaction transaction = Transaction.openOuter()) {
                 Storage<FluidVariant> fluidStorage = blockEntity.getFluidStorage(stack);
-                Iterator<? extends StorageView<FluidVariant>> storageViewIterator = fluidStorage.iterator(transaction);
+                Iterator<? extends StorageView<FluidVariant>> storageViewIterator = fluidStorage.iterator();
 
                 if (storageViewIterator.hasNext()) {
                     StorageView<FluidVariant> fluidStorageView = storageViewIterator.next();
@@ -80,7 +79,7 @@ public class FluidTrashCanBlockEntity extends AbstractTrashCanBlockEntity {
 
     @Override
     public Text getDisplayName() {
-        return new TranslatableText("block.coxinhautilities.fluid_trash_can");
+        return Text.translatable("block.coxinhautilities.fluid_trash_can");
     }
 
     @Nullable

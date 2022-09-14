@@ -9,7 +9,6 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -23,7 +22,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
 public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEntityProvider, IWittyComment {
 
@@ -34,7 +32,7 @@ public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEnti
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (((GrannysSinkBlockEntity) Objects.requireNonNull(world.getBlockEntity(pos))).fluidIo(player, hand) != null) {
+        if (((GrannysSinkBlockEntity) world.getBlockEntity(pos)).fluidIo(player, hand)) {
             return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
@@ -64,17 +62,17 @@ public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEnti
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.grannys_sink.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.grannys_sink.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.grannys_sink.3").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.grannys_sink.4").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.grannys_sink.5").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.3").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.4").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.5").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<TranslatableText> wittyComments() {
-        return List.of(new TranslatableText("tooltip.coxinhautilities.grannys_sink.witty"));
+    public List<Text> wittyComments() {
+        return List.of(Text.translatable("tooltip.coxinhautilities.grannys_sink.witty"));
     }
 
     @Override

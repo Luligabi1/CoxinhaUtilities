@@ -1,6 +1,6 @@
 package me.luligabi.coxinhautilities.common.worldgen;
 
-import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
+import me.luligabi.coxinhautilities.common.ModConfig;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.block.misc.EnderOrchidBlock;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -22,7 +22,7 @@ import java.util.function.Predicate;
 public class FeatureRegistry {
 
     public static void init() {
-        addFeature(FeatureRegistry.ENDER_ORCHID_ID, BiomeSelectors.foundInTheEnd(), CoxinhaUtilities.CONFIG.canGenerateEnderOrchids);
+        addFeature(FeatureRegistry.ENDER_ORCHID_ID, BiomeSelectors.foundInTheEnd(), ModConfig.canGenerateEnderOrchid);
     }
 
 
@@ -34,7 +34,7 @@ public class FeatureRegistry {
 
 
     private static final RegistryEntry<ConfiguredFeature<RandomPatchFeatureConfig, ?>> ENDER_ORCHID_CONFIGURED_FEATURE =
-            ConfiguredFeatures.register(FeatureRegistry.ENDER_ORCHID_ID, Feature.FLOWER, new RandomPatchFeatureConfig(CoxinhaUtilities.CONFIG.enderOrchidSpawnRatio, 7, 2,
+            ConfiguredFeatures.register(FeatureRegistry.ENDER_ORCHID_ID, Feature.FLOWER, new RandomPatchFeatureConfig(ModConfig.enderOrchidSpawnRate, 7, 2,
                     PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK,
                     new SimpleBlockFeatureConfig(BlockStateProvider.of(BlockRegistry.ENDER_ORCHID.getDefaultState().with(EnderOrchidBlock.AGE, 7)))))
             );

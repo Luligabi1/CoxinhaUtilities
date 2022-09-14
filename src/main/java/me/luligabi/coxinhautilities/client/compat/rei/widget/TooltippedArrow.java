@@ -4,10 +4,10 @@ import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.widgets.Arrow;
 import me.shedaniel.rei.api.client.gui.widgets.Tooltip;
+import me.shedaniel.rei.api.client.gui.widgets.TooltipContext;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.util.math.MatrixStack;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -36,7 +36,7 @@ public class TooltippedArrow extends Arrow {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         arrow.render(matrices, mouseX, mouseY, delta);
         final Point mousePoint = new Point(mouseX, mouseY);
-        if (containsMouse(mousePoint)) getTooltip(mousePoint).queue();
+        if (containsMouse(mousePoint)) getTooltip(TooltipContext.of(mousePoint)).queue();
     }
 
     @Override
@@ -50,9 +50,9 @@ public class TooltippedArrow extends Arrow {
     }
 
     @Override
-    public @NotNull Tooltip getTooltip(Point mouse) {
-        Tooltip tooltip = super.getTooltip(mouse);
-        if (tooltip == null) tooltip = Tooltip.create(mouse);
+    public Tooltip getTooltip(TooltipContext context) {
+        Tooltip tooltip = super.getTooltip(context);
+        if (tooltip == null) tooltip = Tooltip.create(context.getPoint());
         tooltipConsumer.accept(tooltip);
         return tooltip;
     }

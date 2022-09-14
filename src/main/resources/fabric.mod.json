@@ -25,8 +25,11 @@
     "client": [
       "me.luligabi.coxinhautilities.client.CoxinhaUtilitiesClient"
     ],
-    "rei_plugins": [
+    "rei_client": [
       "me.luligabi.coxinhautilities.client.compat.rei.ReiPlugin"
+    ],
+    "modmenu": [
+      "me.luligabi.coxinhautilities.common.ModConfig"
     ]
   },
   "mixins": [
@@ -35,7 +38,7 @@
   "depends": {
     "fabricloader": ">=0.13.3",
     "fabric": "*",
-    "minecraft": ">=1.18.2",
+    "minecraft": "1.19.x",
     "kibe": "*"
   }
 }

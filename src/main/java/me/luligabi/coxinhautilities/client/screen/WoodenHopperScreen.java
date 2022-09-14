@@ -16,10 +16,10 @@ public class WoodenHopperScreen extends HandledScreen<ScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(CoxinhaUtilities.MOD_ID, "textures/gui/wooden_hopper.png");
 
     public WoodenHopperScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
-        super(handler, inventory, title.shallowCopy().formatted(Formatting.WHITE));
+        super(handler, inventory, title.copyContentOnly().formatted(Formatting.WHITE));
         this.backgroundHeight = 133;
 
-        ((HandledScreenAccessor) this).setPlayerInventoryTitle(playerInventoryTitle.shallowCopy().formatted(Formatting.WHITE));
+        ((HandledScreenAccessor) this).setPlayerInventoryTitle(playerInventoryTitle.copyContentOnly().formatted(Formatting.WHITE));
         this.playerInventoryTitleY = this.backgroundHeight - 94;
     }
 

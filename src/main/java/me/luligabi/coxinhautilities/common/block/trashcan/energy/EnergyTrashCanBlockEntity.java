@@ -12,7 +12,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -59,7 +58,7 @@ public class EnergyTrashCanBlockEntity extends AbstractTrashCanBlockEntity {
 
     @Override
     public Text getDisplayName() {
-        return new TranslatableText("block.coxinhautilities.energy_trash_can");
+        return Text.translatable("block.coxinhautilities.energy_trash_can");
     }
 
     @Nullable

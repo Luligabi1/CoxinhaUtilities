@@ -13,9 +13,7 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -65,14 +63,14 @@ public class WoodenHopperBlock extends HopperBlock implements IWittyComment {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.wooden_hopper.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(new LiteralText(""));
-        tooltip.add(new TranslatableText("tooltip.coxinhautilities.wooden_hopper.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.wooden_hopper.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+        tooltip.add(Text.empty());
+        tooltip.add(Text.translatable("tooltip.coxinhautilities.wooden_hopper.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<TranslatableText> wittyComments() {
-        return List.of(new TranslatableText("tooltip.coxinhautilities.wooden_hopper.witty"));
+    public List<Text> wittyComments() {
+        return List.of(Text.translatable("tooltip.coxinhautilities.wooden_hopper.witty"));
     }
 }

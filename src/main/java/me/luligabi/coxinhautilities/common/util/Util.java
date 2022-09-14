@@ -3,20 +3,14 @@ package me.luligabi.coxinhautilities.common.util;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DustParticleEffect;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 import team.reborn.energy.api.EnergyStorage;
@@ -36,39 +30,6 @@ public class Util {
         } else {
             return "" + dropletAmount / 81;
         }
-    }
-
-    public static ActionResult interactPlayerHand(Storage<FluidVariant> tank, PlayerEntity player, Hand hand, boolean inputEnabled, boolean outputEnabled) {
-        return interactPlayerHandInner(tank, player, hand, inputEnabled, outputEnabled) ?
-                ActionResult.success(player.world.isClient) : ActionResult.PASS;
-    }
-
-    private static boolean interactPlayerHandInner(Storage<FluidVariant> tank, PlayerEntity player, Hand hand, boolean inputEnabled, boolean outputEnabled) { // TODO: Add sound to transactions
-        ItemStack interactionStack = player.isCreative() ? player.getStackInHand(hand).copy() : null;
-        Storage<FluidVariant> handStorage = ContainerItemContext.ofPlayerHand(player, hand).find(FluidStorage.ITEM);
-
-        // Item -> Tank action
-        if(inputEnabled) {
-            if (StorageUtil.move(handStorage, tank, f -> true, Long.MAX_VALUE, null) > 0) {
-                if(interactionStack != null) {
-                    player.setStackInHand(hand, interactionStack);
-                }
-                /*player.playSound(fluid.isIn(FluidTags.LAVA) ? SoundEvents.ITEM_BUCKET_EMPTY_LAVA : SoundEvents.ITEM_BUCKET_EMPTY,
-                    SoundCategory.BLOCKS, 1.0F, 1.0F);*/
-                return true;
-            }
-        }
-        // Tank -> Item action
-        if(outputEnabled) {
-            if (StorageUtil.move(tank, handStorage, f -> true, Long.MAX_VALUE, null) > 0) {
-                if(interactionStack != null) {
-                    player.setStackInHand(hand, interactionStack);
-                }
-                //fluid.getBucketFillSound().ifPresent((sound) -> player.playSound(sound, 1.0F, 1.0F));
-                return true;
-            }
-        }
-        return false;
     }
 
     /*
