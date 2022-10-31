@@ -113,5 +113,23 @@
   "block.coxinhautilities.lava_sponge": "Esponja de Lava",
   "tooltip.coxinhautilities.lava_sponge.witty": "Você não precisa de uma explicação pra esse, né?",
 
-  "block.coxinhautilities.wet_lava_sponge": "Esponja de Lava molhada"
+  "block.coxinhautilities.wet_lava_sponge": "Esponja de Lava molhada",
+
+  "configOption.coxinhautilities.canGenerateEnderOrchids": "Gerar Orquídeas do Fim?",
+  "configOption.coxinhautilities.canGenerateEnderOrchids.tooltip": "Se Orquídeas do Fim podem ser geradas no Fim.",
+
+  "configOption.coxinhautilities.enderOrchidSpawnRate": "Taxa de Geração de Orquídeas do Fim",
+  "configOption.coxinhautilities.enderOrchidSpawnRate.tooltip": "Quão frequentemente Orquídeas do Fim são geradas no Fim.",
+
+  "configOption.coxinhautilities.hasEnderOrchidStrictPlacement": "Restringir Colocamento de Orquídeas do Fim?",
+  "configOption.coxinhautilities.hasEnderOrchidStrictPlacement.tooltip": "Se Orquídeas do Fim podem ser plantadas em blocos que não são Pedra do End",
+
+  "configOption.coxinhautilities.enderOrchidRegularGrowthRate": "Taxa de Crescimento Normal das Orquídeas do Fim",
+  "configOption.coxinhautilities.enderOrchidRegularGrowthRate.tooltip": "Quão rápido Orquídeas do Fim crescem em Pedras do End",
+
+  "configOption.coxinhautilities.enderOrchidSpecialGrowthRate": "Taxa de Crescimento Especial das Orquídeas do Fi",
+  "configOption.coxinhautilities.enderOrchidSpecialGrowthRate.tooltip": "Quão rápido Orquídeas do Fim crescem em blocos que não são Pedra do End",
+
+  "configOption.coxinhautilities.useCarrierBlacklist": "Usar a Lista Negra do Carrier?",
+  "configOption.coxinhautilities.useCarrierBlacklist.tooltip": "Não permite colocar blocos na Lista Negra do Carrier em uma caixa"
 }

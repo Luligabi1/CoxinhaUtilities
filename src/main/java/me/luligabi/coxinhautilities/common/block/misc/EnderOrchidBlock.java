@@ -1,6 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.misc;
 
-import me.luligabi.coxinhautilities.common.ModConfig;
+import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -33,7 +33,7 @@ public class EnderOrchidBlock extends CropBlock implements IWittyComment {
 
 
     protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
-        return floor.isOf(Blocks.END_STONE) || !ModConfig.enderOrchidStrictPlacement;
+        return floor.isOf(Blocks.END_STONE) || !CoxinhaUtilities.CONFIG.hasEnderOrchidStrictPlacement;
     }
 
     protected ItemConvertible getSeedsItem() {
@@ -44,8 +44,8 @@ public class EnderOrchidBlock extends CropBlock implements IWittyComment {
         int age = this.getAge(state);
         if (age >= this.getMaxAge()) return;
         int growthOdds = world.getBlockState(pos.down()).isOf(Blocks.END_STONE) ? // Ender Orchids planted on top of non-end stone blocks take longer to grow
-                ModConfig.enderOrchidRegularGrowthRate : // 100/8 = 12.5%
-                ModConfig.enderOrchidSpecialGrowthRate; // 100/12 = 8.3%
+                CoxinhaUtilities.CONFIG.enderOrchidRegularGrowthRate : // 100/8 = 12.5%
+                CoxinhaUtilities.CONFIG.enderOrchidSpecialGrowthRate; // 100/12 = 8.3%
         if (random.nextInt(growthOdds) == 0) {
             world.setBlockState(pos, this.withAge(age + 1), 2);
         }

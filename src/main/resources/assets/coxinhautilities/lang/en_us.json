@@ -119,5 +119,23 @@
 
   "block.coxinhautilities.wet_lava_sponge": "Wet Lava Sponge",
 
-  "itemGroup.coxinhautilities.item_group": "Coxinha Utilities"
+  "itemGroup.coxinhautilities.item_group": "Coxinha Utilities",
+
+  "configOption.coxinhautilities.canGenerateEnderOrchids": "Generate Ender Orchids?",
+  "configOption.coxinhautilities.canGenerateEnderOrchids.tooltip": "Whether Ender Orchids can be generated naturally on The End",
+
+  "configOption.coxinhautilities.enderOrchidSpawnRate": "Ender Orchid Spawn Rate",
+  "configOption.coxinhautilities.enderOrchidSpawnRate.tooltip": "How often Ender Orchids are generated on The End",
+
+  "configOption.coxinhautilities.hasEnderOrchidStrictPlacement": "Enable Ender Orchid's Strict Placement?",
+  "configOption.coxinhautilities.hasEnderOrchidStrictPlacement.tooltip": "Whether Ender Orchids can be placed on non-End Stone blocks",
+
+  "configOption.coxinhautilities.enderOrchidRegularGrowthRate": "Ender Orchid's Regular Growth Rate",
+  "configOption.coxinhautilities.enderOrchidRegularGrowthRate.tooltip": "How fast Ender Orchids grow on End Stone blocks",
+
+  "configOption.coxinhautilities.enderOrchidSpecialGrowthRate": "Ender Orchid's Special Growth Rate",
+  "configOption.coxinhautilities.enderOrchidSpecialGrowthRate.tooltip": "How fast Ender Orchids grow on non-End Stone blocks",
+
+  "configOption.coxinhautilities.useCarrierBlacklist": "Use Carrier's Blacklist?",
+  "configOption.coxinhautilities.useCarrierBlacklist.tooltip": "Don't allow blocks on Carrier's blacklist to be placed inside a box"
 }

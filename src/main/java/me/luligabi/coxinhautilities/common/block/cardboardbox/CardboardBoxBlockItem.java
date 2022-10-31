@@ -1,7 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.cardboardbox;
 
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
-import me.luligabi.coxinhautilities.common.ModConfig;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.misc.TagRegistry;
 import me.luligabi.coxinhautilities.mixin.LootableContainerBlockEntityAccessor;
@@ -70,7 +69,7 @@ public class CardboardBoxBlockItem extends BlockItem {
     }
 
     private boolean isOnCarrierBlackList(BlockState blockState) {
-        if(!ModConfig.useCarrierBlacklist) return false;
+        if(!CoxinhaUtilities.CONFIG.useCarrierBlacklist) return false;
         return blockState.isIn(TagRegistry.CARRIER_BLACKLIST);
     }
 
