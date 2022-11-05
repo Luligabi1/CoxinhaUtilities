@@ -29,7 +29,7 @@
       "me.luligabi.coxinhautilities.client.compat.rei.ReiPlugin"
     ],
     "modmenu": [
-      "me.luligabi.coxinhautilities.common.ModConfig"
+      "me.luligabi.coxinhautilities.common.compat.modmenu.ConfigScreenEntrypoint"
     ]
   },
   "mixins": [

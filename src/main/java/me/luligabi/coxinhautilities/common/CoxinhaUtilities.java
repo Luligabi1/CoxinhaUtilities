@@ -118,7 +118,7 @@ public class CoxinhaUtilities implements ModInitializer {
         LOGGER = LoggerFactory.getLogger("Coxinha Utilities");
         GSON = new GsonBuilder().setPrettyPrinting().create();
 
-        CONFIG_FILE = new File(String.format("%s%scoxinhautilities.json", FabricLoader.getInstance().getConfigDir(), File.separator));
+        CONFIG_FILE = new File(String.format("%s%s%s.json", FabricLoader.getInstance().getConfigDir(), File.separator, MOD_ID));
         CONFIG = createConfig();
     }
 }

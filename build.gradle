@@ -16,7 +16,7 @@ def RELEASE_FILE = "${buildDir}/libs/${archivesBaseName}-${version}.jar"
 
 @SuppressWarnings('GrMethodMayBeStatic')
 def getChangeLog() {
-    return ""
+    return "- Fixed crash when not using ModMenu"
 }
 
 repositories {
@@ -35,9 +35,10 @@ dependencies {
     include modApi("teamreborn:energy:${project.energy_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-
-    modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
-    include "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+    
+    include modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}") {
+        transitive(false)
+    }
 
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"

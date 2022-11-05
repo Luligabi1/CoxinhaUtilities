@@ -1,7 +1,5 @@
 package me.luligabi.coxinhautilities.common;
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
 import dev.isxander.yacl.api.ConfigCategory;
 import dev.isxander.yacl.api.Option;
 import dev.isxander.yacl.api.OptionGroup;
@@ -11,7 +9,7 @@ import dev.isxander.yacl.gui.controllers.slider.IntegerSliderController;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
-public class ModConfig implements ModMenuApi {
+public class ModConfig {
 
     // Ender Orchid
     public boolean canGenerateEnderOrchids = true;
@@ -138,8 +136,4 @@ public class ModConfig implements ModMenuApi {
                 .generateScreen(parent);
     }
 
-    @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return this::createGui;
-    }
 }
