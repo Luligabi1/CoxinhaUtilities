@@ -16,7 +16,7 @@ def RELEASE_FILE = "${buildDir}/libs/${archivesBaseName}-${version}.jar"
 
 @SuppressWarnings('GrMethodMayBeStatic')
 def getChangeLog() {
-    return "- Fixed crash when not using ModMenu"
+    return ""
 }
 
 repositories {
