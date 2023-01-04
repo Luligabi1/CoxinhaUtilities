@@ -1,35 +1,17 @@
 package me.luligabi.coxinhautilities.common.worldgen;
 
-import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
-import me.luligabi.coxinhautilities.common.block.BlockRegistry;
-import me.luligabi.coxinhautilities.common.block.misc.EnderOrchidBlock;
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier;
-import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
-import net.minecraft.world.gen.stateprovider.BlockStateProvider;
-
-import java.util.function.Predicate;
-
 @SuppressWarnings("unused")
 public class FeatureRegistry {
 
     public static void init() {
-        addFeature(FeatureRegistry.ENDER_ORCHID_ID, BiomeSelectors.foundInTheEnd(), CoxinhaUtilities.CONFIG.canGenerateEnderOrchids);
+        //addFeature(FeatureRegistry.ENDER_ORCHID_ID, BiomeSelectors.foundInTheEnd(), CoxinhaUtilities.CONFIG.canGenerateEnderOrchids);
     }
 
 
-    private static void addFeature(String id, Predicate<BiomeSelectionContext> biomeSelector, boolean enabled) {
+    /*private static void addFeature(String id, Predicate<BiomeSelectionContext> biomeSelector, boolean enabled) {
         if(!enabled) return;
         BiomeModifications.addFeature(biomeSelector, GenerationStep.Feature.VEGETAL_DECORATION,
-                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(id)));
+                RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(id)));
     }
 
 
@@ -43,7 +25,7 @@ public class FeatureRegistry {
             SquarePlacementModifier.of(),
             PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP,
             BiomePlacementModifier.of()
-    );
+    );*/
 
     private static final String ENDER_ORCHID_ID = "ender_orchid";
 

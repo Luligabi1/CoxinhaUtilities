@@ -20,7 +20,7 @@ public class CardboardBoxCopyDataLootFunction extends ConditionalLootFunction {
     protected ItemStack process(ItemStack stack, LootContext context) {
         BlockEntity blockEntity = context.requireParameter(LootContextParameters.BLOCK_ENTITY);
         if(stack.getItem() instanceof CardboardBoxBlockItem) {
-            ((CardboardBoxBlock) ((CardboardBoxBlockItem) stack.getItem()).getBlock()).saveTankNbtToStack(blockEntity, stack);
+            ((CardboardBoxBlock) ((CardboardBoxBlockItem) stack.getItem()).getBlock()).saveNbtToStack(blockEntity, stack);
         }
         return stack;
     }

@@ -17,24 +17,24 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.api.base.SimpleBatteryItem;
+import team.reborn.energy.api.base.SimpleEnergyItem;
 
 import java.util.List;
 
-public class PotatoBatteryItem extends Item implements SimpleBatteryItem, IWittyComment {
+public class PotatoBatteryItem extends Item implements SimpleEnergyItem, IWittyComment {
 
     public PotatoBatteryItem(Settings settings) {
         super(settings);
     }
 
     @Override
-    public long getEnergyCapacity() { return 4096; }
+    public long getEnergyCapacity(ItemStack stack) { return 4096; }
 
     @Override
-    public long getEnergyMaxInput() { return Long.MAX_VALUE; }
+    public long getEnergyMaxInput(ItemStack stack) { return Long.MAX_VALUE; }
 
     @Override
-    public long getEnergyMaxOutput() { return Long.MAX_VALUE; }
+    public long getEnergyMaxOutput(ItemStack stack) { return Long.MAX_VALUE; }
 
 
     @Override
@@ -68,7 +68,7 @@ public class PotatoBatteryItem extends Item implements SimpleBatteryItem, IWitty
         if(world.isClient() || !(entity instanceof PlayerEntity)) return;
         if(!stack.getOrCreateNbt().getBoolean("Enabled")) return;
 
-        Util.distributePowerToInventory((PlayerEntity) entity, stack, getEnergyMaxOutput(), (predicateStack) -> !(predicateStack.getItem() instanceof PotatoBatteryItem));
+        Util.distributePowerToInventory((PlayerEntity) entity, stack, getEnergyMaxOutput(stack), (predicateStack) -> !(predicateStack.getItem() instanceof PotatoBatteryItem));
     }
 
     @Override
@@ -81,7 +81,7 @@ public class PotatoBatteryItem extends Item implements SimpleBatteryItem, IWitty
         tooltip.add(
                 Text.translatable("tooltip.coxinhautilities.potato_battery.1")
                         .formatted(getPrimaryColor())
-                .append(Text.translatable("tooltip.coxinhautilities.potato_battery.2", stack.getOrCreateNbt().getLong(ENERGY_KEY), getEnergyCapacity())
+                .append(Text.translatable("tooltip.coxinhautilities.potato_battery.2", stack.getOrCreateNbt().getLong(ENERGY_KEY), getEnergyCapacity(stack))
                         .formatted(getSecondaryColor()))
         );
         tooltip.add(

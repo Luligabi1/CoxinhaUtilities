@@ -9,8 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class DryingRecipeSerializer implements RecipeSerializer<DryingRecipe> {
 
@@ -31,7 +31,7 @@ public class DryingRecipeSerializer implements RecipeSerializer<DryingRecipe> {
 
         Ingredient input = Ingredient.fromJson(recipeJson.ingredient);
 
-        Item outputItem = Registry.ITEM.getOrEmpty(new Identifier(recipeJson.outputItem))
+        Item outputItem = Registries.ITEM.getOrEmpty(new Identifier(recipeJson.outputItem))
                 .orElseThrow(() -> new JsonSyntaxException("No such item " + recipeJson.outputItem));
 
         int dryingTime = recipeJson.dryingTime;

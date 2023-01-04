@@ -12,6 +12,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -58,7 +59,7 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        BlockState blockState = NbtHelper.toBlockState(stack.getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState"));
+        BlockState blockState = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), stack.getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState"));
 
         if(!blockState.isOf(Blocks.AIR)) {
             tooltip.add(Text.translatable(blockState.getBlock().getTranslationKey()).formatted(Formatting.GOLD));
@@ -97,7 +98,7 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
         return BlockRenderType.MODEL;
     }
 
-    public void saveTankNbtToStack(BlockEntity blockEntity, ItemStack stack) {
+    public void saveNbtToStack(BlockEntity blockEntity, ItemStack stack) {
         if (blockEntity instanceof CardboardBoxBlockEntity cardboardBox && cardboardBox.hasWrittenNbt()) {
             BlockItem.setBlockEntityNbt(stack, cardboardBox.getType(), cardboardBox.createNbt());
         }

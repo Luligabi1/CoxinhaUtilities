@@ -15,6 +15,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -25,7 +26,7 @@ import net.minecraft.world.World;
 public class CardboardBoxBlockItem extends BlockItem {
 
     public CardboardBoxBlockItem() {
-        super(BlockRegistry.CARDBOARD_BOX, new FabricItemSettings().group(CoxinhaUtilities.ITEM_GROUP));
+        super(BlockRegistry.CARDBOARD_BOX, new FabricItemSettings());
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -81,7 +82,7 @@ public class CardboardBoxBlockItem extends BlockItem {
     }
 
     private boolean isNbtBlockAir(ItemStack stack) {
-        return NbtHelper.toBlockState(stack.getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState")).isAir();
+        return NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), stack.getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState")).isAir();
     }
 
 }

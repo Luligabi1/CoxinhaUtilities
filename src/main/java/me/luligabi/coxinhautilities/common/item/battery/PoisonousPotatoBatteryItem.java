@@ -16,7 +16,7 @@ public class PoisonousPotatoBatteryItem extends PotatoBatteryItem {
     }
 
     @Override
-    public long getEnergyCapacity() { return 45056; }
+    public long getEnergyCapacity(ItemStack stack) { return 45056; }
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {

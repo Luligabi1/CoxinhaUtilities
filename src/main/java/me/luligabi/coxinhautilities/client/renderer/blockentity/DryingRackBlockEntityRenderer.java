@@ -11,7 +11,7 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
 
 public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<DryingRackBlockEntity> {
 
@@ -31,7 +31,7 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
         if(entity.getWorld().getBlockState(entity.getPos()).isOf(BlockRegistry.DRYING_RACK)) {
             Direction direction = entity.getWorld().getBlockState(entity.getPos()).get(Properties.HORIZONTAL_FACING);
             setItemPosition(ms, direction);
-            ms.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(getItemAngle(direction)));
+            ms.multiply(RotationAxis.POSITIVE_X.rotationDegrees(getItemAngle(direction)));
             ms.scale(0.99F, 0.99F, 0.99F);
 
             MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getInventory().get(0), ModelTransformation.Mode.FIXED, light, OverlayTexture.DEFAULT_UV, ms, vcp, (int) entity.getPos().asLong());

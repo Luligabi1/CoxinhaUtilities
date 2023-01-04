@@ -7,17 +7,14 @@ import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
 import me.luligabi.coxinhautilities.common.lootfunction.LootFunctionRegistry;
+import me.luligabi.coxinhautilities.common.misc.ItemGroupInit;
 import me.luligabi.coxinhautilities.common.misc.TagRegistry;
 import me.luligabi.coxinhautilities.common.recipe.RecipeRegistry;
 import me.luligabi.coxinhautilities.common.screenhandler.ScreenHandlingRegistry;
 import me.luligabi.coxinhautilities.common.worldgen.FeatureRegistry;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import team.reborn.energy.api.EnergyStorage;
@@ -55,6 +52,7 @@ public class CoxinhaUtilities implements ModInitializer {
         FeatureRegistry.init();
         TagRegistry.init();
         LootFunctionRegistry.init();
+        ItemGroupInit.init();
     }
 
     private static ModConfig createConfig() {
@@ -102,11 +100,6 @@ public class CoxinhaUtilities implements ModInitializer {
     }
 
     public static final String MOD_ID = "coxinhautilities";
-
-    public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(
-                    new Identifier(MOD_ID, "item_group"))
-            .icon(() -> new ItemStack(ItemRegistry.COXINHA))
-            .build();
 
     public static final Logger LOGGER;
     private static final Gson GSON;

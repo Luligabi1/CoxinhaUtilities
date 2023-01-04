@@ -2,7 +2,6 @@ package me.luligabi.coxinhautilities.common.lootfunction;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlock;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockItem;
 import net.minecraft.block.entity.BlockEntity;
@@ -21,7 +20,7 @@ public class TankCopyDataLootFunction extends ConditionalLootFunction {
     protected ItemStack process(ItemStack stack, LootContext context) {
         BlockEntity blockEntity = context.requireParameter(LootContextParameters.BLOCK_ENTITY);
         if(stack.getItem() instanceof PortableTankBlockItem) {
-            ((PortableTankBlock) ((PortableTankBlockItem) stack.getItem()).getBlock()).saveTankNbtToStack(blockEntity, stack);
+            ((PortableTankBlock) ((PortableTankBlockItem) stack.getItem()).getBlock()).saveNbtToStack(blockEntity, stack);
         }
         return stack;
     }

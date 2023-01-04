@@ -93,7 +93,7 @@ public class PortableTankBlock extends BlockWithEntity implements IWittyComment 
     @Override
     public BlockRenderType getRenderType(BlockState state) { return BlockRenderType.MODEL; }
 
-    public void saveTankNbtToStack(BlockEntity blockEntity, ItemStack stack) {
+    public void saveNbtToStack(BlockEntity blockEntity, ItemStack stack) {
         if (blockEntity instanceof PortableTankBlockEntity tank && tank.hasWrittenNbt()) {
             BlockItem.setBlockEntityNbt(stack, tank.getType(), tank.createNbt());
         }
