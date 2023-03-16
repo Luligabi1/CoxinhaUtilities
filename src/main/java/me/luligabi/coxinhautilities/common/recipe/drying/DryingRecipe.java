@@ -6,6 +6,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -27,9 +28,13 @@ public class DryingRecipe implements Recipe<Inventory> {
         return ingredient;
     }
 
-    @Override
     public ItemStack getOutput() {
         return outputStack.copy();
+    }
+
+    @Override
+    public ItemStack getOutput(DynamicRegistryManager registryManager) {
+        return getOutput();
     }
 
     public int getDryingTime() {
@@ -37,7 +42,7 @@ public class DryingRecipe implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack craft(Inventory inventory) {
+    public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
         return outputStack.copy();
     }
 

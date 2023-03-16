@@ -1,7 +1,6 @@
 package me.luligabi.coxinhautilities.mixin;
 
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -19,7 +18,7 @@ public class PlayerEntityMixin {
     public void eatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> info) {
         if(stack.getItem() == ItemRegistry.CURSED_COXINHA && !world.isClient()) {
             int x = world.getRandom().nextInt(64);
-            if(x == 0) playerEntity.damage(DamageSource.WITHER, Float.MAX_VALUE);
+            if(x == 0) playerEntity.damage(playerEntity.getDamageSources().wither(), Float.MAX_VALUE);
         }
     }
 }

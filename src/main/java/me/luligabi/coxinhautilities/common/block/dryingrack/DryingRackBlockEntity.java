@@ -53,7 +53,7 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
         if(recipeOptional.isEmpty() || blockEntity.dryingTime < recipeOptional.get().getDryingTime()) return;
 
 
-        blockEntity.inventory.set(0, recipeOptional.get().getOutput());
+        blockEntity.inventory.set(0, recipeOptional.get().getOutput(world.getRegistryManager()));
         blockEntity.canDry = false;
         blockEntity.checkedRecipe = false;
         blockEntity.dryingTime = 0;

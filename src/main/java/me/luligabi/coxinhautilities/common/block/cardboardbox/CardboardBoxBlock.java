@@ -76,7 +76,7 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getDefaultState().with(FACING, ctx.getPlayerFacing());
+        return getDefaultState().with(FACING, ctx.getPlayerLookDirection());
     }
 
     @Override

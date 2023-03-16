@@ -11,9 +11,9 @@ import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockEntity;
 import me.luligabi.coxinhautilities.common.block.trashcan.energy.EnergyTrashCanBlockEntity;
 import me.luligabi.coxinhautilities.common.block.trashcan.fluid.FluidTrashCanBlockEntity;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlockEntity;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -40,15 +40,15 @@ public class BlockEntityRegistry {
         CARDBOARD_BOX_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "cardboard_box"), FabricBlockEntityTypeBuilder.create(CardboardBoxBlockEntity::new, BlockRegistry.CARDBOARD_BOX).build(null));
     }
 
-    public static void clientInit() { // TODO: Replace with vanilla's approach
-        BlockEntityRendererRegistry.register(BlockEntityRegistry.PORTABLE_TANK_MK1_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(BlockEntityRegistry.PORTABLE_TANK_MK2_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(BlockEntityRegistry.PORTABLE_TANK_MK3_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(BlockEntityRegistry.PORTABLE_TANK_MK4_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(BlockEntityRegistry.PORTABLE_TANK_MK5_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
+    public static void clientInit() {
+        BlockEntityRendererFactories.register(BlockEntityRegistry.PORTABLE_TANK_MK1_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(BlockEntityRegistry.PORTABLE_TANK_MK2_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(BlockEntityRegistry.PORTABLE_TANK_MK3_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(BlockEntityRegistry.PORTABLE_TANK_MK4_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(BlockEntityRegistry.PORTABLE_TANK_MK5_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
 
-        BlockEntityRendererRegistry.register(BlockEntityRegistry.GRANNYS_SINK_BLOCK_ENTITY, GrannysSinkBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, DryingRackBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(BlockEntityRegistry.GRANNYS_SINK_BLOCK_ENTITY, GrannysSinkBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, DryingRackBlockEntityRenderer::new);
     }
 
     public static BlockEntityType<WoodenHopperBlockEntity> WOODEN_HOPPER_ENTITY;

@@ -62,7 +62,7 @@ public class ItemGroupInit {
     public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier(CoxinhaUtilities.MOD_ID, "item_group"))
             .icon(() -> new ItemStack(ItemRegistry.COXINHA))
             .displayName(Text.translatable("itemGroup.coxinhautilities.item_group"))
-            .entries((enabledFeatures, entries, operatorEnabled) ->
+            .entries((ctx, entries) ->
                     entries.addAll(ItemGroupInit.ITEMS)
             )
             .build();

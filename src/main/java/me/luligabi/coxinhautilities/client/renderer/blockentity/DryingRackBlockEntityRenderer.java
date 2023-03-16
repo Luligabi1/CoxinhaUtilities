@@ -7,7 +7,7 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
@@ -34,7 +34,7 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
             ms.multiply(RotationAxis.POSITIVE_X.rotationDegrees(getItemAngle(direction)));
             ms.scale(0.99F, 0.99F, 0.99F);
 
-            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getInventory().get(0), ModelTransformation.Mode.FIXED, light, OverlayTexture.DEFAULT_UV, ms, vcp, (int) entity.getPos().asLong());
+            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getInventory().get(0), ModelTransformationMode.FIXED, light, OverlayTexture.DEFAULT_UV, ms, vcp, entity.getWorld(), (int) entity.getPos().asLong());
         }
         ms.pop();
     }

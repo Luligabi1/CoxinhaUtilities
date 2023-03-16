@@ -11,7 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -20,7 +20,7 @@ import net.minecraft.util.math.BlockPos;
 public class GrannysSinkItemRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer {
 
     @Override
-    public void render(ItemStack stack, ModelTransformation.Mode mode, MatrixStack ms, VertexConsumerProvider vcp, int light, int overlay) {
+    public void render(ItemStack stack, ModelTransformationMode mode, MatrixStack ms, VertexConsumerProvider vcp, int light, int overlay) {
         BakedModel bakedModel = MinecraftClient.getInstance().getBlockRenderManager().getModel(sinkBlockState);
 
         // Render item model itself

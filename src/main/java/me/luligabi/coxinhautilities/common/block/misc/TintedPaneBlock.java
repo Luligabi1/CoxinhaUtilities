@@ -12,7 +12,7 @@ public class TintedPaneBlock extends PaneBlock {
     }
 
     @Override
-    public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) { return false; }
+    public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) { return false; }
 
     @Override
     public int getOpacity(BlockState state, BlockView world, BlockPos pos) { return world.getMaxLightLevel(); }

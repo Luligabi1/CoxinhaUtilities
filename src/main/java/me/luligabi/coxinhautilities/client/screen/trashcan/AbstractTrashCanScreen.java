@@ -40,8 +40,8 @@ public abstract class AbstractTrashCanScreen extends HandledScreen<ScreenHandler
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        drawCenteredText(matrices, textRenderer, titleline1,backgroundWidth/2, 6, 0xFFFFFF);
-        drawCenteredText(matrices, textRenderer, Strings.join(titleLine2, " "),backgroundWidth/2, 17, 0xFFFFFF);
+        drawCenteredTextWithShadow(matrices, textRenderer, titleline1,backgroundWidth/2, 6, 0xFFFFFF);
+        drawCenteredTextWithShadow(matrices, textRenderer, Strings.join(titleLine2, " "),backgroundWidth/2, 17, 0xFFFFFF);
         textRenderer.draw(matrices, playerInventoryTitle, 8f, backgroundHeight - 96 + 4f, 0xFFFFFF);
     }
 

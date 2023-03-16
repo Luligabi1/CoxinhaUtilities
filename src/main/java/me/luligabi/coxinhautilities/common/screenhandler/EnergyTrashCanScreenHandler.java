@@ -68,8 +68,9 @@ public class EnergyTrashCanScreenHandler extends ScreenHandler {
         return itemStack;
     }
 
-    public void close(PlayerEntity player) {
-        super.close(player);
+    @Override
+    public void onClosed(PlayerEntity player) {
+        super.onClosed(player);
         this.inventory.onClose(player);
     }
 }
