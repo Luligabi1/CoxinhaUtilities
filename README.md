@@ -2,7 +2,7 @@
 
 [![Fabric API](https://images2.imgbox.com/8e/38/bfInI5qv_o.png)](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 
-A standalone utility mod adding random and ~~mostly~~ always unoriginal things.. Better with [Kibe Utilities](https://github.com/lucaargolo/kibe).
+A standalone utility mod adding random and ~~mostly~~ always unoriginal things. Better with [Kibe Utilities](https://github.com/lucaargolo/kibe).
 
 ## Special thanks
 
