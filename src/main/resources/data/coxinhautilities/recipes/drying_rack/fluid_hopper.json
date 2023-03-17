@@ -5,5 +5,13 @@
     "item": "kibe:fluid_hopper"
   },
   "outputItem": "minecraft:hopper",
-  "dryingTime": 20
+  "dryingTime": 20,
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "kibe"
+      ]
+    }
+  ]
 }

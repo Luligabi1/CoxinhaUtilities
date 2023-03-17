@@ -16,5 +16,13 @@
   "result": {
     "item": "coxinhautilities:cursed_coxinha",
     "count": 8
-  }
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "kibe"
+      ]
+    }
+  ]
 }

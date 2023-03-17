@@ -10,22 +10,25 @@
       "item": "minecraft:iron_ingot"
     },
     "F": {
-      "item": "kibe:fluid_hopper"
+      "item": "minecraft:hopper"
     },
     "T": {
-      "item": "kibe:tank"
+      "tag": "c:glass_blocks"
     }
   },
   "result": {
     "item": "coxinhautilities:portable_tank_mk1",
     "count": 1
   },
-  "fabric:load_conditions": [
+  "fabric:conditions": [
     {
-      "condition": "fabric:any_mod_loaded",
-      "values": [
-        "kibe"
-      ]
+      "condition": "fabric:not",
+      "value": {
+        "condition": "fabric:any_mod_loaded",
+        "values": [
+          "kibe"
+        ]
+      }
     }
   ]
 }

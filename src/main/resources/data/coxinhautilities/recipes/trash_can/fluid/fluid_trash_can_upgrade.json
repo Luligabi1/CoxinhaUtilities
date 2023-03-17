@@ -11,5 +11,13 @@
   "result": {
     "item": "coxinhautilities:fluid_trash_can",
     "count": 1
-  }
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "kibe"
+      ]
+    }
+  ]
 }

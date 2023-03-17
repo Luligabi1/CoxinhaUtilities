@@ -8,6 +8,7 @@
     "Luligabi"
   ],
   "contributors": [
+    "D4rkness_King",
     "OwOnnis"
   ],
   "contact": {
@@ -39,5 +40,8 @@
     "minecraft": ">=1.19.3",
     "fabricloader": ">=0.13.3",
     "fabric": "*"
+  },
+  "suggests": {
+    "kibe": "*"
   }
 }
