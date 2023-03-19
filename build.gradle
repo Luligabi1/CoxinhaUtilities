@@ -94,8 +94,6 @@ curseforge {
             displayName = RELEASE_NAME
             relations {
                 requiredDependency 'fabric-api'
-                requiredDependency 'kibe'
-
                 optionalDependency 'roughly-enough-items'
             }
         }
@@ -124,6 +122,5 @@ modrinth {
     changelog = getChangeLog()
     dependencies {
         required.project("fabric-api")
-        required.project("kibe")
     }
 }
