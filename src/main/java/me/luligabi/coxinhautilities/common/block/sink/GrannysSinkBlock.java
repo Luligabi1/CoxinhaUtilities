@@ -54,10 +54,9 @@ public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEnti
         builder.add(FACING);
     }
 
-    @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getDefaultState().with(FACING, ctx.getPlayerLookDirection());
+        return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing());
     }
 
     @Override

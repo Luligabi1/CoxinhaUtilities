@@ -141,7 +141,7 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
             }
         }
 
-        return null;
+        return blockState.with(FACING, Direction.NORTH);
     }
 
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
