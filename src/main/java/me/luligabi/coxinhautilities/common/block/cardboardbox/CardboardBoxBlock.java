@@ -40,7 +40,7 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(!world.isClient() && player.isSneaking()) {
+        if(!world.isClient() && (player.isSneaking() || !player.getOffHandStack().isEmpty())) { // allows unwrapping boxes with a block/shield on offhand
             BlockEntity blockEntity = world.getBlockEntity(pos);
             BlockState blockState = ((CardboardBoxBlockEntity) Objects.requireNonNull(blockEntity)).blockState;
             if(blockState.isAir()) return ActionResult.FAIL;
