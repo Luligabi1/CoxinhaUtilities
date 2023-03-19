@@ -4,8 +4,6 @@ public class ModConfig {
 
     // Ender Orchid
     public boolean canGenerateEnderOrchids = true;
-
-    public int enderOrchidSpawnRate = 2;
     
     public boolean hasEnderOrchidStrictPlacement = true;
 

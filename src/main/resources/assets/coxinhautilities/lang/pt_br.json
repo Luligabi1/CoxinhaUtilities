@@ -118,9 +118,6 @@
   "configOption.coxinhautilities.canGenerateEnderOrchids": "Gerar Orquídeas do Fim?",
   "configOption.coxinhautilities.canGenerateEnderOrchids.tooltip": "Se Orquídeas do Fim podem ser geradas no Fim.",
 
-  "configOption.coxinhautilities.enderOrchidSpawnRate": "Taxa de Geração de Orquídeas do Fim",
-  "configOption.coxinhautilities.enderOrchidSpawnRate.tooltip": "Quão frequentemente Orquídeas do Fim são geradas no Fim.",
-
   "configOption.coxinhautilities.hasEnderOrchidStrictPlacement": "Restringir Colocamento de Orquídeas do Fim?",
   "configOption.coxinhautilities.hasEnderOrchidStrictPlacement.tooltip": "Se Orquídeas do Fim podem ser plantadas em blocos que não são Pedra do End",
 

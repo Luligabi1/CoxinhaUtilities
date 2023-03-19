@@ -124,9 +124,6 @@
   "configOption.coxinhautilities.canGenerateEnderOrchids": "Generate Ender Orchids?",
   "configOption.coxinhautilities.canGenerateEnderOrchids.tooltip": "Whether Ender Orchids can be generated naturally on The End",
 
-  "configOption.coxinhautilities.enderOrchidSpawnRate": "Ender Orchid Spawn Rate",
-  "configOption.coxinhautilities.enderOrchidSpawnRate.tooltip": "How often Ender Orchids are generated on The End",
-
   "configOption.coxinhautilities.hasEnderOrchidStrictPlacement": "Enable Ender Orchid's Strict Placement?",
   "configOption.coxinhautilities.hasEnderOrchidStrictPlacement.tooltip": "Whether Ender Orchids can be placed on non-End Stone blocks",
 

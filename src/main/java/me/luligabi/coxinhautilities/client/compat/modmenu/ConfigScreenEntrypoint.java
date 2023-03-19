@@ -26,18 +26,6 @@ public class ConfigScreenEntrypoint implements ModMenuApi {
         /*
          * Ender Orchid
          */
-        Option<Integer> enderOrchidSpawnRate = Option.createBuilder(Integer.class)
-                .name(Text.translatable("configOption.coxinhautilities.enderOrchidSpawnRate"))
-                .tooltip(Text.translatable("configOption.coxinhautilities.enderOrchidSpawnRate.tooltip"))
-                .binding(
-                        2,
-                        () -> config.enderOrchidSpawnRate,
-                        newValue -> config.enderOrchidSpawnRate = newValue
-                )
-                .available(config.canGenerateEnderOrchids)
-                .controller((intOption) -> new IntegerSliderController(intOption, 2, 20, 2))
-                .build();
-
         Option<Boolean> canGenerateEnderOrchids = Option.createBuilder(Boolean.class)
                 .name(Text.translatable("configOption.coxinhautilities.canGenerateEnderOrchids"))
                 .tooltip(Text.translatable("configOption.coxinhautilities.canGenerateEnderOrchids.tooltip"))
@@ -46,7 +34,6 @@ public class ConfigScreenEntrypoint implements ModMenuApi {
                         () -> config.canGenerateEnderOrchids,
                         newValue -> {
                             config.canGenerateEnderOrchids = newValue;
-                            enderOrchidSpawnRate.setAvailable(newValue);
                         }
                 )
                 .controller((booleanOption) -> new BooleanController(booleanOption, BooleanController.YES_NO_FORMATTER, true))
@@ -112,7 +99,6 @@ public class ConfigScreenEntrypoint implements ModMenuApi {
                                 .name(Text.translatable("block.coxinhautilities.ender_orchid"))
 
                                 .option(canGenerateEnderOrchids)
-                                .option(enderOrchidSpawnRate)
                                 .option(hasEnderOrchidStrictPlacement)
                                 .option(enderOrchidRegularGrowthRate)
                                 .option(enderOrchidSpecialGrowthRate)
