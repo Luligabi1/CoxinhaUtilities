@@ -29,6 +29,9 @@
     "rei_client": [
       "me.luligabi.coxinhautilities.client.compat.rei.ReiPlugin"
     ],
+    "emi": [
+      "me.luligabi.coxinhautilities.client.compat.emi.CoxinhaEmiPlugin"
+    ],
     "modmenu": [
       "me.luligabi.coxinhautilities.client.compat.modmenu.ConfigScreenEntrypoint"
     ]
