@@ -3,7 +3,9 @@ package me.luligabi.coxinhautilities.common.block.sink;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.StoragePreconditions;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,27 +26,50 @@ public class GrannysSinkBlockEntity extends BlockEntity {
         @Override
         protected FluidVariant getBlankVariant() { return FluidVariant.of(Fluids.WATER); }
 
-        /*
-         * We'll use getResource as a sort of constructor for the Storage, as it's checked upon
-         * creation of the BE, but not soon enough that the fluidStorage does not exist yet.
-         * Then, we set the Storage's fluid amount to Long's MAX_VALUE, ensuring it'll never end.
-         */
         @Override
         public FluidVariant getResource() {
-            fluidStorage.amount = Long.MAX_VALUE;
             return FluidVariant.of(Fluids.WATER);
         }
 
         @Override
-        protected boolean canInsert(FluidVariant variant) { return false; }
+        public long getAmount() {
+            return Long.MAX_VALUE;
+        }
 
         @Override
-        protected long getCapacity(FluidVariant variant) { return Long.MAX_VALUE; }
+        public long getCapacity() {
+            return getAmount();
+        }
 
-        @Override // Set fluid amount back to Long.MAX_VALUE after every transaction
-        protected void onFinalCommit() {
-            fluidStorage.amount = Long.MAX_VALUE;
-            markDirty();
+        @Override
+        protected long getCapacity(FluidVariant variant) {
+            return getAmount();
+        }
+
+        @Override
+        public boolean isResourceBlank() {
+            return getResource().isBlank();
+        }
+
+        @Override
+        public long extract(FluidVariant resource, long maxAmount, TransactionContext ctx) {
+            StoragePreconditions.notBlankNotNegative(resource, maxAmount);
+
+            if (resource.equals(getResource())) {
+                return maxAmount;
+            } else {
+                return 0;
+            }
+        }
+
+        @Override
+        public long getVersion() {
+            return 0;
+        }
+
+        @Override
+        protected boolean canInsert(FluidVariant variant) {
+            return false;
         }
 
     };
