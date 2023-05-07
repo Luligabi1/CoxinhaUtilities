@@ -14,9 +14,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class DryingEmiRecipe implements EmiRecipe {
-    private final DryingRecipe recipe;
-    private final EmiIngredient input;
-    private final EmiStack output;
 
     public DryingEmiRecipe(DryingRecipe recipe) {
         this.recipe = recipe;
@@ -57,10 +54,14 @@ public class DryingEmiRecipe implements EmiRecipe {
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addFillingArrow(24, 5, recipe.getDryingTime() * 50).tooltip((mx, my) ->
-                List.of(TooltipComponent.of(Text.translatable("emi.cooking.time", recipe.getDryingTime() / 20f).asOrderedText()))
+                List.of(TooltipComponent.of(Text.translatable("emi.cooking.time", recipe.getDryingTime() / 20F).asOrderedText()))
         );
 
         widgets.addSlot(input, 0, 4);
         widgets.addSlot(output, 56, 0).output(true).recipeContext(this);
     }
+
+    private final DryingRecipe recipe;
+    private final EmiIngredient input;
+    private final EmiStack output;
 }

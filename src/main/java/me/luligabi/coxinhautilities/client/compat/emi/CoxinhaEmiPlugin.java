@@ -11,13 +11,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class CoxinhaEmiPlugin implements EmiPlugin {
-    public static final EmiRecipeCategory DRYING_CATEGORY =
-            new EmiRecipeCategory(new Identifier(CoxinhaUtilities.MOD_ID, "drying"), EmiStack.of(BlockRegistry.DRYING_RACK)) {
-                @Override
-                public Text getName() {
-                    return Text.translatable("block.coxinhautilities.drying_rack");
-                }
-            };
 
     @Override
     public void register(EmiRegistry registry) {
@@ -29,4 +22,15 @@ public class CoxinhaEmiPlugin implements EmiPlugin {
                 .map(DryingEmiRecipe::new)
                 .forEach(registry::addRecipe);
     }
+
+    public static final EmiRecipeCategory DRYING_CATEGORY = new EmiRecipeCategory(
+            new Identifier(CoxinhaUtilities.MOD_ID, "drying"),
+            EmiStack.of(BlockRegistry.DRYING_RACK)
+    ) {
+        @Override
+        public Text getName() {
+                    return Text.translatable("block.coxinhautilities.drying_rack");
+                }
+    };
+
 }
