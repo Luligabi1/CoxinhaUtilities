@@ -1,6 +1,6 @@
 package me.luligabi.coxinhautilities.client.compat.rei.drying;
 
-import me.luligabi.coxinhautilities.client.compat.rei.ReiPlugin;
+import me.luligabi.coxinhautilities.client.compat.rei.CoxinhaReiPlugin;
 import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipe;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
@@ -45,7 +45,7 @@ public class DryingRecipeDisplay implements Display {
 
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
-        return ReiPlugin.DRYING;
+        return CoxinhaReiPlugin.DRYING;
     }
 
 }

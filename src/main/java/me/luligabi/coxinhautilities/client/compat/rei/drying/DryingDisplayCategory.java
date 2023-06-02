@@ -1,7 +1,7 @@
 package me.luligabi.coxinhautilities.client.compat.rei.drying;
 
 import com.google.common.collect.Lists;
-import me.luligabi.coxinhautilities.client.compat.rei.ReiPlugin;
+import me.luligabi.coxinhautilities.client.compat.rei.CoxinhaReiPlugin;
 import me.luligabi.coxinhautilities.client.compat.rei.widget.TooltippedArrow;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.shedaniel.math.Point;
@@ -50,6 +50,6 @@ public class DryingDisplayCategory implements DisplayCategory<DryingRecipeDispla
 
     @Override
     public CategoryIdentifier<? extends DryingRecipeDisplay> getCategoryIdentifier() {
-        return ReiPlugin.DRYING;
+        return CoxinhaReiPlugin.DRYING;
     }
 }

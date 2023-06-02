@@ -9,6 +9,7 @@
   ],
   "contributors": [
     "D4rkness_King",
+    "Abbie5",
     "OwOnnis"
   ],
   "contact": {
@@ -27,7 +28,10 @@
       "me.luligabi.coxinhautilities.client.CoxinhaUtilitiesClient"
     ],
     "rei_client": [
-      "me.luligabi.coxinhautilities.client.compat.rei.ReiPlugin"
+      "me.luligabi.coxinhautilities.client.compat.rei.CoxinhaReiPlugin"
+    ],
+    "emi": [
+      "me.luligabi.coxinhautilities.client.compat.emi.CoxinhaEmiPlugin"
     ],
     "modmenu": [
       "me.luligabi.coxinhautilities.client.compat.modmenu.ConfigScreenEntrypoint"
