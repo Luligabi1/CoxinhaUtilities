@@ -1,5 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.tank;
 
+import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.ClientSyncedBlockEntity;
 import me.luligabi.coxinhautilities.common.util.Util;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
@@ -15,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
 
     public PortableTankBlockEntity(BlockPos pos, BlockState state) {
-        super(Util.getTankBlockEntityType(state.getBlock()), pos, state);
+        super(BlockEntityRegistry.PORTABLE_TANK_BLOCK_ENTITY, pos, state);
     }
 
     //private boolean isBucketMode = false; // TODO: Reimplement bucket mode whenever it's more stable
