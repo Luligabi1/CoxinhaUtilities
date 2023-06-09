@@ -31,7 +31,7 @@ import java.util.List;
 public class PortableTankBlock extends BlockWithEntity implements IWittyComment {
 
     public PortableTankBlock(TankTier tankTier) {
-        super(FabricBlockSettings.of(Material.METAL).strength(5.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.METAL));
+        super(FabricBlockSettings.create().mapColor(MapColor.GRAY).strength(5.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.METAL));
         this.tankTier = tankTier;
     }
 

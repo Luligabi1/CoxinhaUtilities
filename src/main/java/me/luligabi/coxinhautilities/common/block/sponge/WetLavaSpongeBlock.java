@@ -2,8 +2,11 @@ package me.luligabi.coxinhautilities.common.block.sponge;
 
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.MapColor;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -22,8 +25,8 @@ import java.util.List;
 
 public class WetLavaSpongeBlock extends Block implements IWittyComment {
 
-    public WetLavaSpongeBlock(Settings settings) {
-        super(settings);
+    public WetLavaSpongeBlock() {
+        super(FabricBlockSettings.copyOf(Blocks.WET_SPONGE).mapColor(MapColor.DARK_RED));
     }
 
     private final BlockState hardenedState = BlockRegistry.LAVA_SPONGE.getDefaultState();

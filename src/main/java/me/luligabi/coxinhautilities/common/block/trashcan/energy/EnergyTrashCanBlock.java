@@ -2,7 +2,9 @@ package me.luligabi.coxinhautilities.common.block.trashcan.energy;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.trashcan.AbstractTrashCanBlock;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -24,8 +26,8 @@ import java.util.List;
 
 public class EnergyTrashCanBlock extends AbstractTrashCanBlock {
 
-    public EnergyTrashCanBlock(Settings settings) {
-        super(settings);
+    public EnergyTrashCanBlock() {
+        super(FabricBlockSettings.create().mapColor(MapColor.DULL_RED));
     }
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {

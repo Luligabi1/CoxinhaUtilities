@@ -22,11 +22,11 @@ public class NetherCakeBlock extends DimensionalCakeBlock  {
 
         if (!world.isClient) {
             if (!player.hasVehicle() && !player.hasPassengers() && player.canUsePortals() && world.getRegistryKey() != World.NETHER) {
-                player.world.getProfiler().push("portal");
+                player.getWorld().getProfiler().push("portal");
                 //this.netherPortalTime = i;
                 //player.resetNetherPortalCooldown();
                 player.moveToWorld(((ServerWorld) world).getServer().getWorld(World.NETHER));
-                player.world.getProfiler().pop();
+                player.getWorld().getProfiler().pop();
             } else {
                 return ActionResult.FAIL;
             }

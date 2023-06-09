@@ -1,6 +1,7 @@
 package me.luligabi.coxinhautilities.common.block.aquatictorch;
 
 import me.luligabi.coxinhautilities.common.util.Util;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WallTorchBlock;
@@ -9,6 +10,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -21,9 +23,12 @@ import org.jetbrains.annotations.Nullable;
 
 public class WallAquaticTorchBlock extends WallTorchBlock implements Waterloggable {
 
-    public WallAquaticTorchBlock(Settings settings) {
-        super(settings, null);
-        this.setDefaultState(this.stateManager.getDefaultState().with(WATERLOGGED, true));
+    public WallAquaticTorchBlock() {
+        super(
+                FabricBlockSettings.create().sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD),
+                null
+        );
+        setDefaultState(stateManager.getDefaultState().with(WATERLOGGED, true));
     }
 
     @Override

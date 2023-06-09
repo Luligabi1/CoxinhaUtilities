@@ -2,12 +2,9 @@ package me.luligabi.coxinhautilities.client.compat.modmenu;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import dev.isxander.yacl.api.ConfigCategory;
-import dev.isxander.yacl.api.Option;
-import dev.isxander.yacl.api.OptionGroup;
-import dev.isxander.yacl.api.YetAnotherConfigLib;
-import dev.isxander.yacl.gui.controllers.BooleanController;
-import dev.isxander.yacl.gui.controllers.slider.IntegerSliderController;
+import dev.isxander.yacl3.api.*;
+import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
+import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.ModConfig;
 import net.minecraft.client.gui.screen.Screen;
@@ -26,34 +23,32 @@ public class ConfigScreenEntrypoint implements ModMenuApi {
         /*
          * Ender Orchid
          */
-        Option<Boolean> canGenerateEnderOrchids = Option.createBuilder(Boolean.class)
+        Option<Boolean> canGenerateEnderOrchids = Option.<Boolean>createBuilder()
                 .name(Text.translatable("configOption.coxinhautilities.canGenerateEnderOrchids"))
-                .tooltip(Text.translatable("configOption.coxinhautilities.canGenerateEnderOrchids.tooltip"))
+                .description(OptionDescription.of(Text.translatable("configOption.coxinhautilities.canGenerateEnderOrchids.tooltip")))
                 .binding(
                         true,
                         () -> config.canGenerateEnderOrchids,
-                        newValue -> {
-                            config.canGenerateEnderOrchids = newValue;
-                        }
+                        newValue -> config.canGenerateEnderOrchids = newValue
                 )
-                .controller((booleanOption) -> new BooleanController(booleanOption, BooleanController.YES_NO_FORMATTER, true))
+                .controller(option -> BooleanControllerBuilder.create(option).yesNoFormatter().coloured(true))
                 .build();
 
-        Option<Integer> enderOrchidSpecialGrowthRate = Option.createBuilder(Integer.class)
+        Option<Integer> enderOrchidSpecialGrowthRate = Option.<Integer>createBuilder()
                 .name(Text.translatable("configOption.coxinhautilities.enderOrchidSpecialGrowthRate"))
-                .tooltip(Text.translatable("configOption.coxinhautilities.enderOrchidSpecialGrowthRate.tooltip"))
+                .description(OptionDescription.of(Text.translatable("configOption.coxinhautilities.enderOrchidSpecialGrowthRate.tooltip")))
                 .binding(
                         12,
                         () -> config.enderOrchidSpecialGrowthRate,
                         newValue -> config.enderOrchidSpecialGrowthRate = newValue
                 )
                 .available(!config.hasEnderOrchidStrictPlacement)
-                .controller((intOption) -> new IntegerSliderController(intOption, 2, 20, 2))
+                .controller(option -> IntegerSliderControllerBuilder.create(option).range(2, 20).step(2))
                 .build();
 
-        Option<Boolean> hasEnderOrchidStrictPlacement = Option.createBuilder(Boolean.class)
+        Option<Boolean> hasEnderOrchidStrictPlacement = Option.<Boolean>createBuilder()
                 .name(Text.translatable("configOption.coxinhautilities.hasEnderOrchidStrictPlacement"))
-                .tooltip(Text.translatable("configOption.coxinhautilities.hasEnderOrchidStrictPlacement.tooltip"))
+                .description(OptionDescription.of(Text.translatable("configOption.coxinhautilities.hasEnderOrchidStrictPlacement.tooltip")))
                 .binding(
                         true,
                         () -> config.hasEnderOrchidStrictPlacement,
@@ -63,32 +58,32 @@ public class ConfigScreenEntrypoint implements ModMenuApi {
                         }
 
                 )
-                .controller((booleanOption) -> new BooleanController(booleanOption, BooleanController.YES_NO_FORMATTER, true))
+                .controller(option -> BooleanControllerBuilder.create(option).yesNoFormatter().coloured(true))
                 .build();
 
-        Option<Integer> enderOrchidRegularGrowthRate = Option.createBuilder(Integer.class)
+        Option<Integer> enderOrchidRegularGrowthRate = Option.<Integer>createBuilder()
                 .name(Text.translatable("configOption.coxinhautilities.enderOrchidRegularGrowthRate"))
-                .tooltip(Text.translatable("configOption.coxinhautilities.enderOrchidRegularGrowthRate.tooltip"))
+                .description(OptionDescription.of(Text.translatable("configOption.coxinhautilities.enderOrchidRegularGrowthRate.tooltip")))
                 .binding(
                         8,
                         () -> config.enderOrchidRegularGrowthRate,
                         newValue -> config.enderOrchidRegularGrowthRate = newValue
                 )
-                .controller((intOption) -> new IntegerSliderController(intOption, 2, 20, 2))
+                .controller(option -> IntegerSliderControllerBuilder.create(option).range(2, 20).step(2))
                 .build();
 
         /*
          * Cardboard Box
          */
-        Option<Boolean> useCarrierBlacklist = Option.createBuilder(Boolean.class)
+        Option<Boolean> useCarrierBlacklist = Option.<Boolean>createBuilder()
                 .name(Text.translatable("configOption.coxinhautilities.useCarrierBlacklist"))
-                .tooltip(Text.translatable("configOption.coxinhautilities.useCarrierBlacklist.tooltip"))
+                .description(OptionDescription.of(Text.translatable("configOption.coxinhautilities.useCarrierBlacklist.tooltip")))
                 .binding(
                         true,
                         () -> config.useCarrierBlacklist,
                         newValue -> config.useCarrierBlacklist = newValue
                 )
-                .controller((booleanOption) -> new BooleanController(booleanOption, BooleanController.YES_NO_FORMATTER, true))
+                .controller(option -> BooleanControllerBuilder.create(option).yesNoFormatter().coloured(true))
                 .build();
 
         return YetAnotherConfigLib.createBuilder()

@@ -18,13 +18,9 @@ import java.util.List;
 public class AbstractTrashCanBlock extends BlockWithEntity implements IWittyComment {
 
     public AbstractTrashCanBlock(Settings settings) {
-        super(settings);
+        super(settings.requiresTool().strength(1.5F, 6.0F).pistonBehavior(PistonBehavior.IGNORE));
     }
 
-    @Override
-    public PistonBehavior getPistonBehavior(BlockState state) {
-        return PistonBehavior.IGNORE;
-    }
 
     @Nullable
     @Override

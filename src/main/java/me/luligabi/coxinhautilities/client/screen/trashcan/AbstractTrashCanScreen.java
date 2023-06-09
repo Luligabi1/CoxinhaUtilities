@@ -3,6 +3,7 @@ package me.luligabi.coxinhautilities.client.screen.trashcan;
 import com.mojang.blaze3d.systems.RenderSystem;
 import joptsimple.internal.Strings;
 import me.luligabi.coxinhautilities.mixin.HandledScreenAccessor;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
@@ -25,24 +26,29 @@ public abstract class AbstractTrashCanScreen extends HandledScreen<ScreenHandler
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    protected void drawBackground(DrawContext ctx, float delta, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, getTextureIdentifier());
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        ctx.drawTexture(getTextureIdentifier(), x, y, 0, 0, backgroundWidth, backgroundHeight);
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
-        drawMouseoverTooltip(matrices, mouseX, mouseY);
+    public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
+        renderBackground(ctx);
+        super.render(ctx, mouseX, mouseY, delta);
+        drawMouseoverTooltip(ctx, mouseX, mouseY);
     }
 
     @Override
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        drawCenteredTextWithShadow(matrices, textRenderer, titleline1,backgroundWidth/2, 6, 0xFFFFFF);
-        drawCenteredTextWithShadow(matrices, textRenderer, Strings.join(titleLine2, " "),backgroundWidth/2, 17, 0xFFFFFF);
-        textRenderer.draw(matrices, playerInventoryTitle, 8f, backgroundHeight - 96 + 4f, 0xFFFFFF);
+    protected void drawForeground(DrawContext ctx, int mouseX, int mouseY) {
+        String titleLine2Spaced = Strings.join(titleLine2, " ");
+
+        ctx.drawText(textRenderer, titleline1, backgroundWidth/2 - textRenderer.getWidth(titleline1)/2, 6, 0xFFFFFF, false);
+        ctx.drawText(textRenderer, titleLine2Spaced, backgroundWidth/2 - textRenderer.getWidth(titleLine2Spaced)/2, 17, 0xFFFFFF, false);
+
+
+        ctx.drawText(textRenderer, playerInventoryTitle, 8, backgroundHeight - 96 + 4, 0xFFFFFF, false);
+        //textRenderer.draw(ctx, playerInventoryTitle, 8f, backgroundHeight - 96 + 4f, 0xFFFFFF);
     }
 
     List<String> titleString = Arrays.asList(title.getString().split(" ").clone());

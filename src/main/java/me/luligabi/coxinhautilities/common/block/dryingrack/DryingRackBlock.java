@@ -33,6 +33,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("deprecation")
 public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
 
     public static final DirectionProperty FACING =  Properties.HORIZONTAL_FACING;
@@ -123,8 +124,12 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
         return SHAPE_MAP.get(state.get(FACING));
     }
 
+    @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return world.getBlockState(pos.offset(state.get(FACING).getOpposite())).getMaterial().isSolid();
+        Direction direction = state.get(FACING);
+        BlockPos blockPos = pos.offset(direction.getOpposite());
+        BlockState blockState = world.getBlockState(blockPos);
+        return blockState.isSideSolidFullSquare(world, blockPos, direction);
     }
 
     @Nullable

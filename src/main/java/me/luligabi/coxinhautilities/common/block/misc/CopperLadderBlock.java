@@ -4,7 +4,7 @@ import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LadderBlock;
-import net.minecraft.block.Material;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
@@ -22,32 +22,34 @@ import java.util.List;
 public class CopperLadderBlock extends LadderBlock implements Oxidizable, IWittyComment {
 
     public CopperLadderBlock(Oxidizable.OxidationLevel oxidationLevel) {
-        super(FabricBlockSettings.of(Material.DECORATION).strength(0.4F).sounds(BlockSoundGroup.COPPER).nonOpaque());
+        this();
         this.oxidationLevel = oxidationLevel;
         this.canOxidate = true;
     }
 
     public CopperLadderBlock() {
-        super(FabricBlockSettings.of(Material.DECORATION).strength(0.4F).sounds(BlockSoundGroup.COPPER).nonOpaque());
+        super(FabricBlockSettings.create().strength(0.4F).sounds(BlockSoundGroup.COPPER).nonOpaque());
         this.oxidationLevel = OxidationLevel.UNAFFECTED;
         this.canOxidate = false;
     }
 
-    private final Oxidizable.OxidationLevel oxidationLevel;
-    private final boolean canOxidate;
+    private Oxidizable.OxidationLevel oxidationLevel;
+    private boolean canOxidate;
 
+    @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if(canOxidate) {
-            this.tickDegradation(state, world, pos, random);
-        }
+        if(!canOxidate) return;
+        tickDegradation(state, world, pos, random);
     }
 
+    @Override
     public boolean hasRandomTicks(BlockState state) {
-        return Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent() && canOxidate;
+        return canOxidate && Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
     }
 
+    @Override
     public Oxidizable.OxidationLevel getDegradationLevel() {
-        return this.oxidationLevel;
+        return oxidationLevel;
     }
 
     @Override

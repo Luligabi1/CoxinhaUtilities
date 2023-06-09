@@ -3,6 +3,7 @@ package me.luligabi.coxinhautilities.common.block.sponge;
 import com.google.common.collect.Lists;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.fluid.FluidState;
@@ -22,8 +23,8 @@ import java.util.Queue;
 
 public class LavaSpongeBlock extends SpongeBlock implements IWittyComment {
 
-    public LavaSpongeBlock(Settings settings) {
-        super(settings);
+    public LavaSpongeBlock() {
+        super(FabricBlockSettings.copyOf(Blocks.SPONGE).mapColor(MapColor.BRIGHT_RED));
     }
 
 

@@ -2,7 +2,9 @@ package me.luligabi.coxinhautilities.common.block.trashcan.fluid;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.trashcan.AbstractTrashCanBlock;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -24,8 +26,8 @@ import java.util.List;
 
 public class FluidTrashCanBlock extends AbstractTrashCanBlock {
 
-    public FluidTrashCanBlock(Settings settings) {
-        super(settings);
+    public FluidTrashCanBlock() {
+        super(FabricBlockSettings.create().mapColor(MapColor.LIGHT_BLUE));
     }
 
 

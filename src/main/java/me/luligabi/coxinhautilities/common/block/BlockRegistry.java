@@ -91,7 +91,7 @@ public class BlockRegistry {
         //initBlock("tinted_glass_pane", TINTED_GLASS_PANE);
     }
 
-    public static final HopperBlock WOODEN_HOPPER = new WoodenHopperBlock(FabricBlockSettings.of(Material.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+    public static final HopperBlock WOODEN_HOPPER = new WoodenHopperBlock(FabricBlockSettings.create().strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD).mapColor(MapColor.OAK_TAN));
 
     public static final PortableTankBlock PORTABLE_TANK_MK1 = new PortableTankBlock(TankTier.MK1);
     public static final PortableTankBlock PORTABLE_TANK_MK2 = new PortableTankBlock(TankTier.MK2);
@@ -99,10 +99,10 @@ public class BlockRegistry {
     public static final PortableTankBlock PORTABLE_TANK_MK4 =  new PortableTankBlock(TankTier.MK4);
     public static final PortableTankBlock PORTABLE_TANK_MK5 = new PortableTankBlock(TankTier.MK5);
 
-    public static final GrannysSinkBlock GRANNYS_SINK = new GrannysSinkBlock(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).requiresTool().strength(0.8F));
+    public static final GrannysSinkBlock GRANNYS_SINK = new GrannysSinkBlock(FabricBlockSettings.create().requiresTool().strength(0.8F).mapColor(MapColor.TERRACOTTA_CYAN));
 
-    public static final FluidTrashCanBlock FLUID_TRASH_CAN = new FluidTrashCanBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5F, 6.0F));
-    public static final EnergyTrashCanBlock ENERGY_TRASH_CAN = new EnergyTrashCanBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).requiresTool().strength(1.5F, 6.0F));
+    public static final FluidTrashCanBlock FLUID_TRASH_CAN = new FluidTrashCanBlock();
+    public static final EnergyTrashCanBlock ENERGY_TRASH_CAN = new EnergyTrashCanBlock();
 
     public static final DryingRackBlock DRYING_RACK = new DryingRackBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
 
@@ -114,8 +114,8 @@ public class BlockRegistry {
 
     public static final Block ENDER_ORCHID = new EnderOrchidBlock();
 
-    public static final Block AQUATIC_TORCH = new AquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
-    public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock(FabricBlockSettings.of(Material.UNDERWATER_PLANT).sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
+    public static final Block AQUATIC_TORCH = new AquaticTorchBlock();
+    public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock();
 
     public static final Block COPPER_LADDER = new CopperLadderBlock(Oxidizable.OxidationLevel.UNAFFECTED);
     public static final Block EXPOSED_COPPER_LADDER = new CopperLadderBlock(Oxidizable.OxidationLevel.EXPOSED);
@@ -127,8 +127,8 @@ public class BlockRegistry {
     public static final Block WAXED_WEATHERED_COPPER_LADDER = new CopperLadderBlock();
     public static final Block WAXED_OXIDIZED_COPPER_LADDER = new CopperLadderBlock();
 
-    public static final Block LAVA_SPONGE = new LavaSpongeBlock(FabricBlockSettings.copyOf(Blocks.SPONGE));
-    public static final Block WET_LAVA_SPONGE = new WetLavaSpongeBlock(FabricBlockSettings.copyOf(Blocks.WET_SPONGE));
+    public static final Block LAVA_SPONGE = new LavaSpongeBlock();
+    public static final Block WET_LAVA_SPONGE = new WetLavaSpongeBlock();
 
     //public static final Block TINTED_GLASS_PANE = new TintedPaneBlock(FabricBlockSettings.copyOf(Blocks.TINTED_GLASS));
 

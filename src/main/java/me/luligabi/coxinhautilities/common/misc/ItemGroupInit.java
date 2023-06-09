@@ -9,6 +9,10 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -56,16 +60,17 @@ public class ItemGroupInit {
                 ));
             }
         );
+
+        Registry.register(Registries.ITEM_GROUP, ITEM_GROUP, FabricItemGroup.builder()
+                .icon(() -> new ItemStack(ItemRegistry.COXINHA))
+                .displayName(Text.translatable("itemGroup.coxinhautilities.item_group"))
+                .entries((ctx, entries) ->
+                        entries.addAll(ItemGroupInit.ITEMS)
+                )
+        .build());
     }
 
-    @SuppressWarnings("unused")
-    public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier(CoxinhaUtilities.MOD_ID, "item_group"))
-            .icon(() -> new ItemStack(ItemRegistry.COXINHA))
-            .displayName(Text.translatable("itemGroup.coxinhautilities.item_group"))
-            .entries((ctx, entries) ->
-                    entries.addAll(ItemGroupInit.ITEMS)
-            )
-            .build();
+    public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(CoxinhaUtilities.MOD_ID, "item_group"));
 
     public static final List<ItemStack> ITEMS = new ArrayList<>();
 }

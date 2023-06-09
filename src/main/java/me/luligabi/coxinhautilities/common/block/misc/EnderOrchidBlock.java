@@ -28,7 +28,7 @@ import java.util.List;
 public class EnderOrchidBlock extends CropBlock implements IWittyComment {
 
     public EnderOrchidBlock() {
-        super(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP));
+        super(FabricBlockSettings.create().noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP));
     }
 
 
