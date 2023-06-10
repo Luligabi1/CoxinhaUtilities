@@ -29,6 +29,7 @@ public class CoxinhaUtilitiesClient implements ClientModInitializer {
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
                 BlockRegistry.ENDER_ORCHID,
+                BlockRegistry.POTTED_ENDER_ORCHID,
 
                 BlockRegistry.AQUATIC_TORCH,
                 BlockRegistry.WALL_AQUATIC_TORCH,

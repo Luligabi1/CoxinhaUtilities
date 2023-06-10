@@ -22,6 +22,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.minecraft.block.*;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.VerticallyAttachableBlockItem;
@@ -36,10 +37,7 @@ import net.minecraft.util.math.Direction;
 public class BlockRegistry {
 
     public static void init() {
-        Registry.register(Registries.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "ender_orchid"), ENDER_ORCHID);
-
         initBlock("wooden_hopper", WOODEN_HOPPER);
-
 
         initPortableTankBlock("portable_tank_mk1", PORTABLE_TANK_MK1);
         initPortableTankBlock("portable_tank_mk2", PORTABLE_TANK_MK2);
@@ -57,6 +55,9 @@ public class BlockRegistry {
         Registry.register(Registries.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "cardboard_box"), CARDBOARD_BOX);
         Registry.register(Registries.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, "cardboard_box"), new CardboardBoxBlockItem());
         ItemGroupInit.ITEMS.add(new ItemStack(CARDBOARD_BOX));
+
+        Registry.register(Registries.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "ender_orchid"), ENDER_ORCHID);
+        Registry.register(Registries.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "potted_ender_orchid"), POTTED_ENDER_ORCHID);
 
         /*initBlock("overworld_cake", OVERWORLD_CAKE, Rarity.UNCOMMON); // TODO: Fix first usage triggering the Credits Screen
         initBlock("nether_cake", NETHER_CAKE, Rarity.UNCOMMON); // TODO: Fix Nether Cake being borked
@@ -113,6 +114,7 @@ public class BlockRegistry {
     //public static final Block ENDER_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.END);
 
     public static final Block ENDER_ORCHID = new EnderOrchidBlock();
+    public static final Block POTTED_ENDER_ORCHID = new FlowerPotBlock(ENDER_ORCHID, FabricBlockSettings.create().breakInstantly().nonOpaque().pistonBehavior(PistonBehavior.DESTROY));
 
     public static final Block AQUATIC_TORCH = new AquaticTorchBlock();
     public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock();
