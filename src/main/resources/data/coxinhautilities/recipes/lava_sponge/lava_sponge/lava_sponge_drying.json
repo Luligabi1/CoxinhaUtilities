@@ -1,12 +1,15 @@
 {
-  "type": "minecraft:smithing",
-  "base": {
-    "item": "coxinhautilities:wet_lava_sponge"
-  },
-  "addition": {
-    "item": "minecraft:water_bucket"
-  },
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "coxinhautilities:wet_lava_sponge"
+    },
+    {
+      "tag": "c:water_buckets"
+    }
+  ],
   "result": {
-    "item": "coxinhautilities:lava_sponge"
+    "item": "coxinhautilities:lava_sponge",
+    "count": 1
   }
 }

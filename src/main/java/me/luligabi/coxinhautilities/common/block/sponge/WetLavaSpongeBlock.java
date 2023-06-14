@@ -19,19 +19,37 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class WetLavaSpongeBlock extends Block implements IWittyComment {
+public class WetLavaSpongeBlock extends Block implements SpongeLike, IWittyComment {
 
     public WetLavaSpongeBlock() {
         super(FabricBlockSettings.copyOf(Blocks.WET_SPONGE).mapColor(MapColor.DARK_RED));
     }
 
-    private final BlockState hardenedState = BlockRegistry.LAVA_SPONGE.getDefaultState();
+    protected void update(World world, BlockPos pos) {
+        if(!absorbLiquid(world, pos, FluidTags.WATER)) return;
+        world.setBlockState(pos, BlockRegistry.LAVA_SPONGE.getDefaultState(), 2);
+        world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(Blocks.WATER.getDefaultState()));
+    }
 
+    @Override
+    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+        if (!oldState.isOf(state.getBlock())) {
+            update(world, pos);
+        }
+    }
 
+    @Override
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        update(world, pos);
+        super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+    }
+
+    @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockView blockView = ctx.getWorld();
         BlockPos blockPos = ctx.getBlockPos();
@@ -62,7 +80,7 @@ public class WetLavaSpongeBlock extends Block implements IWittyComment {
     }
 
     private static boolean hardensIn(BlockState state) {
-        return state.getFluidState().isIn(FluidTags.WATER);
+        return state.getFluidState().isIn(FluidTags.LAVA);
     }
 
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
@@ -116,5 +134,8 @@ public class WetLavaSpongeBlock extends Block implements IWittyComment {
     public List<Text> wittyComments() {
         return List.of(Text.translatable("tooltip.coxinhautilities.lava_sponge.witty"));
     }
+
+    private final BlockState hardenedState = BlockRegistry.LAVA_SPONGE.getDefaultState();
+
 
 }
