@@ -3,8 +3,14 @@
   "tooltip.coxinhautilities.coxinha": "A tasteful Franco-Brazilian dish (pronounced kow-sheen-yuh)",
 
   "item.coxinhautilities.cursed_coxinha": "Cursed Coxinha",
+  "tooltip.kibe.lore.cursed_kibe": "§5§oHas a 1/64 chance to kill you",
+
   "item.coxinhautilities.golden_coxinha": "Golden Coxinha",
+  "tooltip.kibe.lore.golden_kibe": "§5§oVIP only",
+
   "item.coxinhautilities.diamond_coxinha": "Diamond Coxinha",
+  "tooltip.kibe.lore.diamond_kibe": "§5§oVIP+ only",
+
 
   "item.coxinhautilities.potato_battery": "Potato Battery",
   "item.coxinhautilities.baked_potato_battery": "Baked Potato Battery",

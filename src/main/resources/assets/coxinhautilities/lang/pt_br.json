@@ -3,8 +3,13 @@
   "tooltip.coxinhautilities.coxinha": "Um salgado delicioso de procedência Franco-Brasileira.",
 
   "item.coxinhautilities.cursed_coxinha": "Coxinha Amaldiçoada",
+  "tooltip.kibe.lore.cursed_kibe": "§5§oTem uma chance de 1/64 de te matar",
+
   "item.coxinhautilities.golden_coxinha": "Coxinha Dourada",
+  "tooltip.kibe.lore.golden_kibe": "§5§oApenas para pessoas importantes",
+
   "item.coxinhautilities.diamond_coxinha": "Coxinha de Diamante",
+  "tooltip.kibe.lore.diamond_kibe": "§5§oApenas para pessoas muito importantes",
 
 
   "item.coxinhautilities.potato_battery": "Bateria de Batata",
