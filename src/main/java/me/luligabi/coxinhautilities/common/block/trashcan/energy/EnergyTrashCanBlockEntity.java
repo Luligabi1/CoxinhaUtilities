@@ -50,7 +50,7 @@ public class EnergyTrashCanBlockEntity extends AbstractTrashCanBlockEntity {
         if(stack.isEmpty()) return;
 
         EnergyStorage stackEnergy = blockEntity.getEnergyStorage(stack);
-        if(stackEnergy != null & stackEnergy.supportsExtraction()) {
+        if(stackEnergy != null && stackEnergy.supportsExtraction()) {
             EnergyStorageUtil.move(stackEnergy, blockEntity.energyStorage, Long.MAX_VALUE, null);
         }
     }
