@@ -87,7 +87,10 @@ public class CardboardBoxBlockItem extends BlockItem {
     }
 
     private boolean isNbtBlockAir(ItemStack stack) {
-        return NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), stack.getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState")).isAir();
+        NbtCompound nbt = stack.getNbt();
+        if(nbt == null) return true;
+
+        return NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), nbt.getCompound("BlockEntityTag").getCompound("BlockState")).isAir();
     }
 
 }

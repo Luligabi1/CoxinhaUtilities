@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
@@ -61,10 +62,14 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        BlockState blockState = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), stack.getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState"));
+        NbtCompound nbt = stack.getNbt();
 
-        if(!blockState.isOf(Blocks.AIR)) {
-            tooltip.add(Text.translatable(blockState.getBlock().getTranslationKey()).formatted(Formatting.GOLD));
+        if(nbt != null) {
+            BlockState blockState = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), nbt.getCompound("BlockEntityTag").getCompound("BlockState"));
+
+            if(!blockState.isOf(Blocks.AIR)) {
+                tooltip.add(Text.translatable(blockState.getBlock().getTranslationKey()).formatted(Formatting.GOLD));
+            }
         } else {
             tooltip.add(Text.translatable("tooltip.coxinhautilities.empty").formatted(Formatting.GRAY));
         }
