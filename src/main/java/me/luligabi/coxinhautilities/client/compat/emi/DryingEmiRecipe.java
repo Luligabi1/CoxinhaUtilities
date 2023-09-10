@@ -58,7 +58,7 @@ public class DryingEmiRecipe implements EmiRecipe {
         );
 
         widgets.addSlot(input, 0, 4);
-        widgets.addSlot(output, 56, 0).output(true).recipeContext(this);
+        widgets.addSlot(output, 56, 0).large(true).recipeContext(this);
     }
 
     private final DryingRecipe recipe;

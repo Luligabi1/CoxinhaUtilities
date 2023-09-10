@@ -41,10 +41,10 @@ dependencies {
     }
 
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+    // modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 
-    modCompileOnly "dev.emi:emi:${project.emi_version}:api"
-//    modRuntimeOnly "dev.emi:emi:${project.emi_version}"
+    modCompileOnly "dev.emi:emi-fabric:${project.emi_version}:api"
+    modRuntimeOnly "dev.emi:emi-fabric:${project.emi_version}"
 
     modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
     modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
