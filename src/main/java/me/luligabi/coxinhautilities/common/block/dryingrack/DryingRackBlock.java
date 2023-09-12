@@ -73,7 +73,7 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
                 return ActionResult.SUCCESS;
             }
         } else {
-            if(handStack.isEmpty()) {
+            if(handStack.isEmpty() || handStack.isOf(blockEntity.getStack().getItem())) {
                 blockEntity.canDry = blockEntity.checkedRecipe = false;
                 blockEntity.dryingTime = 0;
                 blockEntity.markDirty();
