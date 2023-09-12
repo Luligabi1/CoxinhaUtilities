@@ -3,16 +3,21 @@ package me.luligabi.coxinhautilities.common.block.dryingrack;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
+import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipe;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -32,6 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @SuppressWarnings("deprecation")
 public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
@@ -39,39 +45,40 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
     public static final DirectionProperty FACING =  Properties.HORIZONTAL_FACING;
     private final Map<Direction, VoxelShape> SHAPE_MAP;
 
-    public DryingRackBlock(Settings settings) {
-        super(settings);
+    public DryingRackBlock() {
+        super(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
         SHAPE_MAP = Maps.newEnumMap(ImmutableMap.of(
                 Direction.NORTH, Block.createCuboidShape(0, 14, 14, 16, 16, 16),
                 Direction.SOUTH, Block.createCuboidShape(0, 14, 0, 16, 16, 2),
                 Direction.WEST, Block.createCuboidShape(14, 14, 0, 16, 16, 16),
                 Direction.EAST, Block.createCuboidShape(0, 14, 0, 2, 16, 16)
         ));
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+        setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
     }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(world.isClient()) return ActionResult.CONSUME;
         DryingRackBlockEntity blockEntity = (DryingRackBlockEntity) world.getBlockEntity(pos);
-        ItemStack dryingItem = blockEntity.getInventory().get(0);
+        ItemStack dryingItem = blockEntity.getStack();
         ItemStack handStack = player.getStackInHand(hand);
 
         if(dryingItem.isEmpty()) {
             if(!handStack.isEmpty()) {
-                blockEntity.getInventory().set(0, Util.singleCopy(handStack));
+                blockEntity.inventory.setStack(0, Util.singleCopy(handStack));
                 handStack.decrement(1);
                 blockEntity.markDirty();
+                world.updateComparators(pos, this);
                 world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return ActionResult.SUCCESS;
             }
         } else {
             if(handStack.isEmpty()) {
-                blockEntity.canDry = false;
-                blockEntity.checkedRecipe = false;
+                blockEntity.canDry = blockEntity.checkedRecipe = false;
                 blockEntity.dryingTime = 0;
                 blockEntity.markDirty();
-                ItemScatterer.spawn(world, pos, blockEntity);
+                ItemScatterer.spawn(world, pos, blockEntity.inventory);
+                world.updateComparators(pos, this);
                 world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return ActionResult.SUCCESS;
             }
@@ -107,11 +114,25 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
     }
 
     @Override
+    public boolean hasComparatorOutput(BlockState state) {
+        return true;
+    }
+
+    @Override // TODO: Improve comparator logic
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if(blockEntity instanceof DryingRackBlockEntity dryingRackBlockEntity) {
+            return dryingRackBlockEntity.inventory.isEmpty() ? 0 : 15;
+        }
+        return 0;
+    }
+
+    @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.isOf(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof DryingRackBlockEntity) {
-                ItemScatterer.spawn(world, pos, (DryingRackBlockEntity) blockEntity);
+                ItemScatterer.spawn(world, pos, ((DryingRackBlockEntity) blockEntity).inventory);
                 world.updateComparators(pos, this);
             }
 

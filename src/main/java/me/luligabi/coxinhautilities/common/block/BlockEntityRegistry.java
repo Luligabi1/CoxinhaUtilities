@@ -12,6 +12,7 @@ import me.luligabi.coxinhautilities.common.block.trashcan.energy.EnergyTrashCanB
 import me.luligabi.coxinhautilities.common.block.trashcan.fluid.FluidTrashCanBlockEntity;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.registry.Registries;
@@ -20,6 +21,7 @@ import net.minecraft.util.Identifier;
 
 public class BlockEntityRegistry {
 
+    @SuppressWarnings("UnstableApiUsage")
     public static void init() {
         WOODEN_HOPPER_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "wooden_hopper"), FabricBlockEntityTypeBuilder.create(WoodenHopperBlockEntity::new, BlockRegistry.WOODEN_HOPPER).build(null));
 
@@ -41,6 +43,7 @@ public class BlockEntityRegistry {
 
 
         DRYING_RACK_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "drying_rack"), FabricBlockEntityTypeBuilder.create(DryingRackBlockEntity::new, BlockRegistry.DRYING_RACK).build(null));
+        ItemStorage.SIDED.registerForBlockEntity((blockEntity, context) -> blockEntity.inventoryWrapper, DRYING_RACK_BLOCK_ENTITY);
 
         CARDBOARD_BOX_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(CoxinhaUtilities.MOD_ID, "cardboard_box"), FabricBlockEntityTypeBuilder.create(CardboardBoxBlockEntity::new, BlockRegistry.CARDBOARD_BOX).build(null));
     }

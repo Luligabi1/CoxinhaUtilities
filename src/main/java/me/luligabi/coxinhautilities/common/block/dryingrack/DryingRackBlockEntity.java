@@ -3,33 +3,46 @@ package me.luligabi.coxinhautilities.common.block.dryingrack;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.ClientSyncedBlockEntity;
 import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipe;
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Optional;
 
-public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements Inventory {
+public class DryingRackBlockEntity extends ClientSyncedBlockEntity {
 
     public DryingRackBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, pos, state);
-        this.inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     }
 
-    private DefaultedList<ItemStack> inventory;
     int dryingTime;
     boolean checkedRecipe;
     boolean canDry;
+    public final SimpleInventory inventory = new SimpleInventory(1) {
+
+        @Override
+        public int getMaxCountPerStack() {
+            return 1;
+        }
+
+        @Override
+        public void markDirty() {
+            DryingRackBlockEntity.this.markDirty();
+        }
+    };
+    @SuppressWarnings("UnstableApiUsage")
+    public final InventoryStorage inventoryWrapper = InventoryStorage.of(inventory, null);
 
 
+    @SuppressWarnings("unused")
     public static void tick(World world, BlockPos pos, BlockState state, DryingRackBlockEntity blockEntity) {
-        if(blockEntity.isEmpty()) return;
+        if(blockEntity.inventory.isEmpty()) return;
         if(!blockEntity.checkedRecipe) checkRecipe(blockEntity, world);
 
         if(blockEntity.canDry) {
@@ -40,20 +53,20 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
     }
 
     private static void checkRecipe(DryingRackBlockEntity blockEntity, World world) {
-        Optional<DryingRecipe> recipeOptional = createRecipeOptional(blockEntity, world);
+        Optional<DryingRecipe> recipeOptional = createRecipeOptional(blockEntity, (ServerWorld) world);
         if(recipeOptional.isEmpty()) return;
 
         blockEntity.checkedRecipe = true;
-        blockEntity.canDry = recipeOptional.get().getIngredient().test(blockEntity.inventory.get(0));
+        blockEntity.canDry = recipeOptional.get().getIngredient().test(blockEntity.inventory.getStack(0));
         markDirty(world, blockEntity.pos, blockEntity.getCachedState());
     }
 
     private static void craft(World world, DryingRackBlockEntity blockEntity) {
-        Optional<DryingRecipe> recipeOptional = createRecipeOptional(blockEntity, world);
+        Optional<DryingRecipe> recipeOptional = createRecipeOptional(blockEntity, (ServerWorld) world);
         if(recipeOptional.isEmpty() || blockEntity.dryingTime < recipeOptional.get().getDryingTime()) return;
 
 
-        blockEntity.inventory.set(0, recipeOptional.get().getOutput(world.getRegistryManager()));
+        blockEntity.inventory.setStack(0, recipeOptional.get().getOutput(world.getRegistryManager()));
         blockEntity.canDry = false;
         blockEntity.checkedRecipe = false;
         blockEntity.dryingTime = 0;
@@ -63,7 +76,7 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
 
     @Override
     public void toTag(NbtCompound nbt) {
-        Inventories.writeNbt(nbt, inventory);
+        Inventories.writeNbt(nbt, inventory.stacks);
         nbt.putShort("DryingTime", (short) dryingTime);
         nbt.putBoolean("CheckedRecipe", checkedRecipe);
         nbt.putBoolean("CanDry", canDry);
@@ -71,63 +84,27 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
 
     @Override
     public void fromTag(NbtCompound nbt) {
-        this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-        Inventories.readNbt(nbt, inventory);
-        this.dryingTime = nbt.getShort("DryingTime");
-        this.checkedRecipe = nbt.getBoolean("CheckedRecipe");
-        this.canDry = nbt.getBoolean("CanDry");
+        inventory.clear();
+        Inventories.readNbt(nbt, inventory.stacks);
+        dryingTime = nbt.getShort("DryingTime");
+        checkedRecipe = nbt.getBoolean("CheckedRecipe");
+        canDry = nbt.getBoolean("CanDry");
     }
 
     @Override
     public void toClientTag(NbtCompound nbt) {
-        Inventories.writeNbt(nbt, inventory);
+        Inventories.writeNbt(nbt, inventory.stacks);
     }
 
     @Override
     public void fromClientTag(NbtCompound nbt) {
-        this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-        Inventories.readNbt(nbt, inventory);
+        inventory.clear();
+        Inventories.readNbt(nbt, inventory.stacks);
     }
 
-    @Override
-    public boolean canPlayerUse(PlayerEntity player) {
-        return true;
+    public ItemStack getStack() {
+        return inventory.getStack(0);
     }
-
-    public DefaultedList<ItemStack> getInventory() {
-        return inventory;
-    }
-
-    public int size() {
-        return this.inventory.size();
-    }
-
-    public boolean isEmpty() {
-        return this.inventory.get(0).isEmpty();
-    }
-
-    public ItemStack getStack(int slot) {
-        return slot >= 0 && slot < this.inventory.size() ? this.inventory.get(slot) : ItemStack.EMPTY;
-    }
-
-    public ItemStack removeStack(int slot, int amount) {
-        return Inventories.splitStack(this.inventory, slot, amount);
-    }
-
-    public ItemStack removeStack(int slot) {
-        return Inventories.removeStack(this.inventory, slot);
-    }
-
-    public void setStack(int slot, ItemStack stack) {
-        if (slot >= 0 && slot < this.inventory.size()) {
-            this.inventory.set(slot, stack);
-        }
-    }
-
-    public void clear() {
-        this.inventory.clear();
-    }
-
 
     @Override
     public void markDirty() {
@@ -149,8 +126,8 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
 
     }
 
-    private static Optional<DryingRecipe> createRecipeOptional(DryingRackBlockEntity blockEntity, World world) {
-        return world.getServer().getRecipeManager().getFirstMatch(DryingRecipe.Type.INSTANCE, blockEntity, world);
+    private static Optional<DryingRecipe> createRecipeOptional(DryingRackBlockEntity blockEntity, ServerWorld world) {
+        return world.getServer().getRecipeManager().getFirstMatch(DryingRecipe.Type.INSTANCE, blockEntity.inventory, world);
     }
 
 }

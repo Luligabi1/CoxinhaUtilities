@@ -24,7 +24,7 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
      */
     @Override
     public void render(DryingRackBlockEntity entity, float tickDelta, MatrixStack ms, VertexConsumerProvider vcp, int light, int overlay) {
-        if(entity.getInventory().isEmpty()) return;
+        if(entity.getStack().isEmpty()) return;
 
         ms.push();
         //noinspection ConstantConditions
@@ -34,7 +34,7 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
             ms.multiply(RotationAxis.POSITIVE_X.rotationDegrees(getItemAngle(direction)));
             ms.scale(0.99F, 0.99F, 0.99F);
 
-            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getInventory().get(0), ModelTransformationMode.FIXED, light, OverlayTexture.DEFAULT_UV, ms, vcp, entity.getWorld(), (int) entity.getPos().asLong());
+            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(), ModelTransformationMode.FIXED, light, OverlayTexture.DEFAULT_UV, ms, vcp, entity.getWorld(), (int) entity.getPos().asLong());
         }
         ms.pop();
     }

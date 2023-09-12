@@ -105,7 +105,7 @@ public class BlockRegistry {
     public static final FluidTrashCanBlock FLUID_TRASH_CAN = new FluidTrashCanBlock();
     public static final EnergyTrashCanBlock ENERGY_TRASH_CAN = new EnergyTrashCanBlock();
 
-    public static final DryingRackBlock DRYING_RACK = new DryingRackBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
+    public static final DryingRackBlock DRYING_RACK = new DryingRackBlock();
 
     public static final CardboardBoxBlock CARDBOARD_BOX = new CardboardBoxBlock();
 
