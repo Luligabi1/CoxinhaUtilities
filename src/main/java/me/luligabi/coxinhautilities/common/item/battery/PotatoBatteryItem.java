@@ -90,8 +90,12 @@ public class PotatoBatteryItem extends Item implements SimpleEnergyItem, IWittyC
         tooltip.add(
                 Text.translatable("tooltip.coxinhautilities.potato_battery.1")
                         .formatted(getPrimaryColor())
-                .append(Text.translatable("tooltip.coxinhautilities.potato_battery.2", stack.getOrCreateNbt().getLong(ENERGY_KEY), getEnergyCapacity(stack))
-                        .formatted(getSecondaryColor()))
+                .append(Text.translatable(
+                            "tooltip.coxinhautilities.potato_battery.2",
+                                Util.formatAccordingToLanguage().format(stack.getOrCreateNbt().getLong(ENERGY_KEY)),
+                                Util.formatAccordingToLanguage().format(getEnergyCapacity(stack))
+                        ).formatted(getSecondaryColor())
+                )
         );
         tooltip.add(
                 Text.translatable("tooltip.coxinhautilities.potato_battery.3")

@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DustParticleEffect;
@@ -15,6 +16,8 @@ import org.joml.Vector3f;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.EnergyStorageUtil;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.function.Predicate;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -76,6 +79,25 @@ public class Util {
             itemStack.setNbt(stack.getNbt().copy());
         }
         return itemStack;
+    }
+
+
+    /*
+     * Used to apply commas and periods to numbers according to the client's language
+     *
+     * eg.:
+     * (en_us) = 10000 -> 10,000
+     * (pt_br) = 10000 -> 10.000
+     */
+    public static NumberFormat formatAccordingToLanguage() {
+        Locale locale = Locale.forLanguageTag(
+                MinecraftClient.getInstance().getLanguageManager().getLanguage().replace(
+                        "_",
+                        "-"
+                )
+        );
+
+        return NumberFormat.getNumberInstance(locale);
     }
 
     public static final DustParticleEffect AQUATIC_TORCH_PARTICLE = new DustParticleEffect(new Vector3f(47, 151, 153), 1.0F);
