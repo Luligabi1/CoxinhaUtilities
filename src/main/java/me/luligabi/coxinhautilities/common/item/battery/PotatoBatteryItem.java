@@ -8,7 +8,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenTexts;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -46,17 +49,23 @@ public class PotatoBatteryItem extends Item implements SimpleEnergyItem, IWittyC
             boolean isEnabled = stackNbt.getBoolean("Enabled");
 
             stackNbt.putBoolean("Enabled", !isEnabled);
+            ((ServerPlayerEntity) user).networkHandler.sendPacket(
+                    new PlaySoundS2CPacket(
+                            Registries.SOUND_EVENT.getEntry(
+                                    isEnabled ? SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE : SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN
+                            ),
+                            SoundCategory.PLAYERS,
+                            user.getX(), user.getY(), user.getZ(),
+                            1.0F, 1.0F,
+                            user.getBlockPos().asLong()
+                    )
+            );
             user.sendMessage(
                     Text.translatable("tooltip.coxinhautilities.potato_battery.3")
-                            .formatted(getPrimaryColor())
+                                .formatted(getPrimaryColor())
                             .append(ScreenTexts.onOrOff(!isEnabled).copy()
-                                    .formatted(getSecondaryColor())),
+                                .formatted(getSecondaryColor())),
                     true
-            );
-            user.playSound( // TODO: Make this sound only play on client-side
-                    isEnabled ? SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE : SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN,
-                    SoundCategory.BLOCKS,
-                    1.0F, 1.0F
             );
             return TypedActionResult.success(stack);
         }
