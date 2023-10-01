@@ -26,7 +26,6 @@ import java.nio.file.Files;
 
 public class CoxinhaUtilities implements ModInitializer {
 
-    @SuppressWarnings("UnstableApiUsage")
     @Override
     public void onInitialize() {
         ItemRegistry.init();
@@ -36,14 +35,6 @@ public class CoxinhaUtilities implements ModInitializer {
 
         RecipeRegistry.init();
         ScreenHandlingRegistry.init();
-
-        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockEntityRegistry.PORTABLE_TANK_BLOCK_ENTITY);
-
-        FluidStorage.SIDED.registerForBlockEntity((sink, direction) -> sink.fluidStorage, BlockEntityRegistry.GRANNYS_SINK_BLOCK_ENTITY);
-
-        FluidStorage.SIDED.registerForBlockEntity((tank, direction) -> tank.fluidStorage, BlockEntityRegistry.FLUID_TRASH_CAN_BLOCK_ENTITY);
-
-        EnergyStorage.SIDED.registerForBlockEntity((battery, direction) -> battery.energyStorage, BlockEntityRegistry.ENERGY_TRASH_CAN_BLOCK_ENTITY);
 
         FeatureRegistry.init();
         TagRegistry.init();

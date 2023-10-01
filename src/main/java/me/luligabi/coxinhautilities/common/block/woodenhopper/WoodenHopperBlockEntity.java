@@ -2,6 +2,8 @@ package me.luligabi.coxinhautilities.common.block.woodenhopper;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.screenhandler.WoodenHopperScreenHandler;
+import me.luligabi.coxinhautilities.mixin.HopperBlockEntityAccessor;
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.HopperBlockEntity;
@@ -14,11 +16,15 @@ import net.minecraft.util.math.BlockPos;
 
 public class WoodenHopperBlockEntity extends HopperBlockEntity {
 
-    private DefaultedList<ItemStack> inventory;
 
     public WoodenHopperBlockEntity(BlockPos pos, BlockState state) {
         super(pos, state);
-        this.inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+        ((HopperBlockEntityAccessor) this).coxinhautilities_setInventory(DefaultedList.ofSize(1, ItemStack.EMPTY));
+    }
+
+    @Override
+    public int size() {
+        return 1;
     }
 
     @Override
@@ -31,8 +37,4 @@ public class WoodenHopperBlockEntity extends HopperBlockEntity {
         return new WoodenHopperScreenHandler(syncId, playerInventory, this);
     }
 
-    @Override
-    public int size() {
-        return this.inventory.size();
-    }
 }
