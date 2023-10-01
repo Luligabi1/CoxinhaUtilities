@@ -94,6 +94,11 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
         return true;
     }
 
+    @Override
+    public boolean isValid(int slot, ItemStack stack) {
+        return this.inventory.get(0).isEmpty();
+    }
+
     public DefaultedList<ItemStack> getInventory() {
         return inventory;
     }
