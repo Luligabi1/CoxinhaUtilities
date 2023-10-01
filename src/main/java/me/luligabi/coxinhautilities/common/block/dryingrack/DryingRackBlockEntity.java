@@ -99,6 +99,11 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity implements In
         return this.inventory.get(0).isEmpty();
     }
 
+    @Override
+    public int getMaxCountPerStack() {
+        return 1;
+    }
+
     public DefaultedList<ItemStack> getInventory() {
         return inventory;
     }
