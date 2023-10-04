@@ -1,4 +1,4 @@
-package me.luligabi.coxinhautilities.common.util;
+package me.luligabi.coxinhautilities.client;
 
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
