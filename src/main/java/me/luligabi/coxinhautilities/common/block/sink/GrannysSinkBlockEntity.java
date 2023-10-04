@@ -75,7 +75,7 @@ public class GrannysSinkBlockEntity extends BlockEntity {
     };
 
     public boolean fluidIo(PlayerEntity player, Hand hand) {
-        return FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand) && !player.getWorld().isClient();
+        return FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand);
     }
 
     @Override

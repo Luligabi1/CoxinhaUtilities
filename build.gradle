@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'fabric-loom' version '1.4-SNAPSHOT'
     id "com.matthewprenger.cursegradle" version '1.4.0'
     id "com.modrinth.minotaur" version '2.3.1'
     id 'maven-publish'
@@ -41,10 +41,10 @@ dependencies {
     }
 
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+    // modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 
-    modCompileOnly "dev.emi:emi:${project.emi_version}:api"
-//    modRuntimeOnly "dev.emi:emi:${project.emi_version}"
+    modCompileOnly "dev.emi:emi-fabric:${project.emi_version}:api"
+    modRuntimeOnly "dev.emi:emi-fabric:${project.emi_version}"
 
     modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
     modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"

@@ -5,6 +5,7 @@ import me.luligabi.coxinhautilities.common.block.trashcan.AbstractTrashCanBlockE
 import me.luligabi.coxinhautilities.common.screenhandler.FluidTrashCanScreenHandler;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -17,6 +18,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -75,6 +77,10 @@ public class FluidTrashCanBlockEntity extends AbstractTrashCanBlockEntity {
                 transaction.commit();
             }
         }
+    }
+
+    public boolean fluidIo(PlayerEntity player, Hand hand) {
+        return FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand);
     }
 
     @Override

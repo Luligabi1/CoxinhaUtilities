@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
@@ -41,11 +42,12 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
     @SuppressWarnings("ConstantConditions")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(!world.isClient() && (player.isSneaking() || !player.getOffHandStack().isEmpty())) { // allows unwrapping boxes with a block/shield on offhand
+        if((player.isSneaking() || !player.getOffHandStack().isEmpty())) { // allows unwrapping boxes with a block/shield on offhand
             Optional<BlockEntity> blockEntity = Optional.ofNullable(world.getBlockEntity(pos));
             BlockState blockState = blockEntity.isPresent() ? ((CardboardBoxBlockEntity) blockEntity.get()).blockState : state;
             if(state.isAir()) return ActionResult.FAIL;
 
+            if(world.isClient()) return ActionResult.CONSUME;
             NbtList compound = blockEntity.map(entity -> ((CardboardBoxBlockEntity) entity).nbtCopy).orElse(null);
 
             world.setBlockState(pos, getPlacementState(blockState, state.get(FACING).getOpposite()));
@@ -54,17 +56,21 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
 
             ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(BlockRegistry.CARDBOARD_BOX));
             world.playSound(null, pos, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.BLOCKS, 1F, 1F);
-            return ActionResult.SUCCESS; // FIXME: Fix unwrapping boxes opening the box's content block's UI
+            return ActionResult.CONSUME; // FIXME: Fix unwrapping boxes opening the box's content block's UI
         }
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        BlockState blockState = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), stack.getOrCreateNbt().getCompound("BlockEntityTag").getCompound("BlockState"));
+        NbtCompound nbt = stack.getNbt();
 
-        if(!blockState.isOf(Blocks.AIR)) {
-            tooltip.add(Text.translatable(blockState.getBlock().getTranslationKey()).formatted(Formatting.GOLD));
+        if(nbt != null) {
+            BlockState blockState = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), nbt.getCompound("BlockEntityTag").getCompound("BlockState"));
+
+            if(!blockState.isOf(Blocks.AIR)) {
+                tooltip.add(Text.translatable(blockState.getBlock().getTranslationKey()).formatted(Formatting.GOLD));
+            }
         } else {
             tooltip.add(Text.translatable("tooltip.coxinhautilities.empty").formatted(Formatting.GRAY));
         }

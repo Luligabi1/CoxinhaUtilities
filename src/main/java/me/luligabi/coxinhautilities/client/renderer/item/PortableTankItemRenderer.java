@@ -2,7 +2,7 @@ package me.luligabi.coxinhautilities.client.renderer.item;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockEntity;
-import me.luligabi.coxinhautilities.common.util.RenderUtil;
+import me.luligabi.coxinhautilities.client.RenderUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;

@@ -1,7 +1,7 @@
 package me.luligabi.coxinhautilities.client.renderer.blockentity;
 
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlockEntity;
-import me.luligabi.coxinhautilities.common.util.RenderUtil;
+import me.luligabi.coxinhautilities.client.RenderUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
