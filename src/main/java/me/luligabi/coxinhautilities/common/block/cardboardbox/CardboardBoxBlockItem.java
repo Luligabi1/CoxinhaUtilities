@@ -34,41 +34,41 @@ public class CardboardBoxBlockItem extends BlockItem {
     @SuppressWarnings("ConstantConditions")
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        if(!context.getWorld().isClient()) {
-            World world = context.getWorld();
-            BlockPos pos = context.getBlockPos();
-            Optional<BlockEntity> blockEntity = Optional.ofNullable(world.getBlockEntity(pos));
+        World world = context.getWorld();
+        BlockPos pos = context.getBlockPos();
+        Optional<BlockEntity> blockEntity = Optional.ofNullable(world.getBlockEntity(pos));
 
-            if(context.getPlayer().isSneaking()) {
-                BlockState blockState = world.getBlockState(pos);
-                if(blockState.getBlock().getHardness() >= 0.01F && isNbtBlockAir(context.getStack()) && !blockState.isIn(TagRegistry.UNBOXABLE) && !isOnCarrierBlackList(blockState)) {
-                    if(blockEntity.isPresent() && hasLootTable(blockEntity.get())) return super.useOnBlock(context);
+        if(context.getPlayer().isSneaking()) {
+            BlockState blockState = world.getBlockState(pos);
+            if(blockState.getBlock().getHardness() >= 0.01F && isNbtBlockAir(context.getStack()) && !blockState.isIn(TagRegistry.UNBOXABLE) && !isOnCarrierBlackList(blockState)) {
+                if(blockEntity.isPresent() && hasLootTable(blockEntity.get())) return super.useOnBlock(context);
 
-                    NbtList nbtList = new NbtList();
-                    if(blockEntity.isPresent()) {
-                        NbtCompound nbtCopy = blockEntity.get().createNbtWithId();
-                        nbtCopy.remove("id");
-                        nbtCopy.remove("x");
-                        nbtCopy.remove("y");
-                        nbtCopy.remove("z");
-                        nbtList.add(nbtCopy);
+                if(context.getWorld().isClient()) return ActionResult.CONSUME;
 
-                        // Desperate attempt to cover every edge case :)
-                        Clearable.clear(blockEntity);
-                        world.removeBlockEntity(pos);
-                    }
-                    world.setBlockState(pos, BlockRegistry.CARDBOARD_BOX.getPlacementState(new ItemPlacementContext(context)), 32);
-                    world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS, 1F, 1F);
+                NbtList nbtList = new NbtList();
+                if(blockEntity.isPresent()) {
+                    NbtCompound nbtCopy = blockEntity.get().createNbtWithId();
+                    nbtCopy.remove("id");
+                    nbtCopy.remove("x");
+                    nbtCopy.remove("y");
+                    nbtCopy.remove("z");
+                    nbtList.add(nbtCopy);
 
-                    blockEntity = Optional.ofNullable(world.getBlockEntity(pos)); // refresh block entity
-                    if(blockEntity.isPresent() && blockEntity.get() instanceof CardboardBoxBlockEntity cardboardBoxBE) {
-                        cardboardBoxBE.blockState = blockState;
-                        cardboardBoxBE.nbtCopy = nbtList;
-                        blockEntity.get().markDirty();
-                    }
-                    context.getStack().decrement(1);
-                    return ActionResult.PASS;
+                    // Desperate attempt to cover every edge case :)
+                    Clearable.clear(blockEntity);
+                    world.removeBlockEntity(pos);
                 }
+                world.setBlockState(pos, BlockRegistry.CARDBOARD_BOX.getPlacementState(new ItemPlacementContext(context)), 32);
+                world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS, 1F, 1F);
+
+                blockEntity = Optional.ofNullable(world.getBlockEntity(pos)); // refresh block entity
+                if(blockEntity.isPresent() && blockEntity.get() instanceof CardboardBoxBlockEntity cardboardBoxBE) {
+                    cardboardBoxBE.blockState = blockState;
+                    cardboardBoxBE.nbtCopy = nbtList;
+                    blockEntity.get().markDirty();
+                }
+                context.getStack().decrement(1);
+                return ActionResult.CONSUME;
             }
         }
         return super.useOnBlock(context);
