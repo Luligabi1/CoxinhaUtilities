@@ -42,11 +42,12 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
     @SuppressWarnings("ConstantConditions")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(!world.isClient() && (player.isSneaking() || !player.getOffHandStack().isEmpty())) { // allows unwrapping boxes with a block/shield on offhand
+        if((player.isSneaking() || !player.getOffHandStack().isEmpty())) { // allows unwrapping boxes with a block/shield on offhand
             Optional<BlockEntity> blockEntity = Optional.ofNullable(world.getBlockEntity(pos));
             BlockState blockState = blockEntity.isPresent() ? ((CardboardBoxBlockEntity) blockEntity.get()).blockState : state;
             if(state.isAir()) return ActionResult.FAIL;
 
+            if(world.isClient()) return ActionResult.CONSUME;
             NbtList compound = blockEntity.map(entity -> ((CardboardBoxBlockEntity) entity).nbtCopy).orElse(null);
 
             world.setBlockState(pos, getPlacementState(blockState, state.get(FACING).getOpposite()));
@@ -55,7 +56,7 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
 
             ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(BlockRegistry.CARDBOARD_BOX));
             world.playSound(null, pos, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.BLOCKS, 1F, 1F);
-            return ActionResult.SUCCESS; // FIXME: Fix unwrapping boxes opening the box's content block's UI
+            return ActionResult.CONSUME; // FIXME: Fix unwrapping boxes opening the box's content block's UI
         }
         return super.onUse(state, world, pos, player, hand, hit);
     }
