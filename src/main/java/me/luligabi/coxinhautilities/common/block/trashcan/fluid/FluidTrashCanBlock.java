@@ -1,6 +1,7 @@
 package me.luligabi.coxinhautilities.common.block.trashcan.fluid;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
+import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockEntity;
 import me.luligabi.coxinhautilities.common.block.trashcan.AbstractTrashCanBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.BlockState;
@@ -33,13 +34,17 @@ public class FluidTrashCanBlock extends AbstractTrashCanBlock {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient) return ActionResult.SUCCESS;
+        if(((FluidTrashCanBlockEntity) world.getBlockEntity(pos)).fluidIo(player, hand)) {
+            return ActionResult.success(world.isClient);
+        }
+
+        if(world.isClient) return ActionResult.SUCCESS;
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof FluidTrashCanBlockEntity) {
             player.openHandledScreen((FluidTrashCanBlockEntity) blockEntity);
             return ActionResult.CONSUME;
         }
-        return ActionResult.PASS;
+        return ActionResult.FAIL;
     }
 
     @Override

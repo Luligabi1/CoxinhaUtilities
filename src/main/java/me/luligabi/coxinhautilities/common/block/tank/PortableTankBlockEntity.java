@@ -36,7 +36,7 @@ public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
     };
 
     public boolean fluidIo(PlayerEntity player, Hand hand) {
-        return FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand) && !player.getWorld().isClient();
+        return FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand);
     }
 
     public boolean hasWrittenNbt() {

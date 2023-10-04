@@ -39,10 +39,10 @@ public class PortableTankBlock extends BlockWithEntity implements IWittyComment 
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (((PortableTankBlockEntity) world.getBlockEntity(pos)).fluidIo(player, hand)) {
-            return ActionResult.SUCCESS;
+        if(((PortableTankBlockEntity) world.getBlockEntity(pos)).fluidIo(player, hand)) {
+            return ActionResult.success(world.isClient);
         }
-        return ActionResult.PASS;
+        return ActionResult.FAIL;
     }
 
     @Nullable
