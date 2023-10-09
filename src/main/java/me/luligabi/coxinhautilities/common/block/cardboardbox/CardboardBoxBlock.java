@@ -56,7 +56,7 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
 
             ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(BlockRegistry.CARDBOARD_BOX));
             world.playSound(null, pos, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.BLOCKS, 1F, 1F);
-            return ActionResult.CONSUME; // FIXME: Fix unwrapping boxes opening the box's content block's UI
+            return ActionResult.CONSUME;
         }
         return super.onUse(state, world, pos, player, hand, hit);
     }
