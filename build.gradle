@@ -5,6 +5,12 @@ plugins {
     id 'maven-publish'
 }
 
+configurations.configureEach {
+    resolutionStrategy {
+        force("net.fabricmc:fabric-loader:$loader_version")
+    }
+}
+
 archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
@@ -20,8 +26,11 @@ def getChangeLog() {
 }
 
 repositories {
-    maven { url = "https://maven.isxander.dev/releases/" } // YACL
-    maven { url "https://maven.shedaniel.me/" } // REI
+    maven { url 'https://maven.isxander.dev/releases/' } // YACL
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // YACL dependency
+    maven { url 'https://maven.quiltmc.org/repository/release/' } // YACL dependency
+
+    maven { url 'https://maven.shedaniel.me/' } // REI
     maven { url 'https://maven.terraformersmc.com/releases/' } // ModMenu
 }
 
@@ -35,16 +44,15 @@ dependencies {
     include modApi("teamreborn:energy:${project.energy_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    
-    include modImplementation("dev.isxander.yacl:yet-another-config-lib-fabric:${project.yacl_version}") {
-        transitive(false)
-    }
+
+    modImplementation "dev.isxander.yacl:yet-another-config-lib-fabric:${project.yacl_version}"
+    include modImplementation("dev.isxander.yacl:yet-another-config-lib-fabric:${project.yacl_version}")
 
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
-    // modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 
     modCompileOnly "dev.emi:emi-fabric:${project.emi_version}:api"
-    modRuntimeOnly "dev.emi:emi-fabric:${project.emi_version}"
+    //modRuntimeOnly "dev.emi:emi-fabric:${project.emi_version}"
 
     modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
     modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
