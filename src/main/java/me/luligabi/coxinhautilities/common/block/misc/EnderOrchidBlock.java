@@ -77,12 +77,12 @@ public class EnderOrchidBlock extends CropBlock implements IWittyComment {
 
     @Override
     protected int getGrowthAmount(World world) {
-        return MathHelper.nextInt(world.random, 1, 3);
+        return MathHelper.nextInt(world.random, 1, 2);
     }
 
     @Override
     public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
-        return state.get(this.getAgeProperty()) != 0;
+        return state.get(getAgeProperty()) != 0 && state.get(getAgeProperty()) != 7;
     }
 
     @Override
