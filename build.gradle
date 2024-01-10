@@ -1,7 +1,6 @@
 plugins {
     id 'fabric-loom' version '1.4-SNAPSHOT'
-    id "com.matthewprenger.cursegradle" version '1.4.0'
-    id "com.modrinth.minotaur" version '2.3.1'
+    id 'me.modmuss50.mod-publish-plugin' version '0.4.5'
     id 'maven-publish'
 }
 
@@ -89,49 +88,49 @@ jar {
     }
 }
 
-curseforge {
-    if (ENV.CURSEFORGE_API_KEY) {
-        apiKey = ENV.CURSEFORGE_API_KEY
-    }
 
-    project {
-        id = project.curseforge_id
-        changelog = getChangeLog()
-        releaseType = "release"
-        addGameVersion project.minecraft_version
-        addGameVersion "Fabric"
+publishMods {
+    file = remapJar.archiveFile
+    displayName = (project.mod_version as String)
+    type = STABLE
+    modLoaders.add("fabric")
+    changelog =
+    """
+    """
 
-        mainArtifact(file(RELEASE_FILE)) {
-            displayName = RELEASE_NAME
-            relations {
-                requiredDependency 'fabric-api'
-                optionalDependency 'roughly-enough-items'
-            }
+    curseforge {
+        projectId = project.curseforge_id
+        projectSlug = "coxinha-utilities"
+        accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
+        minecraftVersions.add(project.minecraft_version)
+
+        requires {
+            slug = "fabric-api"
         }
-
-        afterEvaluate {
-            uploadTask.dependsOn("remapJar")
+        optional {
+            slug = "roughly-enough-items"
         }
     }
 
-    options {
-        forgeGradleIntegration = false
-    }
-}
+    modrinth {
+        projectId = project.modrinth_id
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        minecraftVersions.add(project.minecraft_version)
 
-//Modrinth publishing
-modrinth {
-    if (ENV.MODRINTH_TOKEN) {
-        token = ENV.MODRINTH_TOKEN
+        requires {
+            slug = "fabric-api"
+        }
+        optional {
+            slug = "rei"
+        }
     }
-    projectId = project.modrinth_id
-    versionNumber = project.mod_version
-    uploadFile = remapJar
-    gameVersions = [project.minecraft_version]
-    loaders = ['fabric']
-    versionType = "release"
-    changelog = getChangeLog()
-    dependencies {
-        required.project("fabric-api")
+
+
+    discord {
+        webhookUrl = providers.environmentVariable("CAFETERIA_MOD_RELEASE_WEBHOOK")
+        username = "Coxinha Utilities"
+        avatarUrl = "https://cdn.modrinth.com/data/NXqpbY3F/icon.png"
+
+        content = changelog.map { "# Coxinha Utilities " + (project.mod_version as String) + " has been released \n" + it}
     }
 }
