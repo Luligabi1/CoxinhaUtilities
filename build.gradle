@@ -1,8 +1,13 @@
 plugins {
     id 'fabric-loom' version '1.4-SNAPSHOT'
-    id "com.matthewprenger.cursegradle" version '1.4.0'
-    id "com.modrinth.minotaur" version '2.3.1'
+    id 'me.modmuss50.mod-publish-plugin' version '0.4.5'
     id 'maven-publish'
+}
+
+configurations.configureEach {
+    resolutionStrategy {
+        force("net.fabricmc:fabric-loader:$loader_version")
+    }
 }
 
 archivesBaseName = project.archives_base_name
@@ -20,8 +25,11 @@ def getChangeLog() {
 }
 
 repositories {
-    maven { url = "https://maven.isxander.dev/releases/" } // YACL
-    maven { url "https://maven.shedaniel.me/" } // REI
+    maven { url 'https://maven.isxander.dev/releases/' } // YACL
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // YACL dependency
+    maven { url 'https://maven.quiltmc.org/repository/release/' } // YACL dependency
+
+    maven { url 'https://maven.shedaniel.me/' } // REI
     maven { url 'https://maven.terraformersmc.com/releases/' } // ModMenu
 }
 
@@ -35,16 +43,15 @@ dependencies {
     include modApi("teamreborn:energy:${project.energy_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    
-    include modImplementation("dev.isxander.yacl:yet-another-config-lib-fabric:${project.yacl_version}") {
-        transitive(false)
-    }
+
+    modImplementation "dev.isxander.yacl:yet-another-config-lib-fabric:${project.yacl_version}"
+    include modImplementation("dev.isxander.yacl:yet-another-config-lib-fabric:${project.yacl_version}")
 
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
-    // modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 
     modCompileOnly "dev.emi:emi-fabric:${project.emi_version}:api"
-    modRuntimeOnly "dev.emi:emi-fabric:${project.emi_version}"
+    //modRuntimeOnly "dev.emi:emi-fabric:${project.emi_version}"
 
     modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
     modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
@@ -81,49 +88,49 @@ jar {
     }
 }
 
-curseforge {
-    if (ENV.CURSEFORGE_API_KEY) {
-        apiKey = ENV.CURSEFORGE_API_KEY
-    }
 
-    project {
-        id = project.curseforge_id
-        changelog = getChangeLog()
-        releaseType = "release"
-        addGameVersion project.minecraft_version
-        addGameVersion "Fabric"
+publishMods {
+    file = remapJar.archiveFile
+    displayName = (project.mod_version as String)
+    type = STABLE
+    modLoaders.add("fabric")
+    changelog =
+    """
+    """
 
-        mainArtifact(file(RELEASE_FILE)) {
-            displayName = RELEASE_NAME
-            relations {
-                requiredDependency 'fabric-api'
-                optionalDependency 'roughly-enough-items'
-            }
+    curseforge {
+        projectId = project.curseforge_id
+        projectSlug = "coxinha-utilities"
+        accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
+        minecraftVersions.add(project.minecraft_version)
+
+        requires {
+            slug = "fabric-api"
         }
-
-        afterEvaluate {
-            uploadTask.dependsOn("remapJar")
+        optional {
+            slug = "roughly-enough-items"
         }
     }
 
-    options {
-        forgeGradleIntegration = false
-    }
-}
+    modrinth {
+        projectId = project.modrinth_id
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        minecraftVersions.add(project.minecraft_version)
 
-//Modrinth publishing
-modrinth {
-    if (ENV.MODRINTH_TOKEN) {
-        token = ENV.MODRINTH_TOKEN
+        requires {
+            slug = "fabric-api"
+        }
+        optional {
+            slug = "rei"
+        }
     }
-    projectId = project.modrinth_id
-    versionNumber = project.mod_version
-    uploadFile = remapJar
-    gameVersions = [project.minecraft_version]
-    loaders = ['fabric']
-    versionType = "release"
-    changelog = getChangeLog()
-    dependencies {
-        required.project("fabric-api")
+
+
+    discord {
+        webhookUrl = providers.environmentVariable("CAFETERIA_MOD_RELEASE_WEBHOOK")
+        username = "Coxinha Utilities"
+        avatarUrl = "https://cdn.modrinth.com/data/NXqpbY3F/icon.png"
+
+        content = changelog.map { "# Coxinha Utilities " + (project.mod_version as String) + " has been released \n" + it}
     }
 }

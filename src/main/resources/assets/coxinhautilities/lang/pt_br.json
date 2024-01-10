@@ -121,18 +121,26 @@
 
   "block.coxinhautilities.wet_lava_sponge": "Esponja de Lava molhada",
 
-  "configOption.coxinhautilities.canGenerateEnderOrchids": "Gerar Orquídeas do Fim?",
-  "configOption.coxinhautilities.canGenerateEnderOrchids.tooltip": "Se Orquídeas do Fim podem ser geradas no Fim.",
 
-  "configOption.coxinhautilities.hasEnderOrchidStrictPlacement": "Restringir Colocamento de Orquídeas do Fim?",
-  "configOption.coxinhautilities.hasEnderOrchidStrictPlacement.tooltip": "Se Orquídeas do Fim podem ser plantadas em blocos que não são Pedra do End",
+  "yacl3.config.coxinhautilities:common.category.ender_orchid": "Orquídea do Fim",
 
-  "configOption.coxinhautilities.enderOrchidRegularGrowthRate": "Taxa de Crescimento Normal das Orquídeas do Fim",
-  "configOption.coxinhautilities.enderOrchidRegularGrowthRate.tooltip": "Quão rápido Orquídeas do Fim crescem em Pedras do End",
 
-  "configOption.coxinhautilities.enderOrchidSpecialGrowthRate": "Taxa de Crescimento Especial das Orquídeas do Fi",
-  "configOption.coxinhautilities.enderOrchidSpecialGrowthRate.tooltip": "Quão rápido Orquídeas do Fim crescem em blocos que não são Pedra do End",
+  "yacl3.config.coxinhautilities:common.canGenerateEnderOrchids": "Gerar Orquídeas do Fim?",
+  "yacl3.config.coxinhautilities:common.canGenerateEnderOrchids.desc": "Se Orquídeas do Fim podem ser geradas no Fim.",
 
-  "configOption.coxinhautilities.useCarrierBlacklist": "Usar a Lista Negra do Carrier?",
-  "configOption.coxinhautilities.useCarrierBlacklist.tooltip": "Não permite colocar blocos na Lista Negra do Carrier em uma caixa"
+  "yacl3.config.coxinhautilities:common.hasEnderOrchidStrictPlacement": "Restringir Colocamento de Orquídeas do Fim?",
+  "yacl3.config.coxinhautilities:common.hasEnderOrchidStrictPlacement.desc": "Se Orquídeas do Fim podem ser plantadas em blocos que não são Pedra do End",
+
+  "yacl3.config.coxinhautilities:common.enderOrchidRegularGrowthRate": "Taxa de Crescimento Normal das Orquídeas do Fim",
+  "yacl3.config.coxinhautilities:common.enderOrchidRegularGrowthRate.desc": "Quão rápido Orquídeas do Fim crescem em Pedras do End",
+
+  "yacl3.config.coxinhautilities:common.enderOrchidSpecialGrowthRate": "Taxa de Crescimento Especial das Orquídeas do Fi",
+  "yacl3.config.coxinhautilities:common.enderOrchidSpecialGrowthRate.desc": "Quão rápido Orquídeas do Fim crescem em blocos que não são Pedra do End",
+
+
+  "yacl3.config.coxinhautilities:common.category.cardboard_box": "Caixa de Papelão",
+
+
+  "yacl3.config.coxinhautilities:common.useCarrierBlacklist": "Usar a Lista Negra do Carrier?",
+  "yacl3.config.coxinhautilities:common.useCarrierBlacklist.desc": "Não permite colocar blocos na lista negra do Carrier em uma caixa"
 }

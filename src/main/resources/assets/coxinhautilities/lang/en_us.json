@@ -128,18 +128,26 @@
 
   "itemGroup.coxinhautilities.item_group": "Coxinha Utilities",
 
-  "configOption.coxinhautilities.canGenerateEnderOrchids": "Generate Ender Orchids?",
-  "configOption.coxinhautilities.canGenerateEnderOrchids.tooltip": "Whether Ender Orchids can be generated naturally on The End",
 
-  "configOption.coxinhautilities.hasEnderOrchidStrictPlacement": "Enable Ender Orchid's Strict Placement?",
-  "configOption.coxinhautilities.hasEnderOrchidStrictPlacement.tooltip": "Whether Ender Orchids can be placed on non-End Stone blocks",
+  "yacl3.config.coxinhautilities:common.category.ender_orchid": "Ender Orchid",
 
-  "configOption.coxinhautilities.enderOrchidRegularGrowthRate": "Ender Orchid's Regular Growth Rate",
-  "configOption.coxinhautilities.enderOrchidRegularGrowthRate.tooltip": "How fast Ender Orchids grow on End Stone blocks",
 
-  "configOption.coxinhautilities.enderOrchidSpecialGrowthRate": "Ender Orchid's Special Growth Rate",
-  "configOption.coxinhautilities.enderOrchidSpecialGrowthRate.tooltip": "How fast Ender Orchids grow on non-End Stone blocks",
+  "yacl3.config.coxinhautilities:common.canGenerateEnderOrchids": "Generate Ender Orchids?",
+  "yacl3.config.coxinhautilities:common.canGenerateEnderOrchids.desc": "Whether Ender Orchids can be generated naturally on The End",
 
-  "configOption.coxinhautilities.useCarrierBlacklist": "Use Carrier's Blacklist?",
-  "configOption.coxinhautilities.useCarrierBlacklist.tooltip": "Don't allow blocks on Carrier's blacklist to be placed inside a box"
+  "yacl3.config.coxinhautilities:common.hasEnderOrchidStrictPlacement": "Enable Ender Orchid's Strict Placement?",
+  "yacl3.config.coxinhautilities:common.hasEnderOrchidStrictPlacement.desc": "Whether Ender Orchids can be placed on non-End Stone blocks",
+
+  "yacl3.config.coxinhautilities:common.enderOrchidRegularGrowthRate": "Ender Orchid's Regular Growth Rate",
+  "yacl3.config.coxinhautilities:common.enderOrchidRegularGrowthRate.desc": "How fast Ender Orchids grow on End Stone blocks",
+
+  "yacl3.config.coxinhautilities:common.enderOrchidSpecialGrowthRate": "Ender Orchid's Special Growth Rate",
+  "yacl3.config.coxinhautilities:common.enderOrchidSpecialGrowthRate.desc": "How fast Ender Orchids grow on non-End Stone blocks",
+
+
+  "yacl3.config.coxinhautilities:common.category.cardboard_box": "Cardboard Box",
+
+
+  "yacl3.config.coxinhautilities:common.useCarrierBlacklist": "Use Carrier's Blacklist?",
+  "yacl3.config.coxinhautilities:common.useCarrierBlacklist.desc": "Don't allow blocks on Carrier's blacklist to be packed"
 }

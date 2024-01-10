@@ -10,7 +10,7 @@ public class TagRegistry {
 
     public static final TagKey<Block> UNBOXABLE = TagKey.of(RegistryKeys.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "unboxable"));
     public static final TagKey<Block> CARRIER_BLACKLIST = TagKey.of(RegistryKeys.BLOCK, new Identifier("carrier", "blacklist"));
-
+    public static final TagKey<Block> ENDER_ORCHID_STRICT_PLACEMENT = TagKey.of(RegistryKeys.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "ender_orchid_strict_placement"));
 
     public static void init() {
         // NO-OP
