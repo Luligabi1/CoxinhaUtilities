@@ -18,18 +18,17 @@ import me.luligabi.coxinhautilities.common.block.trashcan.energy.EnergyTrashCanB
 import me.luligabi.coxinhautilities.common.block.trashcan.fluid.FluidTrashCanBlock;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlock;
 import me.luligabi.coxinhautilities.common.misc.ItemGroupInit;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.VerticallyAttachableBlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.math.Direction;
 
@@ -52,16 +51,12 @@ public class BlockRegistry {
 
         initBlock("drying_rack", DRYING_RACK);
 
-        Registry.register(Registries.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "cardboard_box"), CARDBOARD_BOX);
-        Registry.register(Registries.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, "cardboard_box"), new CardboardBoxBlockItem());
+        Registry.register(Registries.BLOCK, CoxinhaUtilities.id("cardboard_box"), CARDBOARD_BOX);
+        Registry.register(Registries.ITEM, CoxinhaUtilities.id("cardboard_box"), new CardboardBoxBlockItem());
         ItemGroupInit.ITEMS.add(new ItemStack(CARDBOARD_BOX));
 
-        Registry.register(Registries.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "ender_orchid"), ENDER_ORCHID);
-        Registry.register(Registries.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "potted_ender_orchid"), POTTED_ENDER_ORCHID);
-
-        /*initBlock("overworld_cake", OVERWORLD_CAKE, Rarity.UNCOMMON); // TODO: Fix first usage triggering the Credits Screen
-        initBlock("nether_cake", NETHER_CAKE, Rarity.UNCOMMON); // TODO: Fix Nether Cake being borked
-        initBlock("ender_cake", ENDER_CAKE, Rarity.UNCOMMON);*/
+        Registry.register(Registries.BLOCK, CoxinhaUtilities.id("ender_orchid"), ENDER_ORCHID);
+        Registry.register(Registries.BLOCK, CoxinhaUtilities.id("potted_ender_orchid"), POTTED_ENDER_ORCHID);
 
         initWallStandingBlock("aquatic_torch", AQUATIC_TORCH, WALL_AQUATIC_TORCH);
 
@@ -92,7 +87,7 @@ public class BlockRegistry {
         //initBlock("tinted_glass_pane", TINTED_GLASS_PANE);
     }
 
-    public static final HopperBlock WOODEN_HOPPER = new WoodenHopperBlock(FabricBlockSettings.create().strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD).mapColor(MapColor.OAK_TAN));
+    public static final HopperBlock WOODEN_HOPPER = new WoodenHopperBlock(AbstractBlock.Settings.create().strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD).mapColor(MapColor.OAK_TAN));
 
     public static final PortableTankBlock PORTABLE_TANK_MK1 = new PortableTankBlock(TankTier.MK1);
     public static final PortableTankBlock PORTABLE_TANK_MK2 = new PortableTankBlock(TankTier.MK2);
@@ -100,21 +95,21 @@ public class BlockRegistry {
     public static final PortableTankBlock PORTABLE_TANK_MK4 =  new PortableTankBlock(TankTier.MK4);
     public static final PortableTankBlock PORTABLE_TANK_MK5 = new PortableTankBlock(TankTier.MK5);
 
-    public static final GrannysSinkBlock GRANNYS_SINK = new GrannysSinkBlock(FabricBlockSettings.create().requiresTool().strength(0.8F).mapColor(MapColor.TERRACOTTA_CYAN));
+    public static final GrannysSinkBlock GRANNYS_SINK = new GrannysSinkBlock(AbstractBlock.Settings.create().requiresTool().strength(0.8F).mapColor(MapColor.TERRACOTTA_CYAN));
 
     public static final FluidTrashCanBlock FLUID_TRASH_CAN = new FluidTrashCanBlock();
     public static final EnergyTrashCanBlock ENERGY_TRASH_CAN = new EnergyTrashCanBlock();
 
-    public static final DryingRackBlock DRYING_RACK = new DryingRackBlock();
+    public static final DryingRackBlock DRYING_RACK = new DryingRackBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS));
 
-    public static final CardboardBoxBlock CARDBOARD_BOX = new CardboardBoxBlock();
+    public static final CardboardBoxBlock CARDBOARD_BOX = new CardboardBoxBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS).strength(0.5F).sounds(BlockSoundGroup.WOOD));
 
     //public static final Block OVERWORLD_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.OVERWORLD);
     //public static final Block NETHER_CAKE = new NetherCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL));
     //public static final Block ENDER_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.END);
 
     public static final Block ENDER_ORCHID = new EnderOrchidBlock();
-    public static final Block POTTED_ENDER_ORCHID = new FlowerPotBlock(ENDER_ORCHID, FabricBlockSettings.create().breakInstantly().nonOpaque().pistonBehavior(PistonBehavior.DESTROY));
+    public static final Block POTTED_ENDER_ORCHID = new FlowerPotBlock(ENDER_ORCHID, AbstractBlock.Settings.create().breakInstantly().nonOpaque().pistonBehavior(PistonBehavior.DESTROY));
 
     public static final Block AQUATIC_TORCH = new AquaticTorchBlock();
     public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock();
@@ -135,8 +130,8 @@ public class BlockRegistry {
     //public static final Block TINTED_GLASS_PANE = new TintedPaneBlock(FabricBlockSettings.copyOf(Blocks.TINTED_GLASS));
 
     private static void initBlock(String identifier, Block block, Rarity rarity, boolean isHidden) {
-        Registry.register(Registries.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, identifier), block);
-        Registry.register(Registries.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new BlockItem(block, new FabricItemSettings().rarity(rarity)));
+        Registry.register(Registries.BLOCK, CoxinhaUtilities.id(identifier), block);
+        Registry.register(Registries.ITEM, CoxinhaUtilities.id(identifier), new BlockItem(block, new Item.Settings().rarity(rarity)));
         if(!isHidden) {
             ItemGroupInit.ITEMS.add(new ItemStack(block));
         }
@@ -156,19 +151,19 @@ public class BlockRegistry {
     }
 
     private static void initPortableTankBlock(String identifier, PortableTankBlock block) {
-        Registry.register(Registries.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, identifier), block);
+        Registry.register(Registries.BLOCK, CoxinhaUtilities.id(identifier), block);
         if(block != PORTABLE_TANK_MK5) {
-            Registry.register(Registries.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new PortableTankBlockItem(block, new FabricItemSettings().maxCount(1)));
+            Registry.register(Registries.ITEM, CoxinhaUtilities.id(identifier), new PortableTankBlockItem(block, new Item.Settings().maxCount(1)));
         } else {
-            Registry.register(Registries.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new PortableTankBlockItem(block, new FabricItemSettings().maxCount(1).fireproof()));
+            Registry.register(Registries.ITEM, CoxinhaUtilities.id(identifier), new PortableTankBlockItem(block, new Item.Settings().maxCount(1).fireproof()));
         }
         ItemGroupInit.ITEMS.add(new ItemStack(block));
     }
 
     private static void initWallStandingBlock(String identifier, Block block, Block wallBlock) {
-        Registry.register(Registries.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, identifier), block);
-        Registry.register(Registries.BLOCK, new Identifier(CoxinhaUtilities.MOD_ID, "wall_" + identifier), wallBlock);
-        Registry.register(Registries.ITEM, new Identifier(CoxinhaUtilities.MOD_ID, identifier), new VerticallyAttachableBlockItem(block, wallBlock, new FabricItemSettings(), Direction.DOWN));
+        Registry.register(Registries.BLOCK, CoxinhaUtilities.id(identifier), block);
+        Registry.register(Registries.BLOCK, CoxinhaUtilities.id("wall_" + identifier), wallBlock);
+        Registry.register(Registries.ITEM, CoxinhaUtilities.id(identifier), new VerticallyAttachableBlockItem(block, wallBlock, new Item.Settings(), Direction.DOWN));
 
         ItemGroupInit.ITEMS.add(new ItemStack(block));
     }

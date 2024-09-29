@@ -11,10 +11,10 @@ import net.minecraft.util.Identifier;
 public class ScreenHandlingRegistry {
 
     public static void init() {
-        WOODEN_HOPPER_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, new Identifier(CoxinhaUtilities.MOD_ID, "wooden_hopper"), new ScreenHandlerType<>(WoodenHopperScreenHandler::new, FeatureSet.of(FeatureFlags.VANILLA)));
+        WOODEN_HOPPER_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, CoxinhaUtilities.id("wooden_hopper"), new ScreenHandlerType<>(WoodenHopperScreenHandler::new, FeatureSet.of(FeatureFlags.VANILLA)));
 
-        FLUID_TRASH_CAN_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, new Identifier(CoxinhaUtilities.MOD_ID, "fluid_trash_can"), new ScreenHandlerType<>(FluidTrashCanScreenHandler::new, FeatureSet.of(FeatureFlags.VANILLA)));
-        ENERGY_TRASH_CAN_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, new Identifier(CoxinhaUtilities.MOD_ID, "energy_trash_can"), new ScreenHandlerType<>(EnergyTrashCanScreenHandler::new, FeatureSet.empty()));
+        FLUID_TRASH_CAN_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, CoxinhaUtilities.id("fluid_trash_can"), new ScreenHandlerType<>(FluidTrashCanScreenHandler::new, FeatureSet.of(FeatureFlags.VANILLA)));
+        ENERGY_TRASH_CAN_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER,CoxinhaUtilities.id("energy_trash_can"), new ScreenHandlerType<>(EnergyTrashCanScreenHandler::new, FeatureSet.empty()));
     }
 
     public static ScreenHandlerType<WoodenHopperScreenHandler> WOODEN_HOPPER_SCREEN_HANDLER;

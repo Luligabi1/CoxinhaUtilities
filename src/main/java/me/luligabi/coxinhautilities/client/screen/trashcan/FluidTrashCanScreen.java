@@ -15,7 +15,7 @@ public class FluidTrashCanScreen extends AbstractTrashCanScreen {
 
     @Override
     protected Identifier getTextureIdentifier() {
-        return new Identifier(CoxinhaUtilities.MOD_ID, "textures/gui/fluid_trash_can.png");
+        return CoxinhaUtilities.id("textures/gui/fluid_trash_can.png");
     }
 
 }

@@ -19,6 +19,8 @@ public class CoxinhaReiPlugin implements REIClientPlugin {
         registry.addWorkstations(DRYING, EntryStacks.of(BlockRegistry.DRYING_RACK));
     }
 
+
+
     @Override
     public void registerDisplays(DisplayRegistry registry) {
         registry.registerFiller(DryingRecipe.class, DryingRecipeDisplay::new);

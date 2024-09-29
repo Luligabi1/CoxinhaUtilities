@@ -3,6 +3,7 @@ package me.luligabi.coxinhautilities.client.renderer.item;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockEntity;
 import me.luligabi.coxinhautilities.client.RenderUtil;
+import me.luligabi.coxinhautilities.common.util.Util;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
@@ -14,6 +15,8 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -38,8 +41,8 @@ public class PortableTankItemRenderer implements BuiltinItemRendererRegistry.Dyn
 
         // Renders fluid using the tank's BER with data from the stack's nbt
         tankBlockEntity.fluidStorage.variant = FluidVariant.blank();
-        NbtCompound nbt = BlockItem.getBlockEntityNbt(stack);
-        if(nbt != null) tankBlockEntity.fromClientTag(nbt);
+        NbtComponent nbt = stack.get(DataComponentTypes.BLOCK_ENTITY_DATA); // FIXME might be getting incorrect value?
+        if(nbt != null) tankBlockEntity.fromClientTag(nbt.copyNbt(), tankBlockEntity.getWorld().getRegistryManager());
 
         DiffuseLighting.disableGuiDepthLighting();
         MinecraftClient.getInstance().getBlockEntityRenderDispatcher().renderEntity(

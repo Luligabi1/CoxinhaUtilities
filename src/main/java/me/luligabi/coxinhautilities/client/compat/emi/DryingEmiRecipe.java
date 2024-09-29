@@ -7,6 +7,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipe;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -15,10 +16,10 @@ import java.util.List;
 
 public class DryingEmiRecipe implements EmiRecipe {
 
-    public DryingEmiRecipe(DryingRecipe recipe) {
-        this.recipe = recipe;
-        this.input = EmiIngredient.of(recipe.getIngredient());
-        this.output = EmiStack.of(recipe.getOutput());
+    public DryingEmiRecipe(RecipeEntry<DryingRecipe> entry) {
+        this.entry = entry;
+        this.input = EmiIngredient.of(entry.value().getIngredient());
+        this.output = EmiStack.of(entry.value().getOutput());
     }
 
     @Override
@@ -28,7 +29,7 @@ public class DryingEmiRecipe implements EmiRecipe {
 
     @Override
     public @Nullable Identifier getId() {
-        return recipe.getId();
+        return entry.id();
     }
 
     @Override
@@ -53,15 +54,15 @@ public class DryingEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addFillingArrow(24, 5, recipe.getDryingTime() * 50).tooltip((mx, my) ->
-                List.of(TooltipComponent.of(Text.translatable("emi.cooking.time", recipe.getDryingTime() / 20F).asOrderedText()))
+        widgets.addFillingArrow(24, 5, entry.value().getDryingTime() * 50).tooltip((mx, my) ->
+                List.of(TooltipComponent.of(Text.translatable("emi.cooking.time", entry.value().getDryingTime() / 20F).asOrderedText()))
         );
 
         widgets.addSlot(input, 0, 4);
         widgets.addSlot(output, 56, 0).large(true).recipeContext(this);
     }
 
-    private final DryingRecipe recipe;
+    private final RecipeEntry<DryingRecipe> entry;
     private final EmiIngredient input;
     private final EmiStack output;
 }

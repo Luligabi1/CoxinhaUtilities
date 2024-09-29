@@ -3,15 +3,12 @@ package me.luligabi.coxinhautilities.common.block.cardboardbox;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.misc.TagRegistry;
-import me.luligabi.coxinhautilities.mixin.LootableContainerBlockEntityAccessor;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import me.luligabi.coxinhautilities.common.util.Util;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
@@ -28,7 +25,7 @@ import java.util.Optional;
 public class CardboardBoxBlockItem extends BlockItem {
 
     public CardboardBoxBlockItem() {
-        super(BlockRegistry.CARDBOARD_BOX, new FabricItemSettings());
+        super(BlockRegistry.CARDBOARD_BOX, new Item.Settings());
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -47,7 +44,7 @@ public class CardboardBoxBlockItem extends BlockItem {
 
                 NbtList nbtList = new NbtList();
                 if(blockEntity.isPresent()) {
-                    NbtCompound nbtCopy = blockEntity.get().createNbtWithId();
+                    NbtCompound nbtCopy = blockEntity.get().createNbtWithId(world.getRegistryManager());
                     nbtCopy.remove("id");
                     nbtCopy.remove("x");
                     nbtCopy.remove("y");
@@ -59,7 +56,7 @@ public class CardboardBoxBlockItem extends BlockItem {
                     world.removeBlockEntity(pos);
                 }
                 world.setBlockState(pos, BlockRegistry.CARDBOARD_BOX.getPlacementState(new ItemPlacementContext(context)), 32);
-                world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS, 1F, 1F);
+                world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER.value(), SoundCategory.BLOCKS, 1F, 1F); // FIXME use unique soundevent
 
                 blockEntity = Optional.ofNullable(world.getBlockEntity(pos)); // refresh block entity
                 if(blockEntity.isPresent() && blockEntity.get() instanceof CardboardBoxBlockEntity cardboardBoxBE) {
@@ -80,17 +77,17 @@ public class CardboardBoxBlockItem extends BlockItem {
     }
 
     private boolean hasLootTable(BlockEntity blockEntity) {
-        if(blockEntity instanceof LootableContainerBlockEntity) {
-            return ((LootableContainerBlockEntityAccessor) blockEntity).getLootTableId() != null;
+        if(blockEntity instanceof LootableContainerBlockEntity lootableContainer) {
+            return lootableContainer.getLootTable() != null;
         }
         return false;
     }
 
     private boolean isNbtBlockAir(ItemStack stack) {
-        NbtCompound nbt = stack.getNbt();
-        if(nbt == null) return true;
+        if(stack.get(DataComponentTypes.BLOCK_ENTITY_DATA) == null) return true;
 
-        return NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), nbt.getCompound("BlockEntityTag").getCompound("BlockState")).isAir();
+        NbtCompound data = Util.getBlockEntityData(stack);
+        return NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), data.getCompound("BlockState")).isAir();
     }
 
 }

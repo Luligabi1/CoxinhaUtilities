@@ -1,5 +1,6 @@
 package me.luligabi.coxinhautilities.common.block.trashcan;
 
+import com.mojang.serialization.MapCodec;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -42,7 +43,12 @@ public class AbstractTrashCanBlock extends BlockWithEntity implements IWittyComm
 
     @Override
     public List<Text> wittyComments() {
-        return null;
+        return List.of();
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return createCodec(AbstractTrashCanBlock::new);
     }
 
 }

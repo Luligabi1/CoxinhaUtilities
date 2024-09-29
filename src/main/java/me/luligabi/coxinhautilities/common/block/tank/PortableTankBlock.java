@@ -1,23 +1,24 @@
 package me.luligabi.coxinhautilities.common.block.tank;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -27,19 +28,26 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-@SuppressWarnings("UnstableApiUsage")
 public class PortableTankBlock extends BlockWithEntity implements IWittyComment {
-
-    public PortableTankBlock(TankTier tankTier) {
-        super(FabricBlockSettings.create().mapColor(MapColor.GRAY).strength(5.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.METAL));
-        this.tankTier = tankTier;
-    }
 
     private final TankTier tankTier;
 
+    public PortableTankBlock(TankTier tankTier) {
+        super(AbstractBlock.Settings.create().mapColor(MapColor.GRAY).strength(5.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.METAL));
+        this.tankTier = tankTier;
+    }
+
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(((PortableTankBlockEntity) world.getBlockEntity(pos)).fluidIo(player, hand)) {
+    protected MapCodec<? extends PortableTankBlock> getCodec() {
+        return RecordCodecBuilder.mapCodec(instance -> instance.group(
+                TankTier.CODEC.fieldOf("tier").forGetter(PortableTankBlock::getTankTier))
+            .apply(instance, PortableTankBlock::new));
+    }
+
+
+    @Override
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        if(((PortableTankBlockEntity) world.getBlockEntity(pos)).fluidIo(player, player.getActiveHand())) {
             return ActionResult.success(world.isClient);
         }
         return ActionResult.FAIL;
@@ -51,29 +59,26 @@ public class PortableTankBlock extends BlockWithEntity implements IWittyComment 
         return new PortableTankBlockEntity(pos, state);
     }
 
+
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
+        boolean hasData = stack.get(DataComponentTypes.BLOCK_ENTITY_DATA) != null;
+        NbtCompound data = Util.getBlockEntityData(stack);
+
         tooltip.add(Text.translatable("tooltip.coxinhautilities.tank.fluidVariant.1")
                     .formatted(tankTier.getPrimaryColor())
-                .append(!stack.hasNbt() || FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant")).isOf(Fluids.EMPTY) ?
+                .append(!hasData || Util.getFluidFromNbt(data).isOf(Fluids.EMPTY) ?
                         Text.translatable("tooltip.coxinhautilities.tank.none").formatted(tankTier.getSecondaryColor()) :
-                        Text.translatable("tooltip.coxinhautilities.tank.fluidVariant.2", FluidVariantAttributes.getName(FluidVariant.fromNbt(stack.getNbt().getCompound("BlockEntityTag").getCompound("fluidVariant"))))
-                    .formatted(tankTier.getSecondaryColor())));
+                        Text.translatable("tooltip.coxinhautilities.tank.fluidVariant.2", FluidVariantAttributes.getName(Util.getFluidFromNbt(data))))
+                    .formatted(tankTier.getSecondaryColor()));
 
         tooltip.add(Text.translatable("tooltip.coxinhautilities.tank.capacity.1")
                     .formatted(tankTier.getPrimaryColor())
                 .append(Text.translatable("tooltip.coxinhautilities.tank.capacity.2",
-                        !stack.hasNbt() ? "0" : String.valueOf(Screen.hasShiftDown() ? stack.getNbt().getCompound("BlockEntityTag").getLong("amount") : Util.getMilliBuckets(stack.getNbt().getCompound("BlockEntityTag").getLong("amount"))), // Current amount on tank
+                        !hasData ? "0" : String.valueOf(Screen.hasShiftDown() ? data.getLong("amount") : Util.getMilliBuckets(data.getLong("amount"))), // Current amount on tank
                         (Screen.hasShiftDown() ? tankTier.getCapacity() : Util.getMilliBuckets(tankTier.getCapacity())), // Total capacity
                         Screen.hasShiftDown() ? Text.translatable("unit.coxinhautilities.droplet") : Text.translatable("unit.coxinhautilities.milliBuckets")) // Liquid unit
                     .formatted(tankTier.getSecondaryColor())));
-
-        /*tooltip.add(new TranslatableText("tooltip.coxinhautilities.tank.bucketMode")
-                    .formatted(tankTier.getPrimaryColor())
-                .append(!stack.hasNbt() || !stack.getNbt().getCompound("BlockEntityTag").getBoolean("isBucketMode") ?
-                        new TranslatableText("tooltip.coxinhautilities.tank.bucketMode.off").formatted(tankTier.getSecondaryColor()) :
-                        new TranslatableText("tooltip.coxinhautilities.tank.bucketMode.on")
-                    .formatted(tankTier.getSecondaryColor())));*/
 
         addWittyComment(tooltip);
         tooltip.add(Text.empty());
@@ -95,7 +100,7 @@ public class PortableTankBlock extends BlockWithEntity implements IWittyComment 
 
     public void saveNbtToStack(BlockEntity blockEntity, ItemStack stack) {
         if (blockEntity instanceof PortableTankBlockEntity tank && tank.hasWrittenNbt()) {
-            BlockItem.setBlockEntityNbt(stack, tank.getType(), tank.createNbt());
+            stack.set(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.of(tank.createNbt(blockEntity.getWorld().getRegistryManager())));
         }
     }
 

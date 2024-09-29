@@ -36,7 +36,7 @@ public class TooltippedArrow extends Arrow {
     public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
         arrow.render(ctx, mouseX, mouseY, delta);
         final Point mousePoint = new Point(mouseX, mouseY);
-        if (containsMouse(mousePoint)) getTooltip(TooltipContext.of(mousePoint)).queue();
+        //if (containsMouse(mousePoint)) getTooltip(TooltipContext.of(mousePoint)).queue(); // FIXME
     }
 
     @Override

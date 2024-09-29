@@ -25,8 +25,8 @@ public class WallAquaticTorchBlock extends WallTorchBlock implements Waterloggab
 
     public WallAquaticTorchBlock() {
         super(
-                FabricBlockSettings.create().sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD),
-                null
+            null, // FIXME
+            Settings.create().sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD)
         );
         setDefaultState(stateManager.getDefaultState().with(WATERLOGGED, true));
     }

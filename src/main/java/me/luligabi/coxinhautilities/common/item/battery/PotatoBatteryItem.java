@@ -1,12 +1,14 @@
 package me.luligabi.coxinhautilities.common.item.battery;
 
+import me.luligabi.coxinhautilities.common.item.ComponentRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.component.ComponentChanges;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.registry.Registries;
@@ -20,6 +22,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyItem;
 
 import java.util.List;
@@ -27,7 +30,10 @@ import java.util.List;
 public class PotatoBatteryItem extends Item implements SimpleEnergyItem, IWittyComment {
 
     public PotatoBatteryItem(Settings settings) {
-        super(settings);
+        super(settings
+            .component(EnergyStorage.ENERGY_COMPONENT, 0L)
+            .component(ComponentRegistry.ENABLED, false)
+        );
     }
 
     @Override
@@ -45,10 +51,13 @@ public class PotatoBatteryItem extends Item implements SimpleEnergyItem, IWittyC
         if(world.isClient()) return TypedActionResult.pass(user.getStackInHand(hand));
         if(user.isSneaking()) {
             ItemStack stack = user.getStackInHand(hand);
-            NbtCompound stackNbt = stack.getOrCreateNbt();
-            boolean isEnabled = stackNbt.getBoolean("Enabled");
+            boolean isEnabled = stack.getOrDefault(ComponentRegistry.ENABLED, false);
 
-            stackNbt.putBoolean("Enabled", !isEnabled);
+            ComponentChanges changes = ComponentChanges.builder()
+                .add(ComponentRegistry.ENABLED, !isEnabled)
+                .build();
+            stack.applyChanges(changes);
+
             ((ServerPlayerEntity) user).networkHandler.sendPacket(
                     new PlaySoundS2CPacket(
                             Registries.SOUND_EVENT.getEntry(
@@ -75,13 +84,13 @@ public class PotatoBatteryItem extends Item implements SimpleEnergyItem, IWittyC
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if(world.isClient() || !(entity instanceof PlayerEntity)) return;
-        if(!stack.getOrCreateNbt().getBoolean("Enabled")) return;
+        if(!stack.getOrDefault(ComponentRegistry.ENABLED, false)) return;
 
         Util.distributePowerToInventory((PlayerEntity) entity, stack, getEnergyMaxOutput(stack), (predicateStack) -> !(predicateStack.getItem() instanceof PotatoBatteryItem));
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         appendPowerInfo(tooltip, stack);
         addWittyComment(tooltip);
     }
@@ -92,7 +101,7 @@ public class PotatoBatteryItem extends Item implements SimpleEnergyItem, IWittyC
                         .formatted(getPrimaryColor())
                 .append(Text.translatable(
                             "tooltip.coxinhautilities.potato_battery.2",
-                                Util.formatAccordingToLanguage().format(stack.getOrCreateNbt().getLong(ENERGY_KEY)),
+                                Util.formatAccordingToLanguage().format(stack.get(EnergyStorage.ENERGY_COMPONENT)),
                                 Util.formatAccordingToLanguage().format(getEnergyCapacity(stack))
                         ).formatted(getSecondaryColor())
                 )
@@ -100,7 +109,7 @@ public class PotatoBatteryItem extends Item implements SimpleEnergyItem, IWittyC
         tooltip.add(
                 Text.translatable("tooltip.coxinhautilities.potato_battery.3")
                         .formatted(getPrimaryColor())
-                        .append(ScreenTexts.onOrOff(stack.getOrCreateNbt().getBoolean("Enabled")).copy()
+                        .append(ScreenTexts.onOrOff(stack.getOrDefault(ComponentRegistry.ENABLED, false)).copy()
                                 .formatted(getSecondaryColor()))
         );
     }

@@ -9,6 +9,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
@@ -36,13 +37,13 @@ public abstract class ClientSyncedBlockEntity extends BlockEntity {
         sync(true);
     }
 
-    public abstract void toTag(NbtCompound nbt);
+    public abstract void toTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup);
 
-    public abstract void fromTag(NbtCompound nbt);
+    public abstract void fromTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup);
 
-    public abstract void toClientTag(NbtCompound nbt);
+    public abstract void toClientTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup);
 
-    public abstract void fromClientTag(NbtCompound nbt);
+    public abstract void fromClientTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup);
 
     @Nullable
     @Override
@@ -51,28 +52,28 @@ public abstract class ClientSyncedBlockEntity extends BlockEntity {
     }
 
     @Override
-    public final NbtCompound toInitialChunkDataNbt() {
-        NbtCompound nbt = super.toInitialChunkDataNbt();
-        toClientTag(nbt);
+    public final NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        NbtCompound nbt = super.toInitialChunkDataNbt(registryLookup);
+        toClientTag(nbt, registryLookup);
         nbt.putBoolean("#c", shouldClientRemesh); // mark client tag
         shouldClientRemesh = false;
         return nbt;
     }
 
     @Override
-    protected final void writeNbt(NbtCompound nbt) {
-        toTag(nbt);
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        toTag(nbt, registryLookup);
     }
 
     @Override
-    public final void readNbt(NbtCompound nbt) {
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         if (nbt.contains("#c")) {
-            fromClientTag(nbt);
+            fromClientTag(nbt, registryLookup);
             if (nbt.getBoolean("#c")) {
                 remesh();
             }
         } else {
-            fromTag(nbt);
+            fromTag(nbt, registryLookup);
         }
     }
 

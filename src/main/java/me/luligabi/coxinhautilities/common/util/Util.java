@@ -1,13 +1,19 @@
 package me.luligabi.coxinhautilities.common.util;
 
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 import org.joml.Vector3f;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.EnergyStorageUtil;
@@ -28,6 +34,18 @@ public class Util {
         } else {
             return "" + dropletAmount / 81;
         }
+    }
+
+    public static FluidVariant getFluidFromNbt(NbtCompound nbt) {
+        Identifier id = Identifier.of(((NbtCompound) nbt.get("variant")).getString("fluid"));
+        return FluidVariant.of(Registries.FLUID.get(id));
+    }
+
+    public static NbtCompound getBlockEntityData(ItemStack stack) {
+        NbtComponent component = stack.get(DataComponentTypes.BLOCK_ENTITY_DATA);
+        if(component == null) return new NbtCompound();
+
+        return component.copyNbt();
     }
 
     /*
@@ -67,20 +85,12 @@ public class Util {
 
 
     public static ItemStack singleCopy(ItemStack stack) {
-        if (stack.isEmpty()) return ItemStack.EMPTY;
-
-        ItemStack itemStack = new ItemStack(stack.getItem());
-        itemStack.setBobbingAnimationTime(stack.getBobbingAnimationTime());
-        if (stack.getNbt() != null) {
-            itemStack.setNbt(stack.getNbt().copy());
-        }
-        return itemStack;
+        return stack.copyComponentsToNewStack(stack.getItem(), 1);
     }
 
 
-    /*
+    /**
      * Used to apply commas and periods to numbers according to the client's language
-     *
      * eg.:
      * (en_us) = 10000 -> 10,000
      * (pt_br) = 10000 -> 10.000

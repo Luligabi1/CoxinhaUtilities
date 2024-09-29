@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.4-SNAPSHOT'
+    id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'me.modmuss50.mod-publish-plugin' version '0.4.5'
     id 'maven-publish'
 }
@@ -44,14 +44,21 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    modImplementation "dev.isxander.yacl:yet-another-config-lib-fabric:${project.yacl_version}"
-    include modImplementation("dev.isxander.yacl:yet-another-config-lib-fabric:${project.yacl_version}")
+    modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}-fabric"
+    include modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}-fabric")
 
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
-
     modCompileOnly "dev.emi:emi-fabric:${project.emi_version}:api"
-    //modRuntimeOnly "dev.emi:emi-fabric:${project.emi_version}"
+
+    switch(project.active_recipe_viewer) {
+        case "rei":
+            modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+            break
+        case "emi":
+            modRuntimeOnly "dev.emi:emi-fabric:${project.emi_version}"
+            break
+    }
+
 
     modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
     modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"

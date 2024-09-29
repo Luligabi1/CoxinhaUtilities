@@ -11,10 +11,10 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
-@SuppressWarnings("UnstableApiUsage")
 public class GrannysSinkBlockEntity extends BlockEntity {
 
     public GrannysSinkBlockEntity(BlockPos pos, BlockState state) {
@@ -79,17 +79,14 @@ public class GrannysSinkBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
-        fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluidVariant"));
-        fluidStorage.amount = nbt.getLong("amount");
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        SingleVariantStorage.readNbt(fluidStorage, FluidVariant.CODEC, FluidVariant::blank, nbt, registryLookup);
     }
 
+
     @Override
-    protected void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
-        nbt.put("fluidVariant", fluidStorage.variant.toNbt());
-        nbt.putLong("amount", fluidStorage.amount);
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        SingleVariantStorage.writeNbt(fluidStorage, FluidVariant.CODEC, nbt, registryLookup);
     }
 
 }

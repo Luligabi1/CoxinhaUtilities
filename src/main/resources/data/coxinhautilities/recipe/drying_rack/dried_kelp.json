@@ -1,0 +1,11 @@
+{
+  "type": "coxinhautilities:drying",
+
+  "ingredient": {
+    "item": "minecraft:kelp"
+  },
+  "result": {
+    "id": "minecraft:dried_kelp"
+  },
+  "dryingTime": 160
+}

@@ -1,20 +1,23 @@
 package me.luligabi.coxinhautilities.common.block.cardboardbox;
 
+import com.mojang.serialization.MapCodec;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import me.luligabi.coxinhautilities.common.util.Util;
+import me.luligabi.coxinhautilities.mixin.BlockEntityInvoker;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -25,7 +28,6 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,14 +36,19 @@ import java.util.Optional;
 
 public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment {
 
-    public CardboardBoxBlock() {
-        super(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(0.5F).sounds(BlockSoundGroup.WOOD));
+    public CardboardBoxBlock(Settings settings) {
+        super(settings);
         setDefaultState(stateManager.getDefaultState().with(FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return createCodec(CardboardBoxBlock::new);
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if((player.isSneaking() || !player.getOffHandStack().isEmpty())) { // allows unwrapping boxes with a block/shield on offhand
             Optional<BlockEntity> blockEntity = Optional.ofNullable(world.getBlockEntity(pos));
             BlockState blockState = blockEntity.isPresent() ? ((CardboardBoxBlockEntity) blockEntity.get()).blockState : state;
@@ -52,21 +59,22 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
 
             world.setBlockState(pos, getPlacementState(blockState, state.get(FACING).getOpposite()));
             blockEntity = Optional.ofNullable(world.getBlockEntity(pos));
-            blockEntity.ifPresent(entity -> entity.readNbt(compound.getCompound(0)));
+            blockEntity.ifPresent(entity -> ((BlockEntityInvoker) entity).invokeReadNbt(compound.getCompound(0), world.getRegistryManager()));
 
             ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(BlockRegistry.CARDBOARD_BOX));
             world.playSound(null, pos, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.BLOCKS, 1F, 1F);
             return ActionResult.CONSUME;
         }
-        return super.onUse(state, world, pos, player, hand, hit);
+        return super.onUse(state, world, pos, player, hit);
     }
 
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        NbtCompound nbt = stack.getNbt();
 
-        if(nbt != null) {
-            BlockState blockState = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), nbt.getCompound("BlockEntityTag").getCompound("BlockState"));
+    @Override
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
+        if(stack.get(DataComponentTypes.BLOCK_ENTITY_DATA) != null) {
+            NbtCompound data = Util.getBlockEntityData(stack);
+
+            BlockState blockState = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), data.getCompound("BlockState"));
 
             if(!blockState.isOf(Blocks.AIR)) {
                 tooltip.add(Text.translatable(blockState.getBlock().getTranslationKey()).formatted(Formatting.GOLD));
@@ -118,7 +126,7 @@ public class CardboardBoxBlock extends BlockWithEntity implements IWittyComment 
 
     public void saveNbtToStack(BlockEntity blockEntity, ItemStack stack) {
         if (blockEntity instanceof CardboardBoxBlockEntity cardboardBox && cardboardBox.hasWrittenNbt()) {
-            BlockItem.setBlockEntityNbt(stack, cardboardBox.getType(), cardboardBox.createNbt());
+            BlockItem.setBlockEntityData(stack, cardboardBox.getType(), cardboardBox.createNbt(cardboardBox.getWorld().getRegistryManager()));
         }
     }
 

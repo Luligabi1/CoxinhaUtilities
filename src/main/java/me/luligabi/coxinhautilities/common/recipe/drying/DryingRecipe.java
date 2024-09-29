@@ -1,27 +1,25 @@
 package me.luligabi.coxinhautilities.common.recipe.drying;
 
-import net.minecraft.inventory.Inventory;
+import me.luligabi.coxinhautilities.common.block.dryingrack.DryingRackInventory;
+import me.luligabi.coxinhautilities.common.recipe.RecipeRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 
-public class DryingRecipe implements Recipe<Inventory> {
+public class DryingRecipe implements Recipe<DryingRackInventory> {
 
     private final Ingredient ingredient;
-    private final ItemStack outputStack;
     private final int dryingTime;
-    private final Identifier identifier;
+    private final ItemStack outputStack;
 
-    public DryingRecipe(Ingredient ingredient, ItemStack outputStack, int dryingTime, Identifier identifier) {
+    public DryingRecipe(Ingredient ingredient, int dryingTime, ItemStack outputStack) {
         this.ingredient = ingredient;
-        this.outputStack = outputStack;
         this.dryingTime = dryingTime;
-        this.identifier = identifier;
+        this.outputStack = outputStack;
     }
 
     public Ingredient getIngredient() {
@@ -33,7 +31,7 @@ public class DryingRecipe implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack getOutput(DynamicRegistryManager registryManager) {
+    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
         return getOutput();
     }
 
@@ -42,13 +40,13 @@ public class DryingRecipe implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(DryingRackInventory input, RegistryWrapper.WrapperLookup lookup) {
         return outputStack.copy();
     }
 
     @Override
-    public boolean matches(Inventory inventory, World world) {
-        return ingredient.test(inventory.getStack(0));
+    public boolean matches(DryingRackInventory input, World world) {
+        return ingredient.test(input.getStackInSlot(0));
     }
 
     @Override
@@ -57,25 +55,13 @@ public class DryingRecipe implements Recipe<Inventory> {
     }
 
     @Override
-    public Identifier getId() {
-        return identifier;
-    }
-
-    @Override
     public RecipeSerializer<?> getSerializer() {
-        return DryingRecipeSerializer.INSTANCE;
-    }
-
-    public static class Type implements RecipeType<DryingRecipe> {
-        private Type() {}
-        public static final Type INSTANCE = new Type();
-
-        public static final String ID = "drying";
+        return RecipeRegistry.DRYING_RECIPE_SERIALIZER;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return Type.INSTANCE;
+        return RecipeRegistry.DRYING_RECIPE_TYPE;
     }
 
     @Override

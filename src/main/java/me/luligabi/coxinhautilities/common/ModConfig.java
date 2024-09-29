@@ -38,9 +38,9 @@ public class ModConfig {
 
 
     public static final ConfigClassHandler<ModConfig> HANDLER = ConfigClassHandler.createBuilder(ModConfig.class)
-        .id(new Identifier(CoxinhaUtilities.MOD_ID, "common"))
+        .id(CoxinhaUtilities.id("common"))
         .serializer(config -> GsonConfigSerializerBuilder.create(config)
-            .setPath(FabricLoader.getInstance().getConfigDir().resolve(String.format("%s.json", CoxinhaUtilities.MOD_ID)))
+            .setPath(FabricLoader.getInstance().getConfigDir().resolve(String.format("%s-common.json", CoxinhaUtilities.MOD_ID)))
             .build()
         ).build();
 }

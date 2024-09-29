@@ -26,6 +26,6 @@ public class FeatureRegistry {
     }
 
 
-    private static final RegistryKey<PlacedFeature> ENDER_ORCHID = RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier("coxinhautilities", "ender_orchid"));
+    private static final RegistryKey<PlacedFeature> ENDER_ORCHID = RegistryKey.of(RegistryKeys.PLACED_FEATURE, CoxinhaUtilities.id("ender_orchid"));
 
 }

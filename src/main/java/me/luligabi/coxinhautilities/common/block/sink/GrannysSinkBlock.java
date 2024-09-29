@@ -1,12 +1,14 @@
 package me.luligabi.coxinhautilities.common.block.sink;
 
+import com.mojang.serialization.MapCodec;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.state.StateManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -31,8 +33,13 @@ public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEnti
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(((GrannysSinkBlockEntity) world.getBlockEntity(pos)).fluidIo(player, hand)) {
+    protected MapCodec<? extends HorizontalFacingBlock> getCodec() {
+        return createCodec(GrannysSinkBlock::new);
+    }
+
+    @Override
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        if(((GrannysSinkBlockEntity) world.getBlockEntity(pos)).fluidIo(player, player.getActiveHand())) {
             return ActionResult.success(world.isClient);
         }
         return ActionResult.FAIL;
@@ -60,7 +67,7 @@ public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEnti
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
         tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.3").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));

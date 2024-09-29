@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 
 public class WoodenHopperScreen extends HandledScreen<ScreenHandler> {
 
-    private static final Identifier TEXTURE = new Identifier(CoxinhaUtilities.MOD_ID, "textures/gui/wooden_hopper.png");
+    private static final Identifier TEXTURE = CoxinhaUtilities.id("textures/gui/wooden_hopper.png");
 
     public WoodenHopperScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title.copyContentOnly().formatted(Formatting.WHITE));
@@ -31,7 +31,7 @@ public class WoodenHopperScreen extends HandledScreen<ScreenHandler> {
 
     @Override
     public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
-        renderBackground(ctx);
+        renderBackground(ctx, mouseX, mouseY, delta);
         super.render(ctx, mouseX, mouseY, delta);
         drawMouseoverTooltip(ctx, mouseX, mouseY);
     }

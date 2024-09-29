@@ -2,8 +2,8 @@ package me.luligabi.coxinhautilities.common.block.dryingrack;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.mojang.serialization.MapCodec;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
-import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipe;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -11,13 +11,11 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -37,16 +35,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-@SuppressWarnings("deprecation")
 public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
 
     public static final DirectionProperty FACING =  Properties.HORIZONTAL_FACING;
     private final Map<Direction, VoxelShape> SHAPE_MAP;
 
-    public DryingRackBlock() {
-        super(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
+    public DryingRackBlock(Settings settings) {
+        super(settings);
         SHAPE_MAP = Maps.newEnumMap(ImmutableMap.of(
                 Direction.NORTH, Block.createCuboidShape(0, 14, 14, 16, 16, 16),
                 Direction.SOUTH, Block.createCuboidShape(0, 14, 0, 16, 16, 2),
@@ -56,12 +52,13 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
         setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
     }
 
+
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if(world.isClient()) return ActionResult.CONSUME;
         DryingRackBlockEntity blockEntity = (DryingRackBlockEntity) world.getBlockEntity(pos);
         ItemStack dryingItem = blockEntity.getStack();
-        ItemStack handStack = player.getStackInHand(hand);
+        ItemStack handStack = player.getStackInHand(player.getActiveHand());
 
         if(dryingItem.isEmpty()) {
             if(!handStack.isEmpty()) {
@@ -87,7 +84,7 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
         tooltip.add(Text.translatable("tooltip.coxinhautilities.drying_rack").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         addWittyComment(tooltip);
     }
@@ -105,7 +102,12 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : checkType(type, BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, DryingRackBlockEntity::tick);
+        return world.isClient ? null : validateTicker(type, BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, DryingRackBlockEntity::tick);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return createCodec(DryingRackBlock::new);
     }
 
     @Override
@@ -120,8 +122,7 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
 
     @Override // TODO: Improve comparator logic
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if(blockEntity instanceof DryingRackBlockEntity dryingRackBlockEntity) {
+        if(world.getBlockEntity(pos) instanceof DryingRackBlockEntity dryingRackBlockEntity) {
             return dryingRackBlockEntity.inventory.isEmpty() ? 0 : 15;
         }
         return 0;
@@ -130,9 +131,8 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.isOf(newState.getBlock())) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof DryingRackBlockEntity) {
-                ItemScatterer.spawn(world, pos, ((DryingRackBlockEntity) blockEntity).inventory);
+            if (world.getBlockEntity(pos) instanceof DryingRackBlockEntity dryingRackBlockEntity ) {
+                ItemScatterer.spawn(world, pos, dryingRackBlockEntity.inventory);
                 world.updateComparators(pos, this);
             }
 

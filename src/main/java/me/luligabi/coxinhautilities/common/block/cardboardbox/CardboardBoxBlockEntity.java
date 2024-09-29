@@ -8,6 +8,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 
 public class CardboardBoxBlockEntity extends BlockEntity {
@@ -16,16 +17,17 @@ public class CardboardBoxBlockEntity extends BlockEntity {
         super(BlockEntityRegistry.CARDBOARD_BOX_BLOCK_ENTITY, pos, state);
     }
 
+
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
         blockState = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), nbt.getCompound("BlockState"));
         nbtCopy = nbt.getList("NbtCopy", 10);
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
         nbt.put("BlockState", NbtHelper.fromBlockState(blockState));
         nbt.put("NbtCopy", nbtCopy);
     }

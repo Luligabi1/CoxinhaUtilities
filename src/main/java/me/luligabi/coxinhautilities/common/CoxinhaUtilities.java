@@ -2,19 +2,22 @@ package me.luligabi.coxinhautilities.common;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
+import me.luligabi.coxinhautilities.common.item.ComponentRegistry;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
-import me.luligabi.coxinhautilities.common.lootfunction.LootFunctionRegistry;
+import me.luligabi.coxinhautilities.common.misc.lootfunction.LootFunctionRegistry;
 import me.luligabi.coxinhautilities.common.misc.ItemGroupInit;
 import me.luligabi.coxinhautilities.common.misc.TagRegistry;
 import me.luligabi.coxinhautilities.common.recipe.RecipeRegistry;
 import me.luligabi.coxinhautilities.common.screenhandler.ScreenHandlingRegistry;
 import me.luligabi.coxinhautilities.common.worldgen.FeatureRegistry;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.util.Identifier;
 
 public class CoxinhaUtilities implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ComponentRegistry.init();
         ItemRegistry.init();
 
         BlockRegistry.init();
@@ -32,6 +35,10 @@ public class CoxinhaUtilities implements ModInitializer {
 
     public static final String MOD_ID = "coxinhautilities";
     public static final ModConfig CONFIG;
+
+    public static Identifier id(String path) {
+        return Identifier.of(MOD_ID, path);
+    }
 
     static {
         ModConfig.HANDLER.load();

@@ -1,25 +1,22 @@
 package me.luligabi.coxinhautilities.common.block.trashcan.fluid;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
-import me.luligabi.coxinhautilities.common.block.tank.PortableTankBlockEntity;
 import me.luligabi.coxinhautilities.common.block.trashcan.AbstractTrashCanBlock;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,13 +25,12 @@ import java.util.List;
 public class FluidTrashCanBlock extends AbstractTrashCanBlock {
 
     public FluidTrashCanBlock() {
-        super(FabricBlockSettings.create().mapColor(MapColor.LIGHT_BLUE));
+        super(Settings.create().mapColor(MapColor.LIGHT_BLUE));
     }
 
-
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(((FluidTrashCanBlockEntity) world.getBlockEntity(pos)).fluidIo(player, hand)) {
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        if(((FluidTrashCanBlockEntity) world.getBlockEntity(pos)).fluidIo(player, player.getActiveHand())) {
             return ActionResult.success(world.isClient);
         }
 
@@ -59,7 +55,7 @@ public class FluidTrashCanBlock extends AbstractTrashCanBlock {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
         tooltip.add(Text.translatable("tooltip.coxinhautilities.fluid_trash_can.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         tooltip.add(Text.translatable("tooltip.coxinhautilities.fluid_trash_can.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         addWittyComment(tooltip);
@@ -79,7 +75,7 @@ public class FluidTrashCanBlock extends AbstractTrashCanBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : checkType(type, BlockEntityRegistry.FLUID_TRASH_CAN_BLOCK_ENTITY, FluidTrashCanBlockEntity::tick);
+        return world.isClient ? null : validateTicker(type, BlockEntityRegistry.FLUID_TRASH_CAN_BLOCK_ENTITY, FluidTrashCanBlockEntity::tick);
     }
 
 }

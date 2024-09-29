@@ -2,24 +2,21 @@ package me.luligabi.coxinhautilities.common.block.tank;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.ClientSyncedBlockEntity;
-import me.luligabi.coxinhautilities.common.util.Util;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
-@SuppressWarnings("UnstableApiUsage")
 public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
 
     public PortableTankBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.PORTABLE_TANK_BLOCK_ENTITY, pos, state);
     }
-
-    //private boolean isBucketMode = false; // TODO: Reimplement bucket mode whenever it's more stable
 
     public final SingleVariantStorage<FluidVariant> fluidStorage = new SingleVariantStorage<>() {
 
@@ -40,7 +37,7 @@ public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
     }
 
     public boolean hasWrittenNbt() {
-        return fluidStorage.amount > 0 || !fluidStorage.isResourceBlank() /*|| isBucketMode*/;
+        return fluidStorage.amount > 0 || !fluidStorage.isResourceBlank();
     }
 
     @Override
@@ -52,31 +49,23 @@ public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
     }
 
     @Override
-    public void toTag(NbtCompound nbt) {
-        nbt.put("fluidVariant", fluidStorage.variant.toNbt());
-        nbt.putLong("amount", fluidStorage.amount);
-        //nbt.putBoolean("isBucketMode", isBucketMode);
+    public void toTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        SingleVariantStorage.writeNbt(fluidStorage, FluidVariant.CODEC, nbt, registryLookup);
     }
 
     @Override
-    public void fromTag(NbtCompound nbt) {
-        fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluidVariant"));
-        fluidStorage.amount = nbt.getLong("amount");
-        //isBucketMode = nbt.getBoolean("isBucketMode");
+    public void fromTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        SingleVariantStorage.readNbt(fluidStorage, FluidVariant.CODEC, FluidVariant::blank, nbt, registryLookup);
     }
 
     @Override
-    public void toClientTag(NbtCompound nbt) {
-        nbt.put("fluidVariant", fluidStorage.variant.toNbt());
-        nbt.putLong("amount", fluidStorage.amount);
-        //nbt.putBoolean("isBucketMode", isBucketMode);
+    public void toClientTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        toTag(nbt, registryLookup);
     }
 
     @Override
-    public void fromClientTag(NbtCompound nbt) {
-        fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluidVariant"));
-        fluidStorage.amount = nbt.getLong("amount");
-        //isBucketMode = nbt.getBoolean("isBucketMode");
+    public void fromClientTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        fromTag(nbt, registryLookup);
     }
 
 }

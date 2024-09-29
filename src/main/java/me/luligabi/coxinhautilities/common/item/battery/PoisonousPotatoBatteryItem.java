@@ -1,7 +1,7 @@
 package me.luligabi.coxinhautilities.common.item.battery;
 
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -19,7 +19,7 @@ public class PoisonousPotatoBatteryItem extends PotatoBatteryItem {
     public long getEnergyCapacity(ItemStack stack) { return 45056; }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         appendPowerInfo(tooltip, stack);
         addWittyComment(tooltip);
     }

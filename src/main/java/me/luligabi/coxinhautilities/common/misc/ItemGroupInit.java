@@ -70,7 +70,7 @@ public class ItemGroupInit {
         .build());
     }
 
-    public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(CoxinhaUtilities.MOD_ID, "item_group"));
+    public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, CoxinhaUtilities.id("item_group"));
 
     public static final List<ItemStack> ITEMS = new ArrayList<>();
 }

@@ -1,0 +1,11 @@
+{
+  "type": "coxinhautilities:drying",
+
+  "ingredient": {
+    "item": "minecraft:wet_sponge"
+  },
+  "result": {
+    "id": "minecraft:sponge"
+  },
+  "dryingTime": 500
+}

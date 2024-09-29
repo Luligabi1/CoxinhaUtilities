@@ -6,9 +6,8 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiStack;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
-import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipe;
+import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipeType;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 public class CoxinhaEmiPlugin implements EmiPlugin {
 
@@ -17,14 +16,14 @@ public class CoxinhaEmiPlugin implements EmiPlugin {
         registry.addCategory(DRYING_CATEGORY);
         registry.addWorkstation(DRYING_CATEGORY, EmiStack.of(BlockRegistry.DRYING_RACK));
         registry.getRecipeManager()
-                .listAllOfType(DryingRecipe.Type.INSTANCE)
+                .listAllOfType(DryingRecipeType.INSTANCE)
                 .stream()
                 .map(DryingEmiRecipe::new)
                 .forEach(registry::addRecipe);
     }
 
     public static final EmiRecipeCategory DRYING_CATEGORY = new EmiRecipeCategory(
-            new Identifier(CoxinhaUtilities.MOD_ID, "drying"),
+            CoxinhaUtilities.id("drying"),
             EmiStack.of(BlockRegistry.DRYING_RACK)
     ) {
         @Override

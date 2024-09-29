@@ -8,9 +8,10 @@ import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -51,7 +52,7 @@ public class EnergyTrashCanBlock extends AbstractTrashCanBlock {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
         tooltip.add(Text.translatable("tooltip.coxinhautilities.energy_trash_can.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         tooltip.add(Text.translatable("tooltip.coxinhautilities.energy_trash_can.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
         addWittyComment(tooltip);
@@ -70,7 +71,7 @@ public class EnergyTrashCanBlock extends AbstractTrashCanBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : checkType(type, BlockEntityRegistry.ENERGY_TRASH_CAN_BLOCK_ENTITY, EnergyTrashCanBlockEntity::tick);
+        return world.isClient ? null : validateTicker(type, BlockEntityRegistry.ENERGY_TRASH_CAN_BLOCK_ENTITY, EnergyTrashCanBlockEntity::tick);
     }
 
 }

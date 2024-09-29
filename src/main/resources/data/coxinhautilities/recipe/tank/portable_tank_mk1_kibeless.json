@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iFi",
+    "iTi",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "F": {
+      "item": "minecraft:hopper"
+    },
+    "T": {
+      "tag": "c:glass_blocks"
+    }
+  },
+  "result": {
+    "id": "coxinhautilities:portable_tank_mk1",
+    "count": 1
+  },
+  "fabric:conditions": [
+    {
+      "condition": "fabric:not",
+      "value": {
+        "condition": "fabric:any_mod_loaded",
+        "values": [
+          "kibe"
+        ]
+      }
+    }
+  ]
+}

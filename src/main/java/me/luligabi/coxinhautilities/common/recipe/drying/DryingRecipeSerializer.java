@@ -1,57 +1,53 @@
 package me.luligabi.coxinhautilities.common.recipe.drying;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
-import net.minecraft.item.Item;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
 
 public class DryingRecipeSerializer implements RecipeSerializer<DryingRecipe> {
 
-    private DryingRecipeSerializer() {
+    public static final MapCodec<DryingRecipe> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
+            Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("ingredient").forGetter(DryingRecipe::getIngredient),
+            Codec.INT.optionalFieldOf("dryingTime", 20).forGetter(DryingRecipe::getDryingTime),
+            ItemStack.CODEC.fieldOf("result").forGetter(DryingRecipe::getOutput))
+        .apply(instance, DryingRecipe::new));
+
+    public static final PacketCodec<RegistryByteBuf, DryingRecipe> PACKET_CODEC = PacketCodec.ofStatic(
+        DryingRecipeSerializer::toNetwork,
+        DryingRecipeSerializer::fromNetwork
+    );
+
+    private static DryingRecipe fromNetwork(RegistryByteBuf buf) {
+        Ingredient ingredient = Ingredient.PACKET_CODEC.decode(buf);
+        int dryingTime = buf.readInt();
+        ItemStack result = ItemStack.PACKET_CODEC.decode(buf);
+
+        return new DryingRecipe(
+            ingredient,
+            dryingTime,
+            result
+        );
     }
 
-    public static final DryingRecipeSerializer INSTANCE = new DryingRecipeSerializer();
-
-    public static final Identifier ID = new Identifier(CoxinhaUtilities.MOD_ID, "drying");
-
-    @Override // Turns json into Recipe
-    public DryingRecipe read(Identifier recipeId, JsonObject json) {
-        DryingRecipeJsonFormat recipeJson = new Gson().fromJson(json, DryingRecipeJsonFormat.class);
-        if (recipeJson.ingredient == null || recipeJson.outputItem == null) {
-            throw new JsonSyntaxException("A required attribute is missing!");
-        }
-        if(recipeJson.dryingTime <= 0) recipeJson.dryingTime = 20;
-
-        Ingredient input = Ingredient.fromJson(recipeJson.ingredient);
-
-        Item outputItem = Registries.ITEM.getOrEmpty(new Identifier(recipeJson.outputItem))
-                .orElseThrow(() -> new JsonSyntaxException("No such item " + recipeJson.outputItem));
-
-        int dryingTime = recipeJson.dryingTime;
-
-        return new DryingRecipe(input, new ItemStack(outputItem), dryingTime, recipeId);
+    private static void toNetwork(RegistryByteBuf buf, DryingRecipe recipe) {
+        Ingredient.PACKET_CODEC.encode(buf, recipe.getIngredient());
+        buf.writeInt(recipe.getDryingTime());
+        ItemStack.PACKET_CODEC.encode(buf, recipe.getOutput());
     }
 
-    @Override // Turns Recipe into PacketByteBuf
-    public void write(PacketByteBuf packetData, DryingRecipe recipe) {
-        recipe.getIngredient().write(packetData);
-        packetData.writeItemStack(recipe.getOutput());
-        packetData.writeInt(recipe.getDryingTime());
+    @Override
+    public MapCodec<DryingRecipe> codec() {
+        return CODEC;
     }
 
-    @Override // Turns PacketByteBuf into Recipe
-    public DryingRecipe read(Identifier recipeId, PacketByteBuf packetData) {
-        Ingredient input = Ingredient.fromPacket(packetData);
-        ItemStack output = packetData.readItemStack();
-        int dryingTime = packetData.readInt();
-        return new DryingRecipe(input, output, dryingTime, recipeId);
+    @Override
+    public PacketCodec<RegistryByteBuf, DryingRecipe> packetCodec() {
+        return PACKET_CODEC;
     }
 
 }

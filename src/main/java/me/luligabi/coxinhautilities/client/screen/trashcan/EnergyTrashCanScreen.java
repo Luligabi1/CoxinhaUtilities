@@ -15,7 +15,7 @@ public class EnergyTrashCanScreen extends AbstractTrashCanScreen {
 
     @Override
     protected Identifier getTextureIdentifier() {
-        return new Identifier(CoxinhaUtilities.MOD_ID, "textures/gui/energy_trash_can.png");
+        return CoxinhaUtilities.id("textures/gui/energy_trash_can.png");
     }
 
 }
