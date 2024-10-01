@@ -1,7 +1,6 @@
 package me.luligabi.coxinhautilities.mixin;
 
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import org.spongepowered.asm.mixin.Mixin;

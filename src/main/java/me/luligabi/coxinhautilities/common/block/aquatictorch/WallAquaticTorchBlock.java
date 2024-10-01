@@ -1,18 +1,18 @@
 package me.luligabi.coxinhautilities.common.block.aquatictorch;
 
+import com.mojang.serialization.MapCodec;
 import me.luligabi.coxinhautilities.common.util.Util;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.WallTorchBlock;
+import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -21,14 +21,16 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
-public class WallAquaticTorchBlock extends WallTorchBlock implements Waterloggable {
+public class WallAquaticTorchBlock extends AquaticTorchBlock implements Waterloggable {
 
-    public WallAquaticTorchBlock() {
-        super(
-            null, // FIXME
-            Settings.create().sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD)
-        );
+    public WallAquaticTorchBlock(Settings settings) {
+        super(settings);
         setDefaultState(stateManager.getDefaultState().with(WATERLOGGED, true));
+    }
+
+    @Override
+    public MapCodec<WallAquaticTorchBlock> getCodec() {
+        return createCodec(WallAquaticTorchBlock::new);
     }
 
     @Override
@@ -71,9 +73,9 @@ public class WallAquaticTorchBlock extends WallTorchBlock implements Waterloggab
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        super.appendProperties(builder);
-        builder.add(WATERLOGGED);
+        builder.add(FACING, WATERLOGGED);
     }
 
+    private static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 }

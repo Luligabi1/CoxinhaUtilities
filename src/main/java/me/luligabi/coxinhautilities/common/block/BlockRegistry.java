@@ -18,7 +18,6 @@ import me.luligabi.coxinhautilities.common.block.trashcan.energy.EnergyTrashCanB
 import me.luligabi.coxinhautilities.common.block.trashcan.fluid.FluidTrashCanBlock;
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlock;
 import me.luligabi.coxinhautilities.common.misc.ItemGroupInit;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
@@ -104,15 +103,11 @@ public class BlockRegistry {
 
     public static final CardboardBoxBlock CARDBOARD_BOX = new CardboardBoxBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS).strength(0.5F).sounds(BlockSoundGroup.WOOD));
 
-    //public static final Block OVERWORLD_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.OVERWORLD);
-    //public static final Block NETHER_CAKE = new NetherCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL));
-    //public static final Block ENDER_CAKE = new DimensionalCakeBlock(FabricBlockSettings.of(Material.CAKE).strength(0.5F).sounds(BlockSoundGroup.WOOL), World.END);
-
     public static final Block ENDER_ORCHID = new EnderOrchidBlock();
     public static final Block POTTED_ENDER_ORCHID = new FlowerPotBlock(ENDER_ORCHID, AbstractBlock.Settings.create().breakInstantly().nonOpaque().pistonBehavior(PistonBehavior.DESTROY));
 
-    public static final Block AQUATIC_TORCH = new AquaticTorchBlock();
-    public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock();
+    public static final Block AQUATIC_TORCH = new AquaticTorchBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
+    public static final Block WALL_AQUATIC_TORCH = new WallAquaticTorchBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD));
 
     public static final Block COPPER_LADDER = new CopperLadderBlock(Oxidizable.OxidationLevel.UNAFFECTED);
     public static final Block EXPOSED_COPPER_LADDER = new CopperLadderBlock(Oxidizable.OxidationLevel.EXPOSED);

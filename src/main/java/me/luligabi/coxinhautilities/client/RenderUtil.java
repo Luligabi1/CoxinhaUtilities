@@ -32,7 +32,6 @@ public class RenderUtil {
      *
      * You may see the original code here: https://github.com/AztechMC/Modern-Industrialization/blob/8e1be7d3b607614ded24f60ec5927d97c6649cc9/src/main/java/aztech/modern_industrialization/util/RenderHelper.java#L124
      */
-    @SuppressWarnings("UnstableApiUsage")
     public static void drawFluidInTank(FluidVariant fluid, float fill, MatrixStack ms, VertexConsumerProvider vcp, @Nullable World world, @Nullable BlockPos pos) {
         VertexConsumer vc = vcp.getBuffer(RenderLayer.getCutout());
         Sprite sprite = FluidVariantRendering.getSprite(fluid);
@@ -67,7 +66,7 @@ public class RenderUtil {
 
             emitter.spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV);
             emitter.spriteColor(0, -1, -1, -1, -1);
-            vc.quad(ms.peek(), emitter.toBakedQuad(0, sprite, false), r, g, b, FULL_LIGHT, OverlayTexture.DEFAULT_UV, 0); // FIXME check
+            vc.quad(ms.peek(), emitter.toBakedQuad(sprite), r, g, b, 1, FULL_LIGHT, OverlayTexture.DEFAULT_UV); // FIXME check
         }
     }
 
@@ -81,7 +80,6 @@ public class RenderUtil {
      *
      * You may see the original code here: https://github.com/AztechMC/Modern-Industrialization/blob/8e1be7d3b607614ded24f60ec5927d97c6649cc9/src/main/java/aztech/modern_industrialization/util/RenderHelper.java#L124
      */
-    @SuppressWarnings("UnstableApiUsage")
     public static void drawFluidInSink(MatrixStack ms, VertexConsumerProvider vcp, @Nullable World world, @Nullable BlockPos pos) {
         FluidVariant water = FluidVariant.of(Fluids.WATER);
         VertexConsumer vc = vcp.getBuffer(RenderLayer.getCutout());
@@ -97,7 +95,7 @@ public class RenderUtil {
         emitter.square(Direction.UP, 0.16F, 0.18F, 0.84F, 0.82F, 0.18F);
         emitter.spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV);
         emitter.spriteColor(0, -1, -1, -1, -1);
-        vc.quad(ms.peek(), emitter.toBakedQuad(0, sprite, false), r, g, b, FULL_LIGHT, OverlayTexture.DEFAULT_UV, 0); // FIXME check
+        vc.quad(ms.peek(), emitter.toBakedQuad(sprite), r, g, b, 1, FULL_LIGHT, OverlayTexture.DEFAULT_UV); // FIXME check
     }
 
     public static final int FULL_LIGHT = 0x00F0_00F0;

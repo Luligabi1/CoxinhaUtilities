@@ -1,11 +1,11 @@
 package me.luligabi.coxinhautilities.common.block.aquatictorch;
 
+import com.mojang.serialization.MapCodec;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.AbstractTorchBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.TorchBlock;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -14,7 +14,6 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -22,21 +21,22 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class AquaticTorchBlock extends TorchBlock implements Waterloggable, IWittyComment {
+public class AquaticTorchBlock extends AbstractTorchBlock implements Waterloggable, IWittyComment {
 
-    public AquaticTorchBlock() {
-        super(
-            null, // FIXME
-            Settings.create().sounds(BlockSoundGroup.LADDER).nonOpaque().noCollision().breakInstantly().luminance((state) -> 10).sounds(BlockSoundGroup.WOOD)
-        );
+    public AquaticTorchBlock(Settings settings) {
+        super(settings);
         setDefaultState(stateManager.getDefaultState().with(WATERLOGGED, true));
+    }
+
+    @Override
+    protected MapCodec<? extends AbstractTorchBlock> getCodec() {
+        return createCodec(AquaticTorchBlock::new);
     }
 
     @Override

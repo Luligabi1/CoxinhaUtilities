@@ -14,7 +14,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import org.joml.Vector3f;
+import net.minecraft.util.math.Vec3d;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.EnergyStorageUtil;
 
@@ -106,5 +106,5 @@ public class Util {
         return NumberFormat.getNumberInstance(locale);
     }
 
-    public static final DustParticleEffect AQUATIC_TORCH_PARTICLE = new DustParticleEffect(new Vector3f(47, 151, 153), 1.0F);
+    public static final DustParticleEffect AQUATIC_TORCH_PARTICLE = new DustParticleEffect(Vec3d.unpackRgb(0x2F9799).toVector3f(), 1.0F);
 }

@@ -15,10 +15,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -62,25 +59,13 @@ public class ItemRegistry {
         
         @Override
         public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) { 
-            tooltip.add(Text.translatable("tooltip.kibe.lore.cursed_kibe"));
+            tooltip.add(Text.translatable("tooltip.coxinhautilities.cursed_coxinha"));
         }
     };
 
-    public static final Item GOLDEN_COXINHA = new Item(new Item.Settings().rarity(Rarity.UNCOMMON).food(new FoodComponent.Builder().nutrition(8).saturationModifier(1.2F).build())) {
-        
-        @Override
-        public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-            tooltip.add(Text.translatable("tooltip.kibe.lore.golden_kibe")); 
-        }
-    };
+    public static final Item GOLDEN_COXINHA = new Item(new Item.Settings().rarity(Rarity.UNCOMMON).food(new FoodComponent.Builder().nutrition(8).saturationModifier(1.2F).build()));
 
-    public static final Item DIAMOND_COXINHA = new Item(new Item.Settings().rarity(Rarity.RARE).food(new FoodComponent.Builder().nutrition(16).saturationModifier(1.4F).build())) {
-        
-        @Override
-        public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-            tooltip.add(Text.translatable("tooltip.kibe.lore.diamond_kibe")); 
-        }
-    };
+    public static final Item DIAMOND_COXINHA = new Item(new Item.Settings().rarity(Rarity.RARE).food(new FoodComponent.Builder().nutrition(16).saturationModifier(1.4F).build()));
 
     public static final Item POTATO_BATTERY = new PotatoBatteryItem(new Item.Settings().maxCount(1));
 
