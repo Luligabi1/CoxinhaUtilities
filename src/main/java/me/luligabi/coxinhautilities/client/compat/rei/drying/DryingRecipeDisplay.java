@@ -6,13 +6,16 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class DryingRecipeDisplay implements Display {
 
-    protected DryingRecipe recipe;
+    protected RecipeHolder<DryingRecipe>  recipe;
 
 
     protected List<EntryIngredient> input;
@@ -20,12 +23,12 @@ public class DryingRecipeDisplay implements Display {
 
     protected int dryingTime;
 
-    public DryingRecipeDisplay(DryingRecipe recipe) {
+    public DryingRecipeDisplay(RecipeHolder<DryingRecipe> recipe) {
         this.recipe = recipe;
 
-        this.input = EntryIngredients.ofIngredients(List.of(recipe.getIngredient()));
-        this.output = Collections.singletonList(EntryIngredients.of(recipe.getOutput()));
-        this.dryingTime = recipe.getDryingTime();
+        this.input = EntryIngredients.ofIngredients(List.of(recipe.value().getIngredient()));
+        this.output = Collections.singletonList(EntryIngredients.of(recipe.value().getOutput()));
+        this.dryingTime = recipe.value().getDryingTime();
     }
 
     @Override
@@ -42,6 +45,10 @@ public class DryingRecipeDisplay implements Display {
         return dryingTime;
     }
 
+    @Override
+    public Optional<ResourceLocation> getDisplayLocation() {
+        return Optional.of(recipe.id());
+    }
 
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {

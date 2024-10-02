@@ -4,6 +4,7 @@ import me.luligabi.coxinhautilities.client.compat.rei.drying.DryingDisplayCatego
 import me.luligabi.coxinhautilities.client.compat.rei.drying.DryingRecipeDisplay;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
+import me.luligabi.coxinhautilities.common.recipe.RecipeRegistry;
 import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipe;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
@@ -23,7 +24,7 @@ public class CoxinhaReiPlugin implements REIClientPlugin {
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
-        registry.registerFiller(DryingRecipe.class, DryingRecipeDisplay::new);
+        registry.registerRecipeFiller(DryingRecipe.class, RecipeRegistry.DRYING_RECIPE_TYPE, DryingRecipeDisplay::new);
     }
 
 
