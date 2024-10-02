@@ -5,16 +5,15 @@ import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.List;
 public class ItemGroupInit {
 
     public static void init() {
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries ->
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(entries ->
                 entries.addAfter(new ItemStack(Items.COOKED_CHICKEN), List.of(
                         new ItemStack(ItemRegistry.COXINHA),
                         new ItemStack(ItemRegistry.CURSED_COXINHA),
@@ -32,7 +31,7 @@ public class ItemGroupInit {
                 ))
         );
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
                 entries.addBefore(new ItemStack(Items.CHORUS_PLANT), new ItemStack(ItemRegistry.ENDER_ORCHID_SEEDS));
                 entries.addAfter(new ItemStack(Items.WET_SPONGE), List.of(
                     new ItemStack(BlockRegistry.LAVA_SPONGE),
@@ -41,11 +40,11 @@ public class ItemGroupInit {
             }
         );
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(entries ->
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.REDSTONE_BLOCKS).register(entries ->
                 entries.addBefore(new ItemStack(Items.HOPPER), new ItemStack(BlockRegistry.WOODEN_HOPPER))
         );
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
                 entries.addAfter(new ItemStack(Items.SOUL_TORCH), new ItemStack(BlockRegistry.AQUATIC_TORCH));
                 entries.addAfter(new ItemStack(Items.LADDER), List.of(
                     new ItemStack(BlockRegistry.COPPER_LADDER),
@@ -61,16 +60,16 @@ public class ItemGroupInit {
             }
         );
 
-        Registry.register(Registries.ITEM_GROUP, ITEM_GROUP, FabricItemGroup.builder()
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, ITEM_GROUP, FabricItemGroup.builder()
                 .icon(() -> new ItemStack(ItemRegistry.COXINHA))
-                .displayName(Text.translatable("itemGroup.coxinhautilities.item_group"))
-                .entries((ctx, entries) ->
-                        entries.addAll(ItemGroupInit.ITEMS)
+                .title(Component.translatable("itemGroup.coxinhautilities.item_group"))
+                .displayItems((ctx, entries) ->
+                        entries.acceptAll(ItemGroupInit.ITEMS)
                 )
         .build());
     }
 
-    public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, CoxinhaUtilities.id("item_group"));
+    public static final ResourceKey<CreativeModeTab> ITEM_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, CoxinhaUtilities.id("item_group"));
 
     public static final List<ItemStack> ITEMS = new ArrayList<>();
 }

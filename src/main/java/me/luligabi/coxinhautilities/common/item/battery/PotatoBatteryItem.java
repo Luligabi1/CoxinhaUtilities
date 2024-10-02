@@ -3,25 +3,23 @@ package me.luligabi.coxinhautilities.common.item.battery;
 import me.luligabi.coxinhautilities.common.item.ComponentRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
-import net.minecraft.component.ComponentChanges;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
-import net.minecraft.registry.Registries;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyItem;
 
@@ -29,7 +27,7 @@ import java.util.List;
 
 public class PotatoBatteryItem extends Item implements SimpleEnergyItem, IWittyComment {
 
-    public PotatoBatteryItem(Settings settings) {
+    public PotatoBatteryItem(Properties settings) {
         super(settings
             .component(EnergyStorage.ENERGY_COMPONENT, 0L)
             .component(ComponentRegistry.ENABLED, false)
@@ -47,84 +45,84 @@ public class PotatoBatteryItem extends Item implements SimpleEnergyItem, IWittyC
 
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if(world.isClient()) return TypedActionResult.pass(user.getStackInHand(hand));
-        if(user.isSneaking()) {
-            ItemStack stack = user.getStackInHand(hand);
+    public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+        if(world.isClientSide()) return InteractionResultHolder.pass(user.getItemInHand(hand));
+        if(user.isShiftKeyDown()) {
+            ItemStack stack = user.getItemInHand(hand);
             boolean isEnabled = stack.getOrDefault(ComponentRegistry.ENABLED, false);
 
-            ComponentChanges changes = ComponentChanges.builder()
-                .add(ComponentRegistry.ENABLED, !isEnabled)
+            DataComponentPatch changes = DataComponentPatch.builder()
+                .set(ComponentRegistry.ENABLED, !isEnabled)
                 .build();
-            stack.applyChanges(changes);
+            stack.applyComponentsAndValidate(changes);
 
-            ((ServerPlayerEntity) user).networkHandler.sendPacket(
-                    new PlaySoundS2CPacket(
-                            Registries.SOUND_EVENT.getEntry(
-                                    isEnabled ? SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE : SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN
+            ((ServerPlayer) user).connection.send(
+                    new ClientboundSoundPacket(
+                            BuiltInRegistries.SOUND_EVENT.wrapAsHolder(
+                                    isEnabled ? SoundEvents.IRON_TRAPDOOR_CLOSE : SoundEvents.IRON_TRAPDOOR_OPEN
                             ),
-                            SoundCategory.PLAYERS,
+                            SoundSource.PLAYERS,
                             user.getX(), user.getY(), user.getZ(),
                             1.0F, 1.0F,
-                            user.getBlockPos().asLong()
+                            user.blockPosition().asLong()
                     )
             );
-            user.sendMessage(
-                    Text.translatable("tooltip.coxinhautilities.potato_battery.3")
-                                .formatted(getPrimaryColor())
-                            .append(ScreenTexts.onOrOff(!isEnabled).copy()
-                                .formatted(getSecondaryColor())),
+            user.displayClientMessage(
+                    Component.translatable("tooltip.coxinhautilities.potato_battery.3")
+                                .withStyle(getPrimaryColor())
+                            .append(CommonComponents.optionStatus(!isEnabled).copy()
+                                .withStyle(getSecondaryColor())),
                     true
             );
-            return TypedActionResult.success(stack);
+            return InteractionResultHolder.success(stack);
         }
         return super.use(world, user, hand);
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        if(world.isClient() || !(entity instanceof PlayerEntity)) return;
+    public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
+        if(world.isClientSide() || !(entity instanceof Player)) return;
         if(!stack.getOrDefault(ComponentRegistry.ENABLED, false)) return;
 
-        Util.distributePowerToInventory((PlayerEntity) entity, stack, getEnergyMaxOutput(stack), (predicateStack) -> !(predicateStack.getItem() instanceof PotatoBatteryItem));
+        Util.distributePowerToInventory((Player) entity, stack, getEnergyMaxOutput(stack), (predicateStack) -> !(predicateStack.getItem() instanceof PotatoBatteryItem));
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag type) {
         appendPowerInfo(tooltip, stack);
         addWittyComment(tooltip);
     }
 
-    protected void appendPowerInfo(List<Text> tooltip, ItemStack stack) {
+    protected void appendPowerInfo(List<Component> tooltip, ItemStack stack) {
         tooltip.add(
-                Text.translatable("tooltip.coxinhautilities.potato_battery.1")
-                        .formatted(getPrimaryColor())
-                .append(Text.translatable(
+                Component.translatable("tooltip.coxinhautilities.potato_battery.1")
+                        .withStyle(getPrimaryColor())
+                .append(Component.translatable(
                             "tooltip.coxinhautilities.potato_battery.2",
                                 Util.formatAccordingToLanguage().format(stack.get(EnergyStorage.ENERGY_COMPONENT)),
                                 Util.formatAccordingToLanguage().format(getEnergyCapacity(stack))
-                        ).formatted(getSecondaryColor())
+                        ).withStyle(getSecondaryColor())
                 )
         );
         tooltip.add(
-                Text.translatable("tooltip.coxinhautilities.potato_battery.3")
-                        .formatted(getPrimaryColor())
-                        .append(ScreenTexts.onOrOff(stack.getOrDefault(ComponentRegistry.ENABLED, false)).copy()
-                                .formatted(getSecondaryColor()))
+                Component.translatable("tooltip.coxinhautilities.potato_battery.3")
+                        .withStyle(getPrimaryColor())
+                        .append(CommonComponents.optionStatus(stack.getOrDefault(ComponentRegistry.ENABLED, false)).copy()
+                                .withStyle(getSecondaryColor()))
         );
     }
 
     @Override
-    public List<Text> wittyComments() {
-        return List.of(Text.translatable("tooltip.coxinhautilities.potato_battery.witty"));
+    public List<Component> wittyComments() {
+        return List.of(Component.translatable("tooltip.coxinhautilities.potato_battery.witty"));
     }
 
-    protected Formatting getPrimaryColor() {
-        return Formatting.YELLOW;
+    protected ChatFormatting getPrimaryColor() {
+        return ChatFormatting.YELLOW;
     }
 
-    protected Formatting getSecondaryColor() {
-        return Formatting.YELLOW;
+    protected ChatFormatting getSecondaryColor() {
+        return ChatFormatting.YELLOW;
     }
 
 }

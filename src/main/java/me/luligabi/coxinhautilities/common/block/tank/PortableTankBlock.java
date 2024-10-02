@@ -5,40 +5,46 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.text.Text;
-import net.minecraft.util.*;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class PortableTankBlock extends BlockWithEntity implements IWittyComment {
+public class PortableTankBlock extends BaseEntityBlock implements IWittyComment {
 
     private final TankTier tankTier;
 
     public PortableTankBlock(TankTier tankTier) {
-        super(AbstractBlock.Settings.create().mapColor(MapColor.GRAY).strength(5.0F, 6.0F).requiresTool().sounds(BlockSoundGroup.METAL));
+        super(Properties.of().mapColor(MapColor.COLOR_GRAY).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL));
         this.tankTier = tankTier;
     }
 
     @Override
-    protected MapCodec<? extends PortableTankBlock> getCodec() {
+    protected MapCodec<? extends PortableTankBlock> codec() {
         return RecordCodecBuilder.mapCodec(instance -> instance.group(
                 TankTier.CODEC.fieldOf("tier").forGetter(PortableTankBlock::getTankTier))
             .apply(instance, PortableTankBlock::new));
@@ -46,67 +52,67 @@ public class PortableTankBlock extends BlockWithEntity implements IWittyComment 
 
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if(((PortableTankBlockEntity) world.getBlockEntity(pos)).fluidIo(player, player.getActiveHand())) {
-            return ActionResult.success(world.isClient);
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        if(((PortableTankBlockEntity) world.getBlockEntity(pos)).fluidIo(player, player.getUsedItemHand())) {
+            return InteractionResult.sidedSuccess(world.isClientSide);
         }
-        return ActionResult.FAIL;
+        return InteractionResult.FAIL;
     }
 
     @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new PortableTankBlockEntity(pos, state);
     }
 
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        boolean hasData = stack.get(DataComponentTypes.BLOCK_ENTITY_DATA) != null;
-        NbtCompound data = Util.getBlockEntityData(stack);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag options) {
+        boolean hasData = stack.get(DataComponents.BLOCK_ENTITY_DATA) != null;
+        CompoundTag data = Util.getBlockEntityData(stack);
 
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.tank.fluidVariant.1")
-                    .formatted(tankTier.getPrimaryColor())
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.tank.fluidVariant.1")
+                    .withStyle(tankTier.getPrimaryColor())
                 .append(!hasData || Util.getFluidFromNbt(data).isOf(Fluids.EMPTY) ?
-                        Text.translatable("tooltip.coxinhautilities.tank.none").formatted(tankTier.getSecondaryColor()) :
-                        Text.translatable("tooltip.coxinhautilities.tank.fluidVariant.2", FluidVariantAttributes.getName(Util.getFluidFromNbt(data))))
-                    .formatted(tankTier.getSecondaryColor()));
+                        Component.translatable("tooltip.coxinhautilities.tank.none").withStyle(tankTier.getSecondaryColor()) :
+                        Component.translatable("tooltip.coxinhautilities.tank.fluidVariant.2", FluidVariantAttributes.getName(Util.getFluidFromNbt(data))))
+                    .withStyle(tankTier.getSecondaryColor()));
 
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.tank.capacity.1")
-                    .formatted(tankTier.getPrimaryColor())
-                .append(Text.translatable("tooltip.coxinhautilities.tank.capacity.2",
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.tank.capacity.1")
+                    .withStyle(tankTier.getPrimaryColor())
+                .append(Component.translatable("tooltip.coxinhautilities.tank.capacity.2",
                         !hasData ? "0" : String.valueOf(Screen.hasShiftDown() ? data.getLong("amount") : Util.getMilliBuckets(data.getLong("amount"))), // Current amount on tank
                         (Screen.hasShiftDown() ? tankTier.getCapacity() : Util.getMilliBuckets(tankTier.getCapacity())), // Total capacity
-                        Screen.hasShiftDown() ? Text.translatable("unit.coxinhautilities.droplet") : Text.translatable("unit.coxinhautilities.milliBuckets")) // Liquid unit
-                    .formatted(tankTier.getSecondaryColor())));
+                        Screen.hasShiftDown() ? Component.translatable("unit.coxinhautilities.droplet") : Component.translatable("unit.coxinhautilities.milliBuckets")) // Liquid unit
+                    .withStyle(tankTier.getSecondaryColor())));
 
         addWittyComment(tooltip);
-        tooltip.add(Text.empty());
-        tooltip.add((Screen.hasShiftDown() ? Text.translatable("tooltip.coxinhautilities.tank.releaseShift") : Text.translatable("tooltip.coxinhautilities.tank.holdShift")).formatted(Formatting.GRAY, Formatting.ITALIC));
+        tooltip.add(Component.empty());
+        tooltip.add((Screen.hasShiftDown() ? Component.translatable("tooltip.coxinhautilities.tank.releaseShift") : Component.translatable("tooltip.coxinhautilities.tank.holdShift")).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
     }
 
     @Override
-    public List<Text> wittyComments() {
+    public List<Component> wittyComments() {
         return List.of(
-                Text.translatable("tooltip.coxinhautilities.tank.witty.1"),
-                Text.translatable("tooltip.coxinhautilities.tank.witty.2")
+                Component.translatable("tooltip.coxinhautilities.tank.witty.1"),
+                Component.translatable("tooltip.coxinhautilities.tank.witty.2")
         );
     }
 
     public TankTier getTankTier() { return tankTier; }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) { return BlockRenderType.MODEL; }
+    public RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
 
     public void saveNbtToStack(BlockEntity blockEntity, ItemStack stack) {
         if (blockEntity instanceof PortableTankBlockEntity tank && tank.hasWrittenNbt()) {
-            stack.set(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.of(tank.createNbt(blockEntity.getWorld().getRegistryManager())));
+            stack.set(DataComponents.BLOCK_ENTITY_DATA, CustomData.of(tank.saveWithoutMetadata(blockEntity.getLevel().registryAccess())));
         }
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) { return BOUNDING_SHAPE; }
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) { return BOUNDING_SHAPE; }
 
-    private static final VoxelShape BOUNDING_SHAPE = Block.createCuboidShape(2.5D, 0.0D, 2.5D, 13.5D, 16.0D, 13.5D);
+    private static final VoxelShape BOUNDING_SHAPE = Block.box(2.5D, 0.0D, 2.5D, 13.5D, 16.0D, 13.5D);
 
 }

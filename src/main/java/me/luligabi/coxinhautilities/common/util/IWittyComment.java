@@ -1,8 +1,8 @@
 package me.luligabi.coxinhautilities.common.util;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
@@ -14,12 +14,12 @@ import java.util.List;
  */
 public interface IWittyComment {
 
-    default void addWittyComment(List<Text> tooltip) {
+    default void addWittyComment(List<Component> tooltip) {
         if(!Screen.hasShiftDown()) return;
-        tooltip.add(Text.empty());
-        wittyComments().forEach(text -> tooltip.add(text.copyContentOnly().formatted(Formatting.BLUE, Formatting.ITALIC)));
+        tooltip.add(Component.empty());
+        wittyComments().forEach(text -> tooltip.add(text.plainCopy().withStyle(ChatFormatting.BLUE, ChatFormatting.ITALIC)));
     }
 
-    List<Text> wittyComments();
+    List<Component> wittyComments();
 
 }

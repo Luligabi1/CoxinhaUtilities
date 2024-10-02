@@ -2,13 +2,13 @@ package me.luligabi.coxinhautilities.common.recipe.drying;
 
 import me.luligabi.coxinhautilities.common.block.dryingrack.DryingRackInventory;
 import me.luligabi.coxinhautilities.common.recipe.RecipeRegistry;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.world.World;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 
 public class DryingRecipe implements Recipe<DryingRackInventory> {
 
@@ -31,7 +31,7 @@ public class DryingRecipe implements Recipe<DryingRackInventory> {
     }
 
     @Override
-    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
+    public ItemStack getResultItem(HolderLookup.Provider registriesLookup) {
         return getOutput();
     }
 
@@ -40,17 +40,17 @@ public class DryingRecipe implements Recipe<DryingRackInventory> {
     }
 
     @Override
-    public ItemStack craft(DryingRackInventory input, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack assemble(DryingRackInventory input, HolderLookup.Provider lookup) {
         return outputStack.copy();
     }
 
     @Override
-    public boolean matches(DryingRackInventory input, World world) {
-        return ingredient.test(input.getStackInSlot(0));
+    public boolean matches(DryingRackInventory input, Level world) {
+        return ingredient.test(input.getItem(0));
     }
 
     @Override
-    public boolean fits(int var1, int var2) {
+    public boolean canCraftInDimensions(int var1, int var2) {
         return true;
     }
 
@@ -65,7 +65,7 @@ public class DryingRecipe implements Recipe<DryingRackInventory> {
     }
 
     @Override
-    public boolean isIgnoredInRecipeBook() {
+    public boolean isSpecial() {
         return true;
     }
 }

@@ -7,7 +7,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipeType;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 public class CoxinhaEmiPlugin implements EmiPlugin {
 
@@ -16,7 +16,7 @@ public class CoxinhaEmiPlugin implements EmiPlugin {
         registry.addCategory(DRYING_CATEGORY);
         registry.addWorkstation(DRYING_CATEGORY, EmiStack.of(BlockRegistry.DRYING_RACK));
         registry.getRecipeManager()
-                .listAllOfType(DryingRecipeType.INSTANCE)
+                .getAllRecipesFor(DryingRecipeType.INSTANCE)
                 .stream()
                 .map(DryingEmiRecipe::new)
                 .forEach(registry::addRecipe);
@@ -27,8 +27,8 @@ public class CoxinhaEmiPlugin implements EmiPlugin {
             EmiStack.of(BlockRegistry.DRYING_RACK)
     ) {
         @Override
-        public Text getName() {
-                    return Text.translatable("block.coxinhautilities.drying_rack");
+        public Component getName() {
+                    return Component.translatable("block.coxinhautilities.drying_rack");
                 }
     };
 

@@ -3,81 +3,81 @@ package me.luligabi.coxinhautilities.common.block.woodenhopper;
 import com.mojang.serialization.MapCodec;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HopperBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.HopperBlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.stat.Stats;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HopperBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.HopperBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class WoodenHopperBlock extends HopperBlock implements IWittyComment {
 
-    public WoodenHopperBlock(Settings settings) {
+    public WoodenHopperBlock(Properties settings) {
         super(settings);
     }
 
     @Override
-    public MapCodec<HopperBlock> getCodec() {
-        return createCodec(WoodenHopperBlock::new);
+    public MapCodec<HopperBlock> codec() {
+        return simpleCodec(WoodenHopperBlock::new);
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!world.isClient) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!world.isClientSide) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof WoodenHopperBlockEntity) {
-                player.openHandledScreen((WoodenHopperBlockEntity) blockEntity);
-                player.incrementStat(Stats.USED.getOrCreateStat(this.asItem()));
+                player.openMenu((WoodenHopperBlockEntity) blockEntity);
+                player.awardStat(Stats.ITEM_USED.get(this.asItem()));
             }
-            return ActionResult.CONSUME;
+            return InteractionResult.CONSUME;
         } else {
-            return ActionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new WoodenHopperBlockEntity(pos, state);
     }
 
 
     @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return !world.isClient ? validateTicker(type, BlockEntityRegistry.WOODEN_HOPPER_ENTITY, HopperBlockEntity::serverTick) : null;
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
+        return !world.isClientSide ? createTickerHelper(type, BlockEntityRegistry.WOODEN_HOPPER_ENTITY, HopperBlockEntity::pushItemsTick) : null;
     }
 
     // Overridden to disable redstone behavior.
     @Override
-    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) { }
+    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) { }
 
     @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) { }
+    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) { }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.wooden_hopper.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(Text.empty());
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.wooden_hopper.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag options) {
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.wooden_hopper.1").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
+        tooltip.add(Component.empty());
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.wooden_hopper.2").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<Text> wittyComments() {
-        return List.of(Text.translatable("tooltip.coxinhautilities.wooden_hopper.witty"));
+    public List<Component> wittyComments() {
+        return List.of(Component.translatable("tooltip.coxinhautilities.wooden_hopper.witty"));
     }
 }

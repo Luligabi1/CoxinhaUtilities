@@ -1,15 +1,15 @@
 package me.luligabi.coxinhautilities.common.block.cardboardbox;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtHelper;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class CardboardBoxBlockEntity extends BlockEntity {
 
@@ -19,16 +19,16 @@ public class CardboardBoxBlockEntity extends BlockEntity {
 
 
     @Override
-    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.readNbt(nbt, registryLookup);
-        blockState = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), nbt.getCompound("BlockState"));
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+        super.loadAdditional(nbt, registryLookup);
+        blockState = NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), nbt.getCompound("BlockState"));
         nbtCopy = nbt.getList("NbtCopy", 10);
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.writeNbt(nbt, registryLookup);
-        nbt.put("BlockState", NbtHelper.fromBlockState(blockState));
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+        super.saveAdditional(nbt, registryLookup);
+        nbt.put("BlockState", NbtUtils.writeBlockState(blockState));
         nbt.put("NbtCopy", nbtCopy);
     }
 
@@ -36,7 +36,7 @@ public class CardboardBoxBlockEntity extends BlockEntity {
         return !blockState.isAir() || !nbtCopy.isEmpty();
     }
 
-    protected BlockState blockState = Blocks.AIR.getDefaultState();
-    protected NbtList nbtCopy = new NbtList();
+    protected BlockState blockState = Blocks.AIR.defaultBlockState();
+    protected ListTag nbtCopy = new ListTag();
 
 }

@@ -1,24 +1,24 @@
 package me.luligabi.coxinhautilities.client.renderer.blockentity;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.block.dryingrack.DryingRackBlockEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.model.json.ModelTransformation;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.render.model.json.Transformation;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransform;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.joml.Vector3f;
 
 public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<DryingRackBlockEntity> {
 
-    public DryingRackBlockEntityRenderer(BlockEntityRendererFactory.Context context) {}
+    public DryingRackBlockEntityRenderer(BlockEntityRendererProvider.Context context) {}
 
     /*
      * Renders the item being dried on the drying rack.
@@ -26,59 +26,58 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
      * Code is loosely based on the code seen on ItemFrameEntityRenderer.
      */
     @Override
-    public void render(DryingRackBlockEntity entity, float tickDelta, MatrixStack ms, VertexConsumerProvider vcp, int light, int overlay) {
+    public void render(DryingRackBlockEntity entity, float tickDelta, PoseStack ms, MultiBufferSource vcp, int light, int overlay) {
         if(entity.getStack().isEmpty()) return;
 
-        ms.push();
+        ms.pushPose();
         //noinspection ConstantConditions
-        if(entity.getWorld().getBlockState(entity.getPos()).isOf(BlockRegistry.DRYING_RACK)) {
-            Direction direction = entity.getWorld().getBlockState(entity.getPos()).get(Properties.HORIZONTAL_FACING);
-            ModelTransformation transformation = MinecraftClient.getInstance().getItemRenderer().getModel(entity.getStack(), null, null, 0).getTransformation();
-            boolean isBlock = transformation.fixed.equals(new Transformation(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(0.5F, 0.5F, 0.5F)));
+        if(entity.getLevel().getBlockState(entity.getBlockPos()).is(BlockRegistry.DRYING_RACK)) {
+            Direction direction = entity.getLevel().getBlockState(entity.getBlockPos()).getValue(BlockStateProperties.HORIZONTAL_FACING);
+            ItemTransforms transformation = Minecraft.getInstance().getItemRenderer().getModel(entity.getStack(), null, null, 0).getTransforms();
+            boolean isBlock = transformation.fixed.equals(new ItemTransform(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(0.5F, 0.5F, 0.5F)));
 
             setItemPosition(ms, direction, isBlock);
 
-            RotationAxis axis;
+            Axis axis;
             if(isBlock) {
-                axis = direction.getAxis() == Direction.Axis.Z ? RotationAxis.POSITIVE_X : RotationAxis.POSITIVE_Y;
+                axis = direction.getAxis() == Direction.Axis.Z ? Axis.XP : Axis.YP;
             } else {
-                axis = direction.getAxis() == Direction.Axis.Z ? RotationAxis.NEGATIVE_X : RotationAxis.NEGATIVE_Y;
+                axis = direction.getAxis() == Direction.Axis.Z ? Axis.XN : Axis.YN;
             }
-            ms.multiply(axis.rotationDegrees(getItemAngle(direction)));
+            ms.mulPose(axis.rotationDegrees(getItemAngle(direction)));
 
             // gambiarra: fix south blocks and north items being mirrored and/or upside down
             if((direction == Direction.SOUTH && isBlock) || (direction == Direction.NORTH && !isBlock)) {
-                ms.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180));
-                ms.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180));
+                ms.mulPose(Axis.XP.rotationDegrees(180));
+                ms.mulPose(Axis.ZP.rotationDegrees(180));
             }
 
             float scale = isBlock ? 0.75F : 0.99F;
             ms.scale(scale, scale, scale);
 
-            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(), isBlock ? ModelTransformationMode.NONE : ModelTransformationMode.GUI, light, OverlayTexture.DEFAULT_UV, ms, vcp, entity.getWorld(), (int) entity.getPos().asLong());
+            Minecraft.getInstance().getItemRenderer().renderStatic(entity.getStack(), isBlock ? ItemDisplayContext.NONE : ItemDisplayContext.GUI, light, OverlayTexture.NO_OVERLAY, ms, vcp, entity.getLevel(), (int) entity.getBlockPos().asLong());
         }
-        ms.pop();
+        ms.popPose();
     }
 
     @Override
-    public boolean rendersOutsideBoundingBox(DryingRackBlockEntity blockEntity) {
+    public boolean shouldRenderOffScreen(DryingRackBlockEntity blockEntity) {
         return true;
     }
-
 
     private float getItemAngle(Direction direction) {
         return switch(direction) {
             case NORTH -> 0;
             case SOUTH -> 0 * 90;
-            case WEST, EAST -> direction.getHorizontal() * 90;
+            case WEST, EAST -> direction.get2DDataValue() * 90;
             default -> throw new IllegalStateException("Unexpected Drying Rack direction: " + direction);
         };
     }
 
-    private void setItemPosition(MatrixStack ms, Direction direction, boolean isBlock) {
+    private void setItemPosition(PoseStack ms, Direction direction, boolean isBlock) {
         double center = 0.5D;
         double offset;
-        if(direction.getDirection() == Direction.AxisDirection.NEGATIVE) { // North, West
+        if(direction.getAxisDirection() == Direction.AxisDirection.NEGATIVE) { // North, West
             offset = isBlock ? 0.635 : 0.97;
         } else { // South, East
             offset = isBlock ? 0.365 : 0.03;

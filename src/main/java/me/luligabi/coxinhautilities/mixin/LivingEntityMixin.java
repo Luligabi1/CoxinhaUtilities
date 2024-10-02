@@ -1,11 +1,11 @@
 package me.luligabi.coxinhautilities.mixin;
 
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -13,10 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
-    @Shadow public abstract Vec3d applyMovementInput(Vec3d movementInput, float slipperiness);
 
-    @Inject(at = @At("TAIL"), method = "applyMovementInput", cancellable = true)
-    private void applyMovementInput(Vec3d vec3d, float f, CallbackInfoReturnable<Vec3d> infoReturnable) {
+    @Inject(at = @At("TAIL"), method = "handleRelativeFrictionAndCalculateMovement", cancellable = true)
+    private void applyMovementInput(Vec3 vec3d, float f, CallbackInfoReturnable<Vec3> infoReturnable) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
 
         applyCopperLadderMovementSpeed(
@@ -40,11 +39,11 @@ public abstract class LivingEntityMixin {
                 livingEntity, infoReturnable);
     }
 
-
-    private void applyCopperLadderMovementSpeed(Block ladder, Block oxidizedLadder, double speed, LivingEntity livingEntity, CallbackInfoReturnable<Vec3d> infoReturnable) {
-        if(livingEntity.getBlockStateAtPos().isOf(ladder) || livingEntity.getBlockStateAtPos().isOf(oxidizedLadder)) {
+    @Unique
+    private void applyCopperLadderMovementSpeed(Block ladder, Block oxidizedLadder, double speed, LivingEntity livingEntity, CallbackInfoReturnable<Vec3> infoReturnable) {
+        if(livingEntity.getInBlockState().is(ladder) || livingEntity.getInBlockState().is(oxidizedLadder)) {
             if (livingEntity.horizontalCollision) {
-                Vec3d velocity = new Vec3d(livingEntity.getVelocity().x, speed, livingEntity.getVelocity().z);
+                Vec3 velocity = new Vec3(livingEntity.getDeltaMovement().x, speed, livingEntity.getDeltaMovement().z);
                 infoReturnable.setReturnValue(velocity);
             }
         }

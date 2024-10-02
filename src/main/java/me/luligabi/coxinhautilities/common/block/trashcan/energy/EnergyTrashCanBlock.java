@@ -3,24 +3,23 @@ package me.luligabi.coxinhautilities.common.block.trashcan.energy;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.block.trashcan.AbstractTrashCanBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -28,50 +27,50 @@ import java.util.List;
 public class EnergyTrashCanBlock extends AbstractTrashCanBlock {
 
     public EnergyTrashCanBlock() {
-        super(FabricBlockSettings.create().mapColor(MapColor.DULL_RED));
+        super(FabricBlockSettings.of().mapColor(MapColor.CRIMSON_NYLIUM));
     }
 
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient) return ActionResult.SUCCESS;
+    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (world.isClientSide) return InteractionResult.SUCCESS;
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof EnergyTrashCanBlockEntity) {
-            player.openHandledScreen((EnergyTrashCanBlockEntity) blockEntity);
-            return ActionResult.CONSUME;
+            player.openMenu((EnergyTrashCanBlockEntity) blockEntity);
+            return InteractionResult.CONSUME;
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (!state.isOf(newState.getBlock())) {
+    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.is(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if(blockEntity instanceof EnergyTrashCanBlockEntity) {
-                ItemScatterer.spawn(world, pos, (EnergyTrashCanBlockEntity) blockEntity);
+                Containers.dropContents(world, pos, (EnergyTrashCanBlockEntity) blockEntity);
             }
-            super.onStateReplaced(state, world, pos, newState, moved);
+            super.onRemove(state, world, pos, newState, moved);
         }
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.energy_trash_can.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.energy_trash_can.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag options) {
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.energy_trash_can.1").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.energy_trash_can.2").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<Text> wittyComments() {
-        return List.of(Text.translatable("tooltip.coxinhautilities.energy_trash_can.witty"));
+    public List<Component> wittyComments() {
+        return List.of(Component.translatable("tooltip.coxinhautilities.energy_trash_can.witty"));
     }
 
     @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new EnergyTrashCanBlockEntity(pos, state);
     }
 
     @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : validateTicker(type, BlockEntityRegistry.ENERGY_TRASH_CAN_BLOCK_ENTITY, EnergyTrashCanBlockEntity::tick);
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
+        return world.isClientSide ? null : createTickerHelper(type, BlockEntityRegistry.ENERGY_TRASH_CAN_BLOCK_ENTITY, EnergyTrashCanBlockEntity::tick);
     }
 
 }

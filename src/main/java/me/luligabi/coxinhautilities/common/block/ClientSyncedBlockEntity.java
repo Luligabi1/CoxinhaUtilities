@@ -1,17 +1,17 @@
 package me.luligabi.coxinhautilities.common.block;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 /* A special implementation of BlockEntity, syncing nbt data to client, as a fix to old BEs using the now removed BlockEntityClientSerializable.
@@ -25,35 +25,35 @@ public abstract class ClientSyncedBlockEntity extends BlockEntity {
     }
 
     public void sync(boolean shouldRemesh) {
-        Preconditions.checkNotNull(world); // Maintain distinct failure case from below
-        if (!(world instanceof ServerWorld serverWorld))
+        Preconditions.checkNotNull(level); // Maintain distinct failure case from below
+        if (!(level instanceof ServerLevel serverWorld))
             throw new IllegalStateException("Cannot call sync() on the logical client! Did you check world.isClient first?");
 
         shouldClientRemesh = shouldRemesh | shouldClientRemesh;
-        serverWorld.getChunkManager().markForUpdate(pos);
+        serverWorld.getChunkSource().blockChanged(worldPosition);
     }
 
     public void sync() {
         sync(true);
     }
 
-    public abstract void toTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup);
+    public abstract void toTag(CompoundTag nbt, HolderLookup.Provider registryLookup);
 
-    public abstract void fromTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup);
+    public abstract void fromTag(CompoundTag nbt, HolderLookup.Provider registryLookup);
 
-    public abstract void toClientTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup);
+    public abstract void toClientTag(CompoundTag nbt, HolderLookup.Provider registryLookup);
 
-    public abstract void fromClientTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup);
+    public abstract void fromClientTag(CompoundTag nbt, HolderLookup.Provider registryLookup);
 
     @Nullable
     @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
-    public final NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
-        NbtCompound nbt = super.toInitialChunkDataNbt(registryLookup);
+    public final CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
+        CompoundTag nbt = super.getUpdateTag(registryLookup);
         toClientTag(nbt, registryLookup);
         nbt.putBoolean("#c", shouldClientRemesh); // mark client tag
         shouldClientRemesh = false;
@@ -61,12 +61,12 @@ public abstract class ClientSyncedBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         toTag(nbt, registryLookup);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         if (nbt.contains("#c")) {
             fromClientTag(nbt, registryLookup);
             if (nbt.getBoolean("#c")) {
@@ -78,18 +78,18 @@ public abstract class ClientSyncedBlockEntity extends BlockEntity {
     }
 
     public final void remesh() {
-        Preconditions.checkNotNull(world);
-        if (!(world instanceof ClientWorld))
+        Preconditions.checkNotNull(level);
+        if (!(level instanceof ClientLevel))
             throw new IllegalStateException("Cannot call remesh() on the server!");
 
-        world.updateListeners(pos, null, null, 0);
+        level.sendBlockUpdated(worldPosition, null, null, 0);
     }
 
     protected final boolean isClientSide() {
-        if (world == null) {
+        if (level == null) {
             throw new IllegalStateException("Cannot determine if the BE is client-side if it has no level yet");
         }
-        return world.isClient();
+        return level.isClientSide();
     }
 
     private boolean shouldClientRemesh = true;

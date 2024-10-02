@@ -3,44 +3,44 @@ package me.luligabi.coxinhautilities.common.block.aquatictorch;
 import com.mojang.serialization.MapCodec;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
-import net.minecraft.block.AbstractTorchBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Waterloggable;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BaseTorchBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class AquaticTorchBlock extends AbstractTorchBlock implements Waterloggable, IWittyComment {
+public class AquaticTorchBlock extends BaseTorchBlock implements SimpleWaterloggedBlock, IWittyComment {
 
-    public AquaticTorchBlock(Settings settings) {
+    public AquaticTorchBlock(Properties settings) {
         super(settings);
-        setDefaultState(stateManager.getDefaultState().with(WATERLOGGED, true));
+        registerDefaultState(stateDefinition.any().setValue(WATERLOGGED, true));
     }
 
     @Override
-    protected MapCodec<? extends AbstractTorchBlock> getCodec() {
-        return createCodec(AquaticTorchBlock::new);
+    protected MapCodec<? extends BaseTorchBlock> codec() {
+        return simpleCodec(AquaticTorchBlock::new);
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         double x = pos.getX() + 0.5D;
         double y = pos.getY() + 0.7D;
         double z = pos.getZ() + 0.5D;
@@ -48,36 +48,36 @@ public class AquaticTorchBlock extends AbstractTorchBlock implements Waterloggab
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         FluidState fluidState = world.getBlockState(pos).getFluidState();
-        return super.canPlaceAt(state, world, pos) && (fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8);
+        return super.canSurvive(state, world, pos) && (fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
     }
 
     @Nullable
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
-        return super.getPlacementState(ctx).with(WATERLOGGED, fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8);
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        FluidState fluidState = ctx.getLevel().getFluidState(ctx.getClickedPos());
+        return super.getStateForPlacement(ctx).setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) { return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state); }
+    public FluidState getFluidState(BlockState state) { return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state); }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED);
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.aquatic_torch").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag options) {
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.aquatic_torch").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<Text> wittyComments() {
-        return List.of(Text.translatable("tooltip.coxinhautilities.aquatic_torch.witty"));
+    public List<Component> wittyComments() {
+        return List.of(Component.translatable("tooltip.coxinhautilities.aquatic_torch.witty"));
     }
 
-    private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 }

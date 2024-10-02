@@ -6,122 +6,125 @@ import com.mojang.serialization.MapCodec;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import me.luligabi.coxinhautilities.common.util.Util;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
-import net.minecraft.util.*;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
 
-public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
+public class DryingRackBlock extends BaseEntityBlock implements IWittyComment {
 
-    public static final DirectionProperty FACING =  Properties.HORIZONTAL_FACING;
+    public static final DirectionProperty FACING =  BlockStateProperties.HORIZONTAL_FACING;
     private final Map<Direction, VoxelShape> SHAPE_MAP;
 
-    public DryingRackBlock(Settings settings) {
+    public DryingRackBlock(Properties settings) {
         super(settings);
         SHAPE_MAP = Maps.newEnumMap(ImmutableMap.of(
-                Direction.NORTH, Block.createCuboidShape(0, 14, 14, 16, 16, 16),
-                Direction.SOUTH, Block.createCuboidShape(0, 14, 0, 16, 16, 2),
-                Direction.WEST, Block.createCuboidShape(14, 14, 0, 16, 16, 16),
-                Direction.EAST, Block.createCuboidShape(0, 14, 0, 2, 16, 16)
+                Direction.NORTH, Block.box(0, 14, 14, 16, 16, 16),
+                Direction.SOUTH, Block.box(0, 14, 0, 16, 16, 2),
+                Direction.WEST, Block.box(14, 14, 0, 16, 16, 16),
+                Direction.EAST, Block.box(0, 14, 0, 2, 16, 16)
         ));
-        setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
+        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH));
     }
 
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if(world.isClient()) return ActionResult.CONSUME;
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        if(world.isClientSide()) return InteractionResult.CONSUME;
         DryingRackBlockEntity blockEntity = (DryingRackBlockEntity) world.getBlockEntity(pos);
         ItemStack dryingItem = blockEntity.getStack();
-        ItemStack handStack = player.getStackInHand(player.getActiveHand());
+        ItemStack handStack = player.getItemInHand(player.getUsedItemHand());
 
         if(dryingItem.isEmpty()) {
             if(!handStack.isEmpty()) {
-                blockEntity.inventory.setStack(0, Util.singleCopy(handStack));
-                handStack.decrement(1);
-                blockEntity.markDirty();
-                world.updateComparators(pos, this);
-                world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                return ActionResult.SUCCESS;
+                blockEntity.inventory.setItem(0, Util.singleCopy(handStack));
+                handStack.shrink(1);
+                blockEntity.setChanged();
+                world.updateNeighbourForOutputSignal(pos, this);
+                world.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
+                return InteractionResult.SUCCESS;
             }
         } else {
-            if(handStack.isEmpty() || handStack.isOf(blockEntity.getStack().getItem())) {
+            if(handStack.isEmpty() || handStack.is(blockEntity.getStack().getItem())) {
                 blockEntity.canDry = blockEntity.checkedRecipe = false;
                 blockEntity.dryingTime = 0;
-                blockEntity.markDirty();
-                ItemScatterer.spawn(world, pos, blockEntity.inventory);
-                world.updateComparators(pos, this);
-                world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                return ActionResult.SUCCESS;
+                blockEntity.setChanged();
+                Containers.dropContents(world, pos, blockEntity.inventory);
+                world.updateNeighbourForOutputSignal(pos, this);
+                world.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
+                return InteractionResult.SUCCESS;
             }
         }
-        return ActionResult.CONSUME;
+        return InteractionResult.CONSUME;
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.drying_rack").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag options) {
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.drying_rack").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<Text> wittyComments() {
-        return List.of(Text.translatable("tooltip.coxinhautilities.drying_rack.witty"));
+    public List<Component> wittyComments() {
+        return List.of(Component.translatable("tooltip.coxinhautilities.drying_rack.witty"));
     }
 
     @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new DryingRackBlockEntity(pos, state);
     }
 
     @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : validateTicker(type, BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, DryingRackBlockEntity::tick);
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
+        return world.isClientSide ? null : createTickerHelper(type, BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, DryingRackBlockEntity::tick);
     }
 
     @Override
-    protected MapCodec<? extends BlockWithEntity> getCodec() {
-        return createCodec(DryingRackBlock::new);
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(DryingRackBlock::new);
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
 
     @Override
-    public boolean hasComparatorOutput(BlockState state) {
+    public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
     @Override // TODO: Improve comparator logic
-    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
         if(world.getBlockEntity(pos) instanceof DryingRackBlockEntity dryingRackBlockEntity) {
             return dryingRackBlockEntity.inventory.isEmpty() ? 0 : 15;
         }
@@ -129,60 +132,60 @@ public class DryingRackBlock extends BlockWithEntity implements IWittyComment {
     }
 
     @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (!state.isOf(newState.getBlock())) {
+    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.is(newState.getBlock())) {
             if (world.getBlockEntity(pos) instanceof DryingRackBlockEntity dryingRackBlockEntity ) {
-                ItemScatterer.spawn(world, pos, dryingRackBlockEntity.inventory);
-                world.updateComparators(pos, this);
+                Containers.dropContents(world, pos, dryingRackBlockEntity.inventory);
+                world.updateNeighbourForOutputSignal(pos, this);
             }
 
-            super.onStateReplaced(state, world, pos, newState, moved);
+            super.onRemove(state, world, pos, newState, moved);
         }
     }
 
 
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPE_MAP.get(state.get(FACING));
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return SHAPE_MAP.get(state.getValue(FACING));
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        Direction direction = state.get(FACING);
-        BlockPos blockPos = pos.offset(direction.getOpposite());
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        Direction direction = state.getValue(FACING);
+        BlockPos blockPos = pos.relative(direction.getOpposite());
         BlockState blockState = world.getBlockState(blockPos);
-        return blockState.isSideSolidFullSquare(world, blockPos, direction);
+        return blockState.isFaceSturdy(world, blockPos, direction);
     }
 
     @Nullable
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockState blockState = this.getDefaultState();
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        BlockState blockState = this.defaultBlockState();
 
-        for(Direction direction : ctx.getPlacementDirections()) {
+        for(Direction direction : ctx.getNearestLookingDirections()) {
             if (direction.getAxis().isHorizontal()) {
                 Direction oppositeDirection = direction.getOpposite();
-                blockState = blockState.with(FACING, oppositeDirection);
-                if (blockState.canPlaceAt(ctx.getWorld(), ctx.getBlockPos())) {
+                blockState = blockState.setValue(FACING, oppositeDirection);
+                if (blockState.canSurvive(ctx.getLevel(), ctx.getClickedPos())) {
                     return blockState;
                 }
             }
         }
 
-        return blockState.with(FACING, Direction.NORTH);
+        return blockState.setValue(FACING, Direction.NORTH);
     }
 
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        return direction.getOpposite() == state.get(FACING) && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+        return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
     }
 
-    public BlockState rotate(BlockState state, BlockRotation rotation) {
-        return state.with(FACING, rotation.rotate(state.get(FACING)));
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
-    public BlockState mirror(BlockState state, BlockMirror mirror) {
-        return state.rotate(mirror.getRotation(state.get(FACING)));
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 

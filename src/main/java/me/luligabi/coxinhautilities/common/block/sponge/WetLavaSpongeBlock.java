@@ -3,23 +3,25 @@ package me.luligabi.coxinhautilities.common.block.sponge;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.event.GameEvent;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.MapColor;
 
 import java.util.List;
 
@@ -27,32 +29,32 @@ public class WetLavaSpongeBlock extends Block implements IWittyComment {
 
 
     public WetLavaSpongeBlock() {
-        super(FabricBlockSettings.copyOf(Blocks.WET_SPONGE).mapColor(MapColor.DARK_RED));
+        super(FabricBlockSettings.copyOf(Blocks.WET_SPONGE).mapColor(MapColor.NETHER));
     }
 
-    private final BlockState hardenedState = BlockRegistry.LAVA_SPONGE.getDefaultState();
+    private final BlockState hardenedState = BlockRegistry.LAVA_SPONGE.defaultBlockState();
 
 
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockView blockView = ctx.getWorld();
-        BlockPos blockPos = ctx.getBlockPos();
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        BlockGetter blockView = ctx.getLevel();
+        BlockPos blockPos = ctx.getClickedPos();
         BlockState blockState = blockView.getBlockState(blockPos);
-        return shouldHarden(blockView, blockPos, blockState) ? this.hardenedState : super.getPlacementState(ctx);
+        return shouldHarden(blockView, blockPos, blockState) ? this.hardenedState : super.getStateForPlacement(ctx);
     }
 
-    private static boolean shouldHarden(BlockView world, BlockPos pos, BlockState state) {
+    private static boolean shouldHarden(BlockGetter world, BlockPos pos, BlockState state) {
         return hardensIn(state) || hardensOnAnySide(world, pos);
     }
 
-    private static boolean hardensOnAnySide(BlockView world, BlockPos pos) {
+    private static boolean hardensOnAnySide(BlockGetter world, BlockPos pos) {
         boolean shouldHarden = false;
-        BlockPos.Mutable mutable = pos.mutableCopy();
+        BlockPos.MutableBlockPos mutable = pos.mutable();
         for(Direction direction : Direction.values()) {
             BlockState blockState = world.getBlockState(mutable);
             if(direction != Direction.DOWN || hardensIn(blockState)) {
-                mutable.set(pos, direction);
+                mutable.setWithOffset(pos, direction);
                 blockState = world.getBlockState(mutable);
-                if(hardensIn(blockState) && !blockState.isSideSolidFullSquare(world, pos, direction.getOpposite())) {
+                if(hardensIn(blockState) && !blockState.isFaceSturdy(world, pos, direction.getOpposite())) {
                     shouldHarden = true;
                     break;
                 }
@@ -63,29 +65,29 @@ public class WetLavaSpongeBlock extends Block implements IWittyComment {
     }
 
     private static boolean hardensIn(BlockState state) {
-        return state.getFluidState().isIn(FluidTags.WATER);
+        return state.getFluidState().is(FluidTags.WATER);
     }
 
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        return hardensOnAnySide(world, pos) ? this.hardenedState : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+        return hardensOnAnySide(world, pos) ? this.hardenedState : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
     }
 
 
     @Override
-    public void precipitationTick(BlockState state, World world, BlockPos pos, Biome.Precipitation precipitation) {
+    public void handlePrecipitation(BlockState state, Level world, BlockPos pos, Biome.Precipitation precipitation) {
         if(precipitation == Biome.Precipitation.RAIN && world.getRandom().nextFloat() < 0.35F) {
-            world.setBlockState(pos, BlockRegistry.LAVA_SPONGE.getDefaultState());
-            world.emitGameEvent(null, GameEvent.BLOCK_CHANGE, pos);
+            world.setBlockAndUpdate(pos, BlockRegistry.LAVA_SPONGE.defaultBlockState());
+            world.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
         }
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        Direction direction = Direction.random(random);
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+        Direction direction = Direction.getRandom(random);
         if(direction != Direction.UP) {
-            BlockPos blockPos = pos.offset(direction);
+            BlockPos blockPos = pos.relative(direction);
             BlockState blockState = world.getBlockState(blockPos);
-            if(!state.isOpaque() || !blockState.isSideSolidFullSquare(world, blockPos, direction.getOpposite())) {
+            if(!state.canOcclude() || !blockState.isFaceSturdy(world, blockPos, direction.getOpposite())) {
                 double x = pos.getX();
                 double y = pos.getY();
                 double z = pos.getZ();
@@ -118,13 +120,13 @@ public class WetLavaSpongeBlock extends Block implements IWittyComment {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag options) {
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<Text> wittyComments() {
-        return List.of(Text.translatable("tooltip.coxinhautilities.lava_sponge.witty"));
+    public List<Component> wittyComments() {
+        return List.of(Component.translatable("tooltip.coxinhautilities.lava_sponge.witty"));
     }
 
 }

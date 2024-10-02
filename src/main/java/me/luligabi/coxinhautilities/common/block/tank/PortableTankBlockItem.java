@@ -1,12 +1,12 @@
 package me.luligabi.coxinhautilities.common.block.tank;
 
-import net.minecraft.item.BlockItem;
+import net.minecraft.world.item.BlockItem;
 
 
 //@SuppressWarnings("UnstableApiUsage")
 public class PortableTankBlockItem extends BlockItem {
 
-    public PortableTankBlockItem(PortableTankBlock block, Settings settings) {
+    public PortableTankBlockItem(PortableTankBlock block, Properties settings) {
         super(block, settings);
     }
 

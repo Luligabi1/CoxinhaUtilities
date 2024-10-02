@@ -1,5 +1,7 @@
 package me.luligabi.coxinhautilities.client;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
@@ -8,20 +10,18 @@ import net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 
 public class RenderUtil {
@@ -32,9 +32,9 @@ public class RenderUtil {
      *
      * You may see the original code here: https://github.com/AztechMC/Modern-Industrialization/blob/8e1be7d3b607614ded24f60ec5927d97c6649cc9/src/main/java/aztech/modern_industrialization/util/RenderHelper.java#L124
      */
-    public static void drawFluidInTank(FluidVariant fluid, float fill, MatrixStack ms, VertexConsumerProvider vcp, @Nullable World world, @Nullable BlockPos pos) {
-        VertexConsumer vc = vcp.getBuffer(RenderLayer.getCutout());
-        Sprite sprite = FluidVariantRendering.getSprite(fluid);
+    public static void drawFluidInTank(FluidVariant fluid, float fill, PoseStack ms, MultiBufferSource vcp, @Nullable Level world, @Nullable BlockPos pos) {
+        VertexConsumer vc = vcp.getBuffer(RenderType.cutout());
+        TextureAtlasSprite sprite = FluidVariantRendering.getSprite(fluid);
         if(sprite == null) return;
 
         int color = (world == null && pos == null) ? FluidVariantRendering.getColor(fluid, null, null) : FluidVariantRendering.getColor(fluid, world, pos);
@@ -66,7 +66,7 @@ public class RenderUtil {
 
             emitter.spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV);
             emitter.spriteColor(0, -1, -1, -1, -1);
-            vc.quad(ms.peek(), emitter.toBakedQuad(sprite), r, g, b, 1, FULL_LIGHT, OverlayTexture.DEFAULT_UV); // FIXME check
+            vc.putBulkData(ms.last(), emitter.toBakedQuad(sprite), r, g, b, 1, FULL_LIGHT, OverlayTexture.NO_OVERLAY); // FIXME check
         }
     }
 
@@ -80,10 +80,10 @@ public class RenderUtil {
      *
      * You may see the original code here: https://github.com/AztechMC/Modern-Industrialization/blob/8e1be7d3b607614ded24f60ec5927d97c6649cc9/src/main/java/aztech/modern_industrialization/util/RenderHelper.java#L124
      */
-    public static void drawFluidInSink(MatrixStack ms, VertexConsumerProvider vcp, @Nullable World world, @Nullable BlockPos pos) {
+    public static void drawFluidInSink(PoseStack ms, MultiBufferSource vcp, @Nullable Level world, @Nullable BlockPos pos) {
         FluidVariant water = FluidVariant.of(Fluids.WATER);
-        VertexConsumer vc = vcp.getBuffer(RenderLayer.getCutout());
-        Sprite sprite = FluidVariantRendering.getSprite(water);
+        VertexConsumer vc = vcp.getBuffer(RenderType.cutout());
+        TextureAtlasSprite sprite = FluidVariantRendering.getSprite(water);
         int color = (world == null && pos == null) ? FluidVariantRendering.getColor(water, null, null) : FluidVariantRendering.getColor(water, world, pos);
         float r = ((color >> 16) & 255) / 256f;
         float g = ((color >> 8) & 255) / 256f;
@@ -95,17 +95,17 @@ public class RenderUtil {
         emitter.square(Direction.UP, 0.16F, 0.18F, 0.84F, 0.82F, 0.18F);
         emitter.spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV);
         emitter.spriteColor(0, -1, -1, -1, -1);
-        vc.quad(ms.peek(), emitter.toBakedQuad(sprite), r, g, b, 1, FULL_LIGHT, OverlayTexture.DEFAULT_UV); // FIXME check
+        vc.putBulkData(ms.last(), emitter.toBakedQuad(sprite), r, g, b, 1, FULL_LIGHT, OverlayTexture.NO_OVERLAY); // FIXME check
     }
 
     public static final int FULL_LIGHT = 0x00F0_00F0;
 
-    public static void renderItemWithWrappedModel(ItemRenderer renderer, BakedModel model, WrappedBakedModel wrappedModel, ItemStack stack, int light, int overlay, MatrixStack ms, VertexConsumerProvider vcp) {
+    public static void renderItemWithWrappedModel(ItemRenderer renderer, BakedModel model, WrappedBakedModel wrappedModel, ItemStack stack, int light, int overlay, PoseStack ms, MultiBufferSource vcp) {
         wrappedModel.setWrappedModel(model);
-        ms.push();
+        ms.pushPose();
         ms.translate(0.5D, 0.5D, 0.5D);
-        renderer.renderItem(stack, ModelTransformationMode.NONE, false, ms, vcp, light, overlay, wrappedModel);
-        ms.pop();
+        renderer.render(stack, ItemDisplayContext.NONE, false, ms, vcp, light, overlay, wrappedModel);
+        ms.popPose();
     }
 
 

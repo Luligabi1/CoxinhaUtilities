@@ -4,20 +4,19 @@ import com.google.common.collect.Lists;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.text.Text;
-import net.minecraft.util.Pair;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Tuple;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.MapColor;
 
 import java.util.List;
 import java.util.Queue;
@@ -25,52 +24,52 @@ import java.util.Queue;
 public class LavaSpongeBlock extends SpongeBlock implements IWittyComment {
 
     public LavaSpongeBlock() {
-        super(FabricBlockSettings.copyOf(Blocks.SPONGE).mapColor(MapColor.BRIGHT_RED));
+        super(FabricBlockSettings.copyOf(Blocks.SPONGE).mapColor(MapColor.FIRE));
     }
 
     @Override
-    protected void update(World world, BlockPos pos) {
+    protected void tryAbsorbWater(Level world, BlockPos pos) {
         if(!canAbsorb(world, pos)) return;
-        world.setBlockState(pos, BlockRegistry.WET_LAVA_SPONGE.getDefaultState(), 2);
-        world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(Blocks.LAVA.getDefaultState()));
+        world.setBlock(pos, BlockRegistry.WET_LAVA_SPONGE.defaultBlockState(), 2);
+        world.levelEvent(LevelEvent.PARTICLES_DESTROY_BLOCK, pos, Block.getId(Blocks.LAVA.defaultBlockState()));
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag options) {
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<Text> wittyComments() {
-        return List.of(Text.translatable("tooltip.coxinhautilities.lava_sponge.witty"));
+    public List<Component> wittyComments() {
+        return List.of(Component.translatable("tooltip.coxinhautilities.lava_sponge.witty"));
     }
 
-    private boolean canAbsorb(World world, BlockPos pos) {
-        Queue<Pair<BlockPos, Integer>> queue = Lists.newLinkedList();
-        queue.add(new Pair<>(pos, 0));
+    private boolean canAbsorb(Level world, BlockPos pos) {
+        Queue<Tuple<BlockPos, Integer>> queue = Lists.newLinkedList();
+        queue.add(new Tuple<>(pos, 0));
         int i = 0;
 
         while(!queue.isEmpty()) {
-            Pair<BlockPos, Integer> pair = queue.poll();
-            BlockPos blockPos = pair.getLeft();
-            int j = pair.getRight();
+            Tuple<BlockPos, Integer> pair = queue.poll();
+            BlockPos blockPos = pair.getA();
+            int j = pair.getB();
             Direction[] var8 = Direction.values();
 
             for (Direction direction : var8) {
-                BlockPos blockPos2 = blockPos.offset(direction);
+                BlockPos blockPos2 = blockPos.relative(direction);
                 BlockState blockState = world.getBlockState(blockPos2);
                 FluidState fluidState = world.getFluidState(blockPos2);
-                if (fluidState.isIn(FluidTags.LAVA)) {
-                    if (blockState.getBlock() instanceof FluidDrainable && !((FluidDrainable) blockState.getBlock()).tryDrainFluid(null, world, blockPos2, blockState).isEmpty()) {
+                if (fluidState.is(FluidTags.LAVA)) {
+                    if (blockState.getBlock() instanceof BucketPickup && !((BucketPickup) blockState.getBlock()).pickupBlock(null, world, blockPos2, blockState).isEmpty()) {
                         ++i;
                         if (j < 6) {
-                            queue.add(new Pair<>(blockPos2, j + 1));
+                            queue.add(new Tuple<>(blockPos2, j + 1));
                         }
-                    } else if (blockState.getBlock() instanceof FluidBlock) {
-                        world.setBlockState(blockPos2, Blocks.AIR.getDefaultState(), 3);
+                    } else if (blockState.getBlock() instanceof LiquidBlock) {
+                        world.setBlock(blockPos2, Blocks.AIR.defaultBlockState(), 3);
                         ++i;
                         if (j < 6) {
-                            queue.add(new Pair<>(blockPos2, j + 1));
+                            queue.add(new Tuple<>(blockPos2, j + 1));
                         }
                     }
                 }

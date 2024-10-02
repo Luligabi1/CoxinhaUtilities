@@ -2,68 +2,66 @@ package me.luligabi.coxinhautilities.common.block.misc;
 
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LadderBlock;
-import net.minecraft.block.Oxidizable;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockView;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.block.LadderBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.WeatheringCopper;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
-public class CopperLadderBlock extends LadderBlock implements Oxidizable, IWittyComment {
+public class CopperLadderBlock extends LadderBlock implements WeatheringCopper, IWittyComment {
 
-    public CopperLadderBlock(Oxidizable.OxidationLevel oxidationLevel) {
+    public CopperLadderBlock(WeatherState oxidationLevel) {
         this();
         this.oxidationLevel = oxidationLevel;
         this.canOxidate = true;
     }
 
     public CopperLadderBlock() {
-        super(FabricBlockSettings.create().strength(0.4F).sounds(BlockSoundGroup.COPPER).nonOpaque());
-        this.oxidationLevel = OxidationLevel.UNAFFECTED;
+        super(FabricBlockSettings.of().strength(0.4F).sound(SoundType.COPPER).noOcclusion());
+        this.oxidationLevel = WeatherState.UNAFFECTED;
         this.canOxidate = false;
     }
 
-    private Oxidizable.OxidationLevel oxidationLevel;
+    private WeatherState oxidationLevel;
     private boolean canOxidate;
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if(!canOxidate) return;
-        tickDegradation(state, world, pos, random);
+        changeOverTime(state, world, pos, random);
     }
 
     @Override
-    public boolean hasRandomTicks(BlockState state) {
-        return canOxidate && Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
+    public boolean isRandomlyTicking(BlockState state) {
+        return canOxidate && WeatheringCopper.getNext(state.getBlock()).isPresent();
     }
 
     @Override
-    public Oxidizable.OxidationLevel getDegradationLevel() {
+    public WeatherState getAge() {
         return oxidationLevel;
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.copper_ladder.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.copper_ladder.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag options) {
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.copper_ladder.1").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.copper_ladder.2").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<Text> wittyComments() {
+    public List<Component> wittyComments() {
         return List.of(
-                Text.translatable("tooltip.coxinhautilities.copper_ladder.witty.1"),
-                Text.translatable("tooltip.coxinhautilities.copper_ladder.witty.2")
+                Component.translatable("tooltip.coxinhautilities.copper_ladder.witty.1"),
+                Component.translatable("tooltip.coxinhautilities.copper_ladder.witty.2")
         );
     }
 

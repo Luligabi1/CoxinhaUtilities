@@ -6,17 +6,17 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipe;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class DryingEmiRecipe implements EmiRecipe {
 
-    public DryingEmiRecipe(RecipeEntry<DryingRecipe> entry) {
+    public DryingEmiRecipe(RecipeHolder<DryingRecipe> entry) {
         this.entry = entry;
         this.input = EmiIngredient.of(entry.value().getIngredient());
         this.output = EmiStack.of(entry.value().getOutput());
@@ -28,7 +28,7 @@ public class DryingEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable Identifier getId() {
+    public @Nullable ResourceLocation getId() {
         return entry.id();
     }
 
@@ -55,14 +55,14 @@ public class DryingEmiRecipe implements EmiRecipe {
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addFillingArrow(24, 5, entry.value().getDryingTime() * 50).tooltip((mx, my) ->
-                List.of(TooltipComponent.of(Text.translatable("emi.cooking.time", entry.value().getDryingTime() / 20F).asOrderedText()))
+                List.of(ClientTooltipComponent.create(Component.translatable("emi.cooking.time", entry.value().getDryingTime() / 20F).getVisualOrderText()))
         );
 
         widgets.addSlot(input, 0, 4);
         widgets.addSlot(output, 56, 0).large(true).recipeContext(this);
     }
 
-    private final RecipeEntry<DryingRecipe> entry;
+    private final RecipeHolder<DryingRecipe> entry;
     private final EmiIngredient input;
     private final EmiStack output;
 }

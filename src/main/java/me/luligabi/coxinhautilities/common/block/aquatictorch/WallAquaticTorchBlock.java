@@ -2,80 +2,80 @@ package me.luligabi.coxinhautilities.common.block.aquatictorch;
 
 import com.mojang.serialization.MapCodec;
 import me.luligabi.coxinhautilities.common.util.Util;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.Waterloggable;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 
-public class WallAquaticTorchBlock extends AquaticTorchBlock implements Waterloggable {
+public class WallAquaticTorchBlock extends AquaticTorchBlock implements SimpleWaterloggedBlock {
 
-    public WallAquaticTorchBlock(Settings settings) {
+    public WallAquaticTorchBlock(Properties settings) {
         super(settings);
-        setDefaultState(stateManager.getDefaultState().with(WATERLOGGED, true));
+        registerDefaultState(stateDefinition.any().setValue(WATERLOGGED, true));
     }
 
     @Override
-    public MapCodec<WallAquaticTorchBlock> getCodec() {
-        return createCodec(WallAquaticTorchBlock::new);
+    public MapCodec<WallAquaticTorchBlock> codec() {
+        return simpleCodec(WallAquaticTorchBlock::new);
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        Direction direction = state.get(FACING);
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+        Direction direction = state.getValue(FACING);
         double x = pos.getX() + 0.5D;
         double y = pos.getY() + 0.7D;
         double z = pos.getZ() + 0.5D;
         Direction directionOpposite = direction.getOpposite();
-        world.addParticle(Util.AQUATIC_TORCH_PARTICLE, x + 0.27D * directionOpposite.getOffsetX(), y + 0.22D, z + 0.27D * directionOpposite.getOffsetZ(), 0.0D, 0.0D, 0.0D);
+        world.addParticle(Util.AQUATIC_TORCH_PARTICLE, x + 0.27D * directionOpposite.getStepX(), y + 0.22D, z + 0.27D * directionOpposite.getStepZ(), 0.0D, 0.0D, 0.0D);
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         FluidState fluidState = world.getBlockState(pos).getFluidState();
-        return super.canPlaceAt(state, world, pos) && (fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8);
+        return super.canSurvive(state, world, pos) && (fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
     }
 
     @Nullable
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockState blockstate = getDefaultState();
-        BlockPos blockpos = ctx.getBlockPos();
-        Direction[] directionArray = ctx.getPlacementDirections();
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        BlockState blockstate = defaultBlockState();
+        BlockPos blockpos = ctx.getClickedPos();
+        Direction[] directionArray = ctx.getNearestLookingDirections();
 
         for(Direction direction : directionArray) {
             if (direction.getAxis().isHorizontal()) {
                 Direction directionOpposite = direction.getOpposite();
-                blockstate = blockstate.with(FACING, directionOpposite);
-                if (blockstate.canPlaceAt(ctx.getWorld(), blockpos)) break;
+                blockstate = blockstate.setValue(FACING, directionOpposite);
+                if (blockstate.canSurvive(ctx.getLevel(), blockpos)) break;
             }
         }
 
-        FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
-        return blockstate.with(WATERLOGGED, (fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8));
+        FluidState fluidState = ctx.getLevel().getFluidState(ctx.getClickedPos());
+        return blockstate.setValue(WATERLOGGED, (fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8));
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) { return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state); }
+    public FluidState getFluidState(BlockState state) { return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state); }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, WATERLOGGED);
     }
 
-    private static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
-    private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    private static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 }

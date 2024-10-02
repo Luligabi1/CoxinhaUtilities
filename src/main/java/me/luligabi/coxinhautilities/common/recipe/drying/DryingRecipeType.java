@@ -1,6 +1,6 @@
 package me.luligabi.coxinhautilities.common.recipe.drying;
 
-import net.minecraft.recipe.RecipeType;
+import net.minecraft.world.item.crafting.RecipeType;
 
 public class DryingRecipeType implements RecipeType<DryingRecipe> {
 

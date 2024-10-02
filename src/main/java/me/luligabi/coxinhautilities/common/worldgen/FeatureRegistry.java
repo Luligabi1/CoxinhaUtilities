@@ -4,11 +4,10 @@ import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import java.util.function.Predicate;
 
@@ -20,12 +19,12 @@ public class FeatureRegistry {
     }
 
 
-    private static void addFeature(RegistryKey<PlacedFeature> registryKey, Predicate<BiomeSelectionContext> biomeSelector, boolean enabled) {
+    private static void addFeature(ResourceKey<PlacedFeature> registryKey, Predicate<BiomeSelectionContext> biomeSelector, boolean enabled) {
         if(!enabled) return;
-        BiomeModifications.addFeature(biomeSelector, GenerationStep.Feature.VEGETAL_DECORATION, registryKey);
+        BiomeModifications.addFeature(biomeSelector, GenerationStep.Decoration.VEGETAL_DECORATION, registryKey);
     }
 
 
-    private static final RegistryKey<PlacedFeature> ENDER_ORCHID = RegistryKey.of(RegistryKeys.PLACED_FEATURE, CoxinhaUtilities.id("ender_orchid"));
+    private static final ResourceKey<PlacedFeature> ENDER_ORCHID = ResourceKey.create(Registries.PLACED_FEATURE, CoxinhaUtilities.id("ender_orchid"));
 
 }

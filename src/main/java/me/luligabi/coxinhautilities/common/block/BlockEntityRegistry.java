@@ -13,10 +13,10 @@ import me.luligabi.coxinhautilities.common.block.trashcan.fluid.FluidTrashCanBlo
 import me.luligabi.coxinhautilities.common.block.woodenhopper.WoodenHopperBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import team.reborn.energy.api.EnergyStorage;
 
 public class BlockEntityRegistry {
@@ -34,17 +34,17 @@ public class BlockEntityRegistry {
     }
 
     public static void clientInit() {
-        BlockEntityRendererFactories.register(BlockEntityRegistry.PORTABLE_TANK_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
+        BlockEntityRenderers.register(BlockEntityRegistry.PORTABLE_TANK_BLOCK_ENTITY, PortableTankBlockEntityRenderer::new);
 
-        BlockEntityRendererFactories.register(BlockEntityRegistry.GRANNYS_SINK_BLOCK_ENTITY, GrannysSinkBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, DryingRackBlockEntityRenderer::new);
+        BlockEntityRenderers.register(BlockEntityRegistry.GRANNYS_SINK_BLOCK_ENTITY, GrannysSinkBlockEntityRenderer::new);
+        BlockEntityRenderers.register(BlockEntityRegistry.DRYING_RACK_BLOCK_ENTITY, DryingRackBlockEntityRenderer::new);
     }
 
-    public static final BlockEntityType<WoodenHopperBlockEntity> WOODEN_HOPPER_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("wooden_hopper"), BlockEntityType.Builder.create(WoodenHopperBlockEntity::new, BlockRegistry.WOODEN_HOPPER).build(null));
+    public static final BlockEntityType<WoodenHopperBlockEntity> WOODEN_HOPPER_ENTITY = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("wooden_hopper"), BlockEntityType.Builder.of(WoodenHopperBlockEntity::new, BlockRegistry.WOODEN_HOPPER).build(null));
 
-    public static final BlockEntityType<PortableTankBlockEntity> PORTABLE_TANK_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE,
+    public static final BlockEntityType<PortableTankBlockEntity> PORTABLE_TANK_BLOCK_ENTITY = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,
         CoxinhaUtilities.id("portable_tank"),
-        BlockEntityType.Builder.create(PortableTankBlockEntity::new,
+        BlockEntityType.Builder.of(PortableTankBlockEntity::new,
             BlockRegistry.PORTABLE_TANK_MK1,
             BlockRegistry.PORTABLE_TANK_MK2,
             BlockRegistry.PORTABLE_TANK_MK3,
@@ -53,13 +53,13 @@ public class BlockEntityRegistry {
         ).build(null)
     );
 
-    public static final BlockEntityType<GrannysSinkBlockEntity> GRANNYS_SINK_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("grannys_sink"), BlockEntityType.Builder.create(GrannysSinkBlockEntity::new, BlockRegistry.GRANNYS_SINK).build(null));
+    public static final BlockEntityType<GrannysSinkBlockEntity> GRANNYS_SINK_BLOCK_ENTITY = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("grannys_sink"), BlockEntityType.Builder.of(GrannysSinkBlockEntity::new, BlockRegistry.GRANNYS_SINK).build(null));
 
-    public static final BlockEntityType<FluidTrashCanBlockEntity> FLUID_TRASH_CAN_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("fluid_trash_can"), BlockEntityType.Builder.create(FluidTrashCanBlockEntity::new, BlockRegistry.FLUID_TRASH_CAN).build(null));
+    public static final BlockEntityType<FluidTrashCanBlockEntity> FLUID_TRASH_CAN_BLOCK_ENTITY = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("fluid_trash_can"), BlockEntityType.Builder.of(FluidTrashCanBlockEntity::new, BlockRegistry.FLUID_TRASH_CAN).build(null));
 
-    public static final BlockEntityType<EnergyTrashCanBlockEntity> ENERGY_TRASH_CAN_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("energy_trash_can"), BlockEntityType.Builder.create(EnergyTrashCanBlockEntity::new, BlockRegistry.ENERGY_TRASH_CAN).build(null));
+    public static final BlockEntityType<EnergyTrashCanBlockEntity> ENERGY_TRASH_CAN_BLOCK_ENTITY = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("energy_trash_can"), BlockEntityType.Builder.of(EnergyTrashCanBlockEntity::new, BlockRegistry.ENERGY_TRASH_CAN).build(null));
 
-    public static final BlockEntityType<DryingRackBlockEntity> DRYING_RACK_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("drying_rack"), BlockEntityType.Builder.create(DryingRackBlockEntity::new, BlockRegistry.DRYING_RACK).build(null));
+    public static final BlockEntityType<DryingRackBlockEntity> DRYING_RACK_BLOCK_ENTITY = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("drying_rack"), BlockEntityType.Builder.of(DryingRackBlockEntity::new, BlockRegistry.DRYING_RACK).build(null));
 
-    public static final BlockEntityType<CardboardBoxBlockEntity> CARDBOARD_BOX_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("cardboard_box"), BlockEntityType.Builder.create(CardboardBoxBlockEntity::new, BlockRegistry.CARDBOARD_BOX).build(null));
+    public static final BlockEntityType<CardboardBoxBlockEntity> CARDBOARD_BOX_BLOCK_ENTITY = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, CoxinhaUtilities.id("cardboard_box"), BlockEntityType.Builder.of(CardboardBoxBlockEntity::new, BlockRegistry.CARDBOARD_BOX).build(null));
 }

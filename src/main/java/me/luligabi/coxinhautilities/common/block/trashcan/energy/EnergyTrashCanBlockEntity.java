@@ -6,14 +6,14 @@ import me.luligabi.coxinhautilities.common.screenhandler.EnergyTrashCanScreenHan
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.EnergyStorageUtil;
@@ -45,7 +45,7 @@ public class EnergyTrashCanBlockEntity extends AbstractTrashCanBlockEntity {
         }
     };
 
-    public static void tick(World world, BlockPos pos, BlockState state, EnergyTrashCanBlockEntity blockEntity) {
+    public static void tick(Level world, BlockPos pos, BlockState state, EnergyTrashCanBlockEntity blockEntity) {
         ItemStack stack = blockEntity.inventory.get(0);
         if(stack.isEmpty()) return;
 
@@ -57,13 +57,13 @@ public class EnergyTrashCanBlockEntity extends AbstractTrashCanBlockEntity {
 
 
     @Override
-    public Text getDisplayName() {
-        return Text.translatable("block.coxinhautilities.energy_trash_can");
+    public Component getDisplayName() {
+        return Component.translatable("block.coxinhautilities.energy_trash_can");
     }
 
     @Nullable
     @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+    public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
         return new EnergyTrashCanScreenHandler(syncId, inv, this);
     }
 

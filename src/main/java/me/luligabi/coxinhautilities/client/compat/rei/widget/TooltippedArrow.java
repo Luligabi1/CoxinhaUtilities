@@ -6,8 +6,8 @@ import me.shedaniel.rei.api.client.gui.widgets.Arrow;
 import me.shedaniel.rei.api.client.gui.widgets.Tooltip;
 import me.shedaniel.rei.api.client.gui.widgets.TooltipContext;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -28,12 +28,12 @@ public class TooltippedArrow extends Arrow {
     }
 
     @Override
-    public List<? extends Element> children() {
+    public List<? extends GuiEventListener> children() {
         return arrow.children();
     }
 
     @Override
-    public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics ctx, int mouseX, int mouseY, float delta) {
         arrow.render(ctx, mouseX, mouseY, delta);
         final Point mousePoint = new Point(mouseX, mouseY);
         //if (containsMouse(mousePoint)) getTooltip(TooltipContext.of(mousePoint)).queue(); // FIXME

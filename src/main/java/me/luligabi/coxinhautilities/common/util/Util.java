@@ -5,16 +5,16 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.DustParticleEffect;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.phys.Vec3;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.EnergyStorageUtil;
 
@@ -36,16 +36,16 @@ public class Util {
         }
     }
 
-    public static FluidVariant getFluidFromNbt(NbtCompound nbt) {
-        Identifier id = Identifier.of(((NbtCompound) nbt.get("variant")).getString("fluid"));
-        return FluidVariant.of(Registries.FLUID.get(id));
+    public static FluidVariant getFluidFromNbt(CompoundTag nbt) {
+        ResourceLocation id = ResourceLocation.parse(((CompoundTag) nbt.get("variant")).getString("fluid"));
+        return FluidVariant.of(BuiltInRegistries.FLUID.get(id));
     }
 
-    public static NbtCompound getBlockEntityData(ItemStack stack) {
-        NbtComponent component = stack.get(DataComponentTypes.BLOCK_ENTITY_DATA);
-        if(component == null) return new NbtCompound();
+    public static CompoundTag getBlockEntityData(ItemStack stack) {
+        CustomData component = stack.get(DataComponents.BLOCK_ENTITY_DATA);
+        if(component == null) return new CompoundTag();
 
-        return component.copyNbt();
+        return component.copyTag();
     }
 
     /*
@@ -53,12 +53,12 @@ public class Util {
      *
      * You may see the original code here: https://github.com/TechReborn/TechReborn/blob/33da2ad59e625cdbd43624635adc65ea7bd23aa5/RebornCore/src/main/java/reborncore/common/util/ItemUtils.java#L246
      */
-    public static void distributePowerToInventory(PlayerEntity player, ItemStack itemStack, long maxOutput, Predicate<ItemStack> filter) {
+    public static void distributePowerToInventory(Player player, ItemStack itemStack, long maxOutput, Predicate<ItemStack> filter) {
         PlayerInventoryStorage playerInv = PlayerInventoryStorage.of(player);
         SingleSlotStorage<ItemVariant> sourceSlot = null;
 
-        for(int i = 0; i < player.getInventory().size(); i++) {
-            if (player.getInventory().getStack(i) == itemStack) {
+        for(int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            if (player.getInventory().getItem(i) == itemStack) {
                 sourceSlot = playerInv.getSlots().get(i);
                 break;
             }
@@ -69,8 +69,8 @@ public class Util {
         EnergyStorage sourceStorage = ContainerItemContext.ofPlayerSlot(player, sourceSlot).find(EnergyStorage.ITEM);
         if(sourceStorage == null) return;
 
-        for(int i = 0; i < player.getInventory().size(); i++) {
-            ItemStack invStack = player.getInventory().getStack(i);
+        for(int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack invStack = player.getInventory().getItem(i);
 
             if(invStack.isEmpty() || !filter.test(invStack)) continue;
 
@@ -85,7 +85,7 @@ public class Util {
 
 
     public static ItemStack singleCopy(ItemStack stack) {
-        return stack.copyComponentsToNewStack(stack.getItem(), 1);
+        return stack.transmuteCopy(stack.getItem(), 1);
     }
 
 
@@ -97,7 +97,7 @@ public class Util {
      */
     public static NumberFormat formatAccordingToLanguage() {
         Locale locale = Locale.forLanguageTag(
-                MinecraftClient.getInstance().getLanguageManager().getLanguage().replace(
+                Minecraft.getInstance().getLanguageManager().getSelected().replace(
                         "_",
                         "-"
                 )
@@ -106,5 +106,5 @@ public class Util {
         return NumberFormat.getNumberInstance(locale);
     }
 
-    public static final DustParticleEffect AQUATIC_TORCH_PARTICLE = new DustParticleEffect(Vec3d.unpackRgb(0x2F9799).toVector3f(), 1.0F);
+    public static final DustParticleOptions AQUATIC_TORCH_PARTICLE = new DustParticleOptions(Vec3.fromRGB24(0x2F9799).toVector3f(), 1.0F);
 }

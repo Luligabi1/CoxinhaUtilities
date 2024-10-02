@@ -1,41 +1,41 @@
 package me.luligabi.coxinhautilities.client.renderer.item;
 
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.vertex.PoseStack;
+import me.luligabi.coxinhautilities.client.RenderUtil;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.block.sink.GrannysSinkBlockEntity;
-import me.luligabi.coxinhautilities.client.RenderUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 
 @Environment(EnvType.CLIENT)
 public class GrannysSinkItemRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer {
 
     @Override
-    public void render(ItemStack stack, ModelTransformationMode mode, MatrixStack ms, VertexConsumerProvider vcp, int light, int overlay) {
-        BakedModel bakedModel = MinecraftClient.getInstance().getBlockRenderManager().getModel(sinkBlockState);
+    public void render(ItemStack stack, ItemDisplayContext mode, PoseStack ms, MultiBufferSource vcp, int light, int overlay) {
+        BakedModel bakedModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(sinkBlockState);
 
         // Render item model itself
-        RenderUtil.renderItemWithWrappedModel(MinecraftClient.getInstance().getItemRenderer(),
+        RenderUtil.renderItemWithWrappedModel(Minecraft.getInstance().getItemRenderer(),
                 bakedModel, sinkModel, stack, light, overlay, ms, vcp);
 
         // Renders fluid using the sink's BER
-        DiffuseLighting.disableGuiDepthLighting();
-        MinecraftClient.getInstance().getBlockEntityRenderDispatcher().renderEntity(
+        Lighting.setupForFlatItems();
+        Minecraft.getInstance().getBlockEntityRenderDispatcher().renderItem(
                 sinkBlockEntity, ms, vcp, light, overlay);
-        DiffuseLighting.enableGuiDepthLighting();
+        Lighting.setupFor3DItems();
     }
 
-    private final BlockState sinkBlockState = BlockRegistry.GRANNYS_SINK.getDefaultState();
-    private final GrannysSinkBlockEntity sinkBlockEntity = new GrannysSinkBlockEntity(BlockPos.ORIGIN, sinkBlockState);
+    private final BlockState sinkBlockState = BlockRegistry.GRANNYS_SINK.defaultBlockState();
+    private final GrannysSinkBlockEntity sinkBlockEntity = new GrannysSinkBlockEntity(BlockPos.ZERO, sinkBlockState);
     private final RenderUtil.WrappedBakedModel sinkModel = new RenderUtil.WrappedBakedModel();
 
 }

@@ -3,15 +3,14 @@ package me.luligabi.coxinhautilities.common.block.woodenhopper;
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
 import me.luligabi.coxinhautilities.common.screenhandler.WoodenHopperScreenHandler;
 import me.luligabi.coxinhautilities.mixin.HopperBlockEntityAccessor;
-import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.HopperBlockEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.HopperBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 
 public class WoodenHopperBlockEntity extends HopperBlockEntity {
@@ -19,11 +18,11 @@ public class WoodenHopperBlockEntity extends HopperBlockEntity {
 
     public WoodenHopperBlockEntity(BlockPos pos, BlockState state) {
         super(pos, state);
-        ((HopperBlockEntityAccessor) this).coxinhautilities_setInventory(DefaultedList.ofSize(1, ItemStack.EMPTY));
+        ((HopperBlockEntityAccessor) this).coxinhautilities_setInventory(NonNullList.withSize(1, ItemStack.EMPTY));
     }
 
     @Override
-    public int size() {
+    public int getContainerSize() {
         return 1;
     }
 
@@ -33,7 +32,7 @@ public class WoodenHopperBlockEntity extends HopperBlockEntity {
     }
 
     @Override
-    protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
+    protected AbstractContainerMenu createMenu(int syncId, Inventory playerInventory) {
         return new WoodenHopperScreenHandler(syncId, playerInventory, this);
     }
 

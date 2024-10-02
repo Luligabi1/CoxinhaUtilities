@@ -1,20 +1,20 @@
 package me.luligabi.coxinhautilities.common.block.misc;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.PaneBlock;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class TintedPaneBlock extends PaneBlock {
+public class TintedPaneBlock extends IronBarsBlock {
 
-    public TintedPaneBlock(Settings settings) {
+    public TintedPaneBlock(Properties settings) {
         super(settings);
     }
 
     @Override
-    public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) { return false; }
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) { return false; }
 
     @Override
-    public int getOpacity(BlockState state, BlockView world, BlockPos pos) { return world.getMaxLightLevel(); }
+    public int getLightBlock(BlockState state, BlockGetter world, BlockPos pos) { return world.getMaxLightLevel(); }
 
 }

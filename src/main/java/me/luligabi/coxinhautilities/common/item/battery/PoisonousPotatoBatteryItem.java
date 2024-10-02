@@ -1,17 +1,15 @@
 package me.luligabi.coxinhautilities.common.item.battery;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
 public class PoisonousPotatoBatteryItem extends PotatoBatteryItem {
 
-    public PoisonousPotatoBatteryItem(Settings settings) {
+    public PoisonousPotatoBatteryItem(Properties settings) {
         super(settings);
     }
 
@@ -19,25 +17,25 @@ public class PoisonousPotatoBatteryItem extends PotatoBatteryItem {
     public long getEnergyCapacity(ItemStack stack) { return 45056; }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag type) {
         appendPowerInfo(tooltip, stack);
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<Text> wittyComments() {
+    public List<Component> wittyComments() {
         return List.of(
-                Text.translatable("tooltip.coxinhautilities.poisonous_potato_battery.witty.1"),
-                Text.translatable("tooltip.coxinhautilities.poisonous_potato_battery.witty.2")
+                Component.translatable("tooltip.coxinhautilities.poisonous_potato_battery.witty.1"),
+                Component.translatable("tooltip.coxinhautilities.poisonous_potato_battery.witty.2")
         );
     }
 
-    protected Formatting getPrimaryColor() {
-        return Formatting.DARK_GREEN;
+    protected ChatFormatting getPrimaryColor() {
+        return ChatFormatting.DARK_GREEN;
     }
 
-    protected Formatting getSecondaryColor() {
-        return Formatting.GREEN;
+    protected ChatFormatting getSecondaryColor() {
+        return ChatFormatting.GREEN;
     }
 
 }

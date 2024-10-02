@@ -13,9 +13,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.client.gui.screen.ingame.HandledScreens;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.level.block.Block;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,9 +25,9 @@ public class CoxinhaUtilitiesClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        portableTanks.forEach(portableTanks -> BlockRenderLayerMap.INSTANCE.putBlock(portableTanks, RenderLayer.getCutoutMipped()));
+        portableTanks.forEach(portableTanks -> BlockRenderLayerMap.INSTANCE.putBlock(portableTanks, RenderType.cutoutMipped()));
 
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(),
                 BlockRegistry.ENDER_ORCHID,
                 BlockRegistry.POTTED_ENDER_ORCHID,
 
@@ -49,13 +49,13 @@ public class CoxinhaUtilitiesClient implements ClientModInitializer {
 
         BlockEntityRegistry.clientInit();
 
-        portableTanks.forEach(portableTanks -> BuiltinItemRendererRegistry.INSTANCE.register(portableTanks, new PortableTankItemRenderer(portableTanks.getDefaultState())));
+        portableTanks.forEach(portableTanks -> BuiltinItemRendererRegistry.INSTANCE.register(portableTanks, new PortableTankItemRenderer(portableTanks.defaultBlockState())));
         BuiltinItemRendererRegistry.INSTANCE.register(BlockRegistry.GRANNYS_SINK, new GrannysSinkItemRenderer());
 
-        HandledScreens.register(ScreenHandlingRegistry.WOODEN_HOPPER_SCREEN_HANDLER, WoodenHopperScreen::new);
+        MenuScreens.register(ScreenHandlingRegistry.WOODEN_HOPPER_SCREEN_HANDLER, WoodenHopperScreen::new);
 
-        HandledScreens.register(ScreenHandlingRegistry.FLUID_TRASH_CAN_SCREEN_HANDLER, FluidTrashCanScreen::new);
-        HandledScreens.register(ScreenHandlingRegistry.ENERGY_TRASH_CAN_SCREEN_HANDLER, EnergyTrashCanScreen::new);
+        MenuScreens.register(ScreenHandlingRegistry.FLUID_TRASH_CAN_SCREEN_HANDLER, FluidTrashCanScreen::new);
+        MenuScreens.register(ScreenHandlingRegistry.ENERGY_TRASH_CAN_SCREEN_HANDLER, EnergyTrashCanScreen::new);
     }
 
     private final List<Block> portableTanks = Arrays.asList(

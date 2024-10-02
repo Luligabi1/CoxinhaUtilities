@@ -4,47 +4,50 @@ import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.misc.TagRegistry;
 import me.luligabi.coxinhautilities.common.util.Util;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.*;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtHelper;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.Registries;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Clearable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Clearable;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
 
 public class CardboardBoxBlockItem extends BlockItem {
 
     public CardboardBoxBlockItem() {
-        super(BlockRegistry.CARDBOARD_BOX, new Item.Settings());
+        super(BlockRegistry.CARDBOARD_BOX, new Properties());
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        World world = context.getWorld();
-        BlockPos pos = context.getBlockPos();
+    public InteractionResult useOn(UseOnContext context) {
+        Level world = context.getLevel();
+        BlockPos pos = context.getClickedPos();
         Optional<BlockEntity> blockEntity = Optional.ofNullable(world.getBlockEntity(pos));
 
-        if(context.getPlayer().isSneaking()) {
+        if(context.getPlayer().isShiftKeyDown()) {
             BlockState blockState = world.getBlockState(pos);
-            if(blockState.getBlock().getHardness() >= 0.01F && isNbtBlockAir(context.getStack()) && !blockState.isIn(TagRegistry.UNBOXABLE) && !isOnCarrierBlackList(blockState)) {
-                if(blockEntity.isPresent() && hasLootTable(blockEntity.get())) return super.useOnBlock(context);
+            if(blockState.getBlock().defaultDestroyTime() >= 0.01F && isNbtBlockAir(context.getItemInHand()) && !blockState.is(TagRegistry.UNBOXABLE) && !isOnCarrierBlackList(blockState)) {
+                if(blockEntity.isPresent() && hasLootTable(blockEntity.get())) return super.useOn(context);
 
-                if(context.getWorld().isClient()) return ActionResult.CONSUME;
+                if(context.getLevel().isClientSide()) return InteractionResult.CONSUME;
 
-                NbtList nbtList = new NbtList();
+                ListTag nbtList = new ListTag();
                 if(blockEntity.isPresent()) {
-                    NbtCompound nbtCopy = blockEntity.get().createNbtWithId(world.getRegistryManager());
+                    CompoundTag nbtCopy = blockEntity.get().saveWithId(world.registryAccess());
                     nbtCopy.remove("id");
                     nbtCopy.remove("x");
                     nbtCopy.remove("y");
@@ -52,42 +55,42 @@ public class CardboardBoxBlockItem extends BlockItem {
                     nbtList.add(nbtCopy);
 
                     // Desperate attempt to cover every edge case :)
-                    Clearable.clear(blockEntity);
+                    Clearable.tryClear(blockEntity);
                     world.removeBlockEntity(pos);
                 }
-                world.setBlockState(pos, BlockRegistry.CARDBOARD_BOX.getPlacementState(new ItemPlacementContext(context)), 32);
-                world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER.value(), SoundCategory.BLOCKS, 1F, 1F); // FIXME use unique soundevent
+                world.setBlock(pos, BlockRegistry.CARDBOARD_BOX.getStateForPlacement(new BlockPlaceContext(context)), 32);
+                world.playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER.value(), SoundSource.BLOCKS, 1F, 1F); // FIXME use unique soundevent
 
                 blockEntity = Optional.ofNullable(world.getBlockEntity(pos)); // refresh block entity
                 if(blockEntity.isPresent() && blockEntity.get() instanceof CardboardBoxBlockEntity cardboardBoxBE) {
                     cardboardBoxBE.blockState = blockState;
                     cardboardBoxBE.nbtCopy = nbtList;
-                    blockEntity.get().markDirty();
+                    blockEntity.get().setChanged();
                 }
-                context.getStack().decrement(1);
-                return ActionResult.CONSUME;
+                context.getItemInHand().shrink(1);
+                return InteractionResult.CONSUME;
             }
         }
-        return super.useOnBlock(context);
+        return super.useOn(context);
     }
 
     private boolean isOnCarrierBlackList(BlockState blockState) {
         if(!CoxinhaUtilities.CONFIG.useCarrierBlacklist) return false;
-        return blockState.isIn(TagRegistry.CARRIER_BLACKLIST);
+        return blockState.is(TagRegistry.CARRIER_BLACKLIST);
     }
 
     private boolean hasLootTable(BlockEntity blockEntity) {
-        if(blockEntity instanceof LootableContainerBlockEntity lootableContainer) {
+        if(blockEntity instanceof RandomizableContainerBlockEntity lootableContainer) {
             return lootableContainer.getLootTable() != null;
         }
         return false;
     }
 
     private boolean isNbtBlockAir(ItemStack stack) {
-        if(stack.get(DataComponentTypes.BLOCK_ENTITY_DATA) == null) return true;
+        if(stack.get(DataComponents.BLOCK_ENTITY_DATA) == null) return true;
 
-        NbtCompound data = Util.getBlockEntityData(stack);
-        return NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), data.getCompound("BlockState")).isAir();
+        CompoundTag data = Util.getBlockEntityData(stack);
+        return NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), data.getCompound("BlockState")).isAir();
     }
 
 }

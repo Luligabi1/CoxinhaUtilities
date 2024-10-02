@@ -5,12 +5,12 @@ import me.luligabi.coxinhautilities.common.block.ClientSyncedBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
 
@@ -26,13 +26,13 @@ public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
         }
 
         @Override
-        protected long getCapacity(FluidVariant variant) { return ((PortableTankBlock) getCachedState().getBlock()).getTankTier().getCapacity(); }
+        protected long getCapacity(FluidVariant variant) { return ((PortableTankBlock) getBlockState().getBlock()).getTankTier().getCapacity(); }
 
         @Override
-        protected void onFinalCommit() { markDirty(); }
+        protected void onFinalCommit() { setChanged(); }
     };
 
-    public boolean fluidIo(PlayerEntity player, Hand hand) {
+    public boolean fluidIo(Player player, InteractionHand hand) {
         return FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand);
     }
 
@@ -41,30 +41,30 @@ public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
     }
 
     @Override
-    public void markDirty() {
-        super.markDirty();
+    public void setChanged() {
+        super.setChanged();
         if(!isClientSide()) {
             sync();
         }
     }
 
     @Override
-    public void toTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    public void toTag(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         SingleVariantStorage.writeNbt(fluidStorage, FluidVariant.CODEC, nbt, registryLookup);
     }
 
     @Override
-    public void fromTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    public void fromTag(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         SingleVariantStorage.readNbt(fluidStorage, FluidVariant.CODEC, FluidVariant::blank, nbt, registryLookup);
     }
 
     @Override
-    public void toClientTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    public void toClientTag(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         toTag(nbt, registryLookup);
     }
 
     @Override
-    public void fromClientTag(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    public void fromClientTag(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         fromTag(nbt, registryLookup);
     }
 

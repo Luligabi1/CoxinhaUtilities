@@ -2,99 +2,103 @@ package me.luligabi.coxinhautilities.common.block.sink;
 
 import com.mojang.serialization.MapCodec;
 import me.luligabi.coxinhautilities.common.util.IWittyComment;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.state.StateManager;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class GrannysSinkBlock extends HorizontalFacingBlock implements BlockEntityProvider, IWittyComment {
+public class GrannysSinkBlock extends HorizontalDirectionalBlock implements EntityBlock, IWittyComment {
 
-    public GrannysSinkBlock(Settings settings) {
+    public GrannysSinkBlock(Properties settings) {
         super(settings);
-        this.setDefaultState(this.getStateManager().getDefaultState().with(FACING, Direction.NORTH));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH));
     }
 
     @Override
-    protected MapCodec<? extends HorizontalFacingBlock> getCodec() {
-        return createCodec(GrannysSinkBlock::new);
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return simpleCodec(GrannysSinkBlock::new);
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if(((GrannysSinkBlockEntity) world.getBlockEntity(pos)).fluidIo(player, player.getActiveHand())) {
-            return ActionResult.success(world.isClient);
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        if(((GrannysSinkBlockEntity) world.getBlockEntity(pos)).fluidIo(player, player.getUsedItemHand())) {
+            return InteractionResult.sidedSuccess(world.isClientSide);
         }
-        return ActionResult.FAIL;
+        return InteractionResult.FAIL;
     }
 
     @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new GrannysSinkBlockEntity(pos, state);
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing());
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        return defaultBlockState().setValue(FACING, ctx.getHorizontalDirection());
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.1").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.2").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.3").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.4").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
-        tooltip.add(Text.translatable("tooltip.coxinhautilities.grannys_sink.5").formatted(Formatting.DARK_PURPLE, Formatting.ITALIC));
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag options) {
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.grannys_sink.1").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.grannys_sink.2").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.grannys_sink.3").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.grannys_sink.4").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
+        tooltip.add(Component.translatable("tooltip.coxinhautilities.grannys_sink.5").withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC));
         addWittyComment(tooltip);
     }
 
     @Override
-    public List<Text> wittyComments() {
-        return List.of(Text.translatable("tooltip.coxinhautilities.grannys_sink.witty"));
+    public List<Component> wittyComments() {
+        return List.of(Component.translatable("tooltip.coxinhautilities.grannys_sink.witty"));
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return switch (state.get(FACING)) {
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return switch (state.getValue(FACING)) {
             case NORTH -> NORTH_VOXELSHAPE;
             case SOUTH -> SOUTH_VOXELSHAPE;
             case WEST -> WEST_VOXELSHAPE;
             case EAST -> EAST_VOXELSHAPE;
-            default -> VoxelShapes.empty();
+            default -> Shapes.empty();
         };
     }
 
-    private static final VoxelShape NORTH_VOXELSHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.5D, 16.0D, 14.0D, 15.25D);
-    private static final VoxelShape SOUTH_VOXELSHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.75D, 16.0D, 14.0D, 15.5D);
-    private static final VoxelShape WEST_VOXELSHAPE = Block.createCuboidShape(0.5D, 0.0D, 0.0D, 15.0D, 14.0D, 16.0D);
-    private static final VoxelShape EAST_VOXELSHAPE = Block.createCuboidShape(0.75D, 0.0D, 0.0D, 15.5D, 14.0D, 16.0D);
+    private static final VoxelShape NORTH_VOXELSHAPE = Block.box(0.0D, 0.0D, 0.5D, 16.0D, 14.0D, 15.25D);
+    private static final VoxelShape SOUTH_VOXELSHAPE = Block.box(0.0D, 0.0D, 0.75D, 16.0D, 14.0D, 15.5D);
+    private static final VoxelShape WEST_VOXELSHAPE = Block.box(0.5D, 0.0D, 0.0D, 15.0D, 14.0D, 16.0D);
+    private static final VoxelShape EAST_VOXELSHAPE = Block.box(0.75D, 0.0D, 0.0D, 15.5D, 14.0D, 16.0D);
 
 }

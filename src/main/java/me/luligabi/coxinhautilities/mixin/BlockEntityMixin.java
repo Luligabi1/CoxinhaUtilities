@@ -1,8 +1,8 @@
 package me.luligabi.coxinhautilities.mixin;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,14 +16,14 @@ public class BlockEntityMixin {
      * This breaks Wooden Hoppers since their type is only defined through the #getType() method.
      */
     @Inject(
-        method = "supports",
+        method = "isValidBlockState",
         at = @At("HEAD"),
         cancellable = true
     )
-    void coxinhautilities_supports(BlockState state, CallbackInfoReturnable<Boolean> cir) {
+    void coxinhautilities_isValidBlockState(BlockState state, CallbackInfoReturnable<Boolean> cir) {
         BlockEntity blockEntity = ((BlockEntity) (Object) this);
         if(blockEntity.getType() == BlockEntityRegistry.WOODEN_HOPPER_ENTITY) {
-            cir.setReturnValue(blockEntity.getType().supports(state));
+            cir.setReturnValue(blockEntity.getType().isValid(state));
         }
     }
 
