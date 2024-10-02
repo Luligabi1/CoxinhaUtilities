@@ -6,6 +6,7 @@ import me.luligabi.coxinhautilities.common.item.battery.BakedPotatoBatteryItem;
 import me.luligabi.coxinhautilities.common.item.battery.PoisonousPotatoBatteryItem;
 import me.luligabi.coxinhautilities.common.item.battery.PotatoBatteryItem;
 import me.luligabi.coxinhautilities.common.misc.ItemGroupInit;
+import me.luligabi.coxinhautilities.common.misc.TagRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -15,7 +16,6 @@ import net.minecraft.world.item.*;
 
 import java.util.List;
 
-// FIXME change tooltips that rely on Kibe
 public class ItemRegistry {
 
     public static void init() {
@@ -29,6 +29,8 @@ public class ItemRegistry {
         initItem("poisonous_potato_battery", POISONOUS_POTATO_BATTERY);
 
         initItem("ender_orchid_seeds", ENDER_ORCHID_SEEDS);
+
+        initItem("coxinha_banner_pattern", COXINHA_BANNER_PATTERN, true);
     }
 
     private static void initItem(String id, Item item) {
@@ -71,5 +73,7 @@ public class ItemRegistry {
 
 
     public static final Item ENDER_ORCHID_SEEDS = new ItemNameBlockItem(BlockRegistry.ENDER_ORCHID, new Item.Properties());
+
+    public static final Item COXINHA_BANNER_PATTERN = new BannerPatternItem(TagRegistry.PATTERN_ITEM_COXINHA, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC));
 
 }

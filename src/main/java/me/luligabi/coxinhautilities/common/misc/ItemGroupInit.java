@@ -18,7 +18,6 @@ import net.minecraft.world.item.Items;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("UnstableApiUsage")
 public class ItemGroupInit {
 
     public static void init() {
@@ -67,6 +66,8 @@ public class ItemGroupInit {
                         entries.acceptAll(ItemGroupInit.ITEMS)
                 )
         .build());
+
+        ITEMS.add(new ItemStack(ItemRegistry.COXINHA_BANNER_PATTERN));
     }
 
     public static final ResourceKey<CreativeModeTab> ITEM_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, CoxinhaUtilities.id("item_group"));

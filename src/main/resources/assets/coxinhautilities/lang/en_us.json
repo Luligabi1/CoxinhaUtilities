@@ -29,6 +29,26 @@
 
   "item.coxinhautilities.ender_orchid_seeds": "Ender Orchid Seeds",
 
+  "item.coxinhautilities.coxinha_banner_pattern": "Banner Pattern",
+  "item.coxinhautilities.coxinha_banner_pattern.desc": "Coxinha",
+
+  "block.minecraft.banner.coxinhautilities.coxinha.black": "Black Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.blue": "Blue Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.brown": "Brown Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.cyan": "Cyan Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.gray": "Gray Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.green": "Green Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.light_blue": "Light Blue Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.light_gray": "Light Gray Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.lime": "Lime Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.magenta": "Magenta Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.orange": "Orange Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.pink": "Pink Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.purple": "Purple Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.red": "Red Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.white": "White Coxinha",
+  "block.minecraft.banner.coxinhautilities.coxinha.yellow": "Yellow Coxinha",
+
   "block.coxinhautilities.ender_orchid": "Ender Orchid",
   "block.coxinhautilities.potted_ender_orchid": "Potted Ender Orchid",
   "tooltip.coxinhautilities.ender_orchid.1": "An otherwordly plant that grows",
