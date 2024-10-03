@@ -114,7 +114,7 @@ public class DryingRackBlockEntity extends ClientSyncedBlockEntity {
     }
 
     private static Optional<RecipeHolder<DryingRecipe>> createRecipeOptional(DryingRackBlockEntity blockEntity, ServerLevel world) {
-        return world.getServer().getRecipeManager().getRecipeFor(DryingRecipeType.INSTANCE, blockEntity.inventory, world);
+        return world.getServer().getRecipeManager().getRecipeFor(DryingRecipeType.INSTANCE, blockEntity.inventory.input, world);
     }
 
 }

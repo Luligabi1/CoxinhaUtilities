@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-public class DryingRecipe implements Recipe<DryingRackInventory> {
+public class DryingRecipe implements Recipe<DryingRackInventory.DryingRackInput> {
 
     private final Ingredient ingredient;
     private final int dryingTime;
@@ -40,12 +40,12 @@ public class DryingRecipe implements Recipe<DryingRackInventory> {
     }
 
     @Override
-    public ItemStack assemble(DryingRackInventory input, HolderLookup.Provider lookup) {
+    public ItemStack assemble(DryingRackInventory.DryingRackInput input, HolderLookup.Provider lookup) {
         return outputStack.copy();
     }
 
     @Override
-    public boolean matches(DryingRackInventory input, Level world) {
+    public boolean matches(DryingRackInventory.DryingRackInput input, Level world) {
         return ingredient.test(input.getItem(0));
     }
 
