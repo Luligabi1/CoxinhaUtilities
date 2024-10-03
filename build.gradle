@@ -96,14 +96,18 @@ jar {
 }
 
 
+
+ext.getChangeLog = { ->
+    return "- Update to 1.21;\n" +
+            "- Added Coxinha Banner Pattern."
+}
+
 publishMods {
     file = remapJar.archiveFile
     displayName = (project.mod_version as String)
     type = STABLE
     modLoaders.add("fabric")
-    changelog =
-    """
-    """
+    changelog = project.getChangeLog()
 
     curseforge {
         projectId = project.curseforge_id
@@ -135,9 +139,9 @@ publishMods {
 
     discord {
         webhookUrl = providers.environmentVariable("CAFETERIA_MOD_RELEASE_WEBHOOK")
-        username = "Coxinha Utilities"
+        username = "Coxinha Utilities (Fabric)"
         avatarUrl = "https://cdn.modrinth.com/data/NXqpbY3F/icon.png"
 
-        content = changelog.map { "# Coxinha Utilities " + (project.mod_version as String) + " has been released \n" + it}
+        content = changelog.map { "# Coxinha Utilities (Fabric) " + (project.mod_version as String) + " has been released \n" + it}
     }
 }
