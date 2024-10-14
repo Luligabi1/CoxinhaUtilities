@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "coxinhautilities:block/ender_orchid/ender_orchid_stage0"
+    },
+    "age=1": {
+      "model": "coxinhautilities:block/ender_orchid/ender_orchid_stage1"
+    },
+    "age=2": {
+      "model": "coxinhautilities:block/ender_orchid/ender_orchid_stage2"
+    },
+    "age=3": {
+      "model": "coxinhautilities:block/ender_orchid/ender_orchid_stage3"
+    },
+    "age=4": {
+      "model": "coxinhautilities:block/ender_orchid/ender_orchid_stage4"
+    },
+    "age=5": {
+      "model": "coxinhautilities:block/ender_orchid/ender_orchid_stage5"
+    },
+    "age=6": {
+      "model": "coxinhautilities:block/ender_orchid/ender_orchid_stage6"
+    },
+    "age=7": {
+      "model": "coxinhautilities:block/ender_orchid/ender_orchid_stage7"
+    }
+  }
+}

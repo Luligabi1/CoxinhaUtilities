@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_torch",
+  "textures": {
+    "torch": "coxinhautilities:block/aquatic_torch"
+  },
+  "render_type": "minecraft:cutout"
+}

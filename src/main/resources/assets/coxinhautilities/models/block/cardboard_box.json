@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "coxinhautilities:block/cardboard_box/cardboard_box_side3",
+    "north": "coxinhautilities:block/cardboard_box/cardboard_box_side2",
+    "south": "coxinhautilities:block/cardboard_box/cardboard_box_side1",
+    "east": "coxinhautilities:block/cardboard_box/cardboard_box_side3",
+    "west": "coxinhautilities:block/cardboard_box/cardboard_box_side3",
+    "up": "coxinhautilities:block/cardboard_box/cardboard_box_top",
+    "down": "coxinhautilities:block/cardboard_box/cardboard_box_bottom"
+  }
+}

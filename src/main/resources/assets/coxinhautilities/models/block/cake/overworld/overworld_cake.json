@@ -1,0 +1,9 @@
+{
+  "parent": "block/cake",
+  "textures": {
+    "particle": "coxinhautilities:block/overworld_cake_side",
+    "bottom": "coxinhautilities:block/overworld_cake_bottom",
+    "top": "coxinhautilities:block/overworld_cake_top",
+    "side": "coxinhautilities:block/overworld_cake_side"
+  }
+}

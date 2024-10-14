@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iFi",
+    "iTi",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "F": {
+      "item": "kibe:fluid_hopper"
+    },
+    "T": {
+      "tag": "c:tank"
+    }
+  },
+  "result": {
+    "id": "coxinhautilities:portable_tank_mk1",
+    "count": 1
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "kibe"
+      ]
+    }
+  ]
+}

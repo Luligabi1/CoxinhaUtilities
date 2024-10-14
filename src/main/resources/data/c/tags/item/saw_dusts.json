@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "indrev:sawdust", "required":  false},
+    {"id": "techreborn:saw_dust", "required":  false}
+  ]
+}

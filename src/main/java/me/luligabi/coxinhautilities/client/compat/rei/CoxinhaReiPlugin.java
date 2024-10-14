@@ -1,0 +1,33 @@
+package me.luligabi.coxinhautilities.client.compat.rei;
+
+import me.luligabi.coxinhautilities.client.compat.rei.drying.DryingDisplayCategory;
+import me.luligabi.coxinhautilities.client.compat.rei.drying.DryingRecipeDisplay;
+import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
+import me.luligabi.coxinhautilities.common.block.BlockRegistry;
+import me.luligabi.coxinhautilities.common.recipe.RecipeRegistry;
+import me.luligabi.coxinhautilities.common.recipe.drying.DryingRecipe;
+import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
+import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
+import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
+import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.util.EntryStacks;
+import me.shedaniel.rei.forge.REIPluginClient;
+
+@REIPluginClient
+public class CoxinhaReiPlugin implements REIClientPlugin {
+
+    @Override
+    public void registerCategories(CategoryRegistry registry) {
+        registry.add(new DryingDisplayCategory());
+        registry.addWorkstations(DRYING, EntryStacks.of(BlockRegistry.DRYING_RACK.get()));
+    }
+
+    @Override
+    public void registerDisplays(DisplayRegistry registry) {
+        registry.registerRecipeFiller(DryingRecipe.class, RecipeRegistry.DRYING_RECIPE_TYPE.get(), DryingRecipeDisplay::new);
+    }
+
+
+    public static final CategoryIdentifier<DryingRecipeDisplay> DRYING = CategoryIdentifier.of(CoxinhaUtilities.MOD_ID, "drying");
+
+}

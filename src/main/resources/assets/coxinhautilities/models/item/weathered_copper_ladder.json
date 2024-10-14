@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "coxinhautilities:block/copper_ladder/weathered_copper_ladder"
+  }
+}

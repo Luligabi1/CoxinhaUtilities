@@ -1,0 +1,10 @@
+{
+  "parent": "block/hopper",
+
+  "textures": {
+    "particle": "coxinhautilities:block/wooden_hopper_outside",
+    "top": "coxinhautilities:block/wooden_hopper_top",
+    "side": "coxinhautilities:block/wooden_hopper_outside",
+    "inside": "coxinhautilities:block/wooden_hopper_inside"
+  }
+}

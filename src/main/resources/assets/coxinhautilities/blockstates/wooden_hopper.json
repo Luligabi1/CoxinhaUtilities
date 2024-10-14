@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "coxinhautilities:block/wooden_hopper"
+    },
+    "facing=east": {
+      "model": "coxinhautilities:block/wooden_hopper_side",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "coxinhautilities:block/wooden_hopper_side"
+    },
+    "facing=south": {
+      "model": "coxinhautilities:block/wooden_hopper_side",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "coxinhautilities:block/wooden_hopper_side",
+      "y": 270
+    }
+  }
+}

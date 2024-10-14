@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/ladder",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "coxinhautilities:block/copper_ladder/oxidized_copper_ladder",
+    "texture": "coxinhautilities:block/copper_ladder/oxidized_copper_ladder"
+  },
+  "render_type": "minecraft:cutout"
+}

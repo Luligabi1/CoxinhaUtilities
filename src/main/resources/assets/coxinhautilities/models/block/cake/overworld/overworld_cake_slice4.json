@@ -1,0 +1,10 @@
+{
+  "parent": "block/cake_slice4",
+  "textures": {
+    "particle": "coxinhautilities:block/overworld_cake_side",
+    "bottom": "coxinhautilities:block/overworld_cake_bottom",
+    "top": "coxinhautilities:block/overworld_cake_top",
+    "side": "coxinhautilities:block/overworld_cake_side",
+    "inside": "coxinhautilities:block/overworld_cake_inner"
+  }
+}

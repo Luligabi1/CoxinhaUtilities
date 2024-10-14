@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "coxinhautilities:block/aquatic_torch/wall_aquatic_torch"
+    },
+    "facing=north": {
+      "model": "coxinhautilities:block/aquatic_torch/wall_aquatic_torch",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "coxinhautilities:block/aquatic_torch/wall_aquatic_torch",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "coxinhautilities:block/aquatic_torch/wall_aquatic_torch",
+      "y": 180
+    }
+  }
+}

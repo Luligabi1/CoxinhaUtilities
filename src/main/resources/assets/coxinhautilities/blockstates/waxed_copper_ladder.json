@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "coxinhautilities:block/copper_ladder/copper_ladder",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "coxinhautilities:block/copper_ladder/copper_ladder"
+    },
+    "facing=south": {
+      "model": "coxinhautilities:block/copper_ladder/copper_ladder",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "coxinhautilities:block/copper_ladder/copper_ladder",
+      "y": 270
+    }
+  }
+}

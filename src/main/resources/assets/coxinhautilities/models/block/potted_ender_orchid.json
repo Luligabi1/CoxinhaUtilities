@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/flower_pot_cross",
+  "textures": {
+    "plant": "coxinhautilities:block/ender_orchid/ender_orchid_stage7"
+  }
+}
