@@ -30,6 +30,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.Nullable;
 
@@ -71,25 +72,26 @@ public class PortableTankBlock extends BaseEntityBlock implements IWittyComment 
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag options) {
         boolean hasData = stack.get(DataComponents.BLOCK_ENTITY_DATA) != null;
         CompoundTag data = Util.getBlockEntityData(stack);
+        FluidStack fluid = Util.getFluidFromNbt(data);
 
         tooltip.add(Component.translatable("tooltip.coxinhautilities.tank.fluidVariant.1")
-                    .withStyle(tankTier.getPrimaryColor())
-                .append(!hasData || Util.getFluidFromNbt(data).isEmpty() ?
-                        Component.translatable("tooltip.coxinhautilities.tank.none").withStyle(tankTier.getSecondaryColor()) :
-                        Component.translatable("tooltip.coxinhautilities.tank.fluidVariant.2", Util.getFluidFromNbt(data).getHoverName()))
-                    .withStyle(tankTier.getSecondaryColor()));
+            .withStyle(tankTier.getPrimaryColor())
+            .append(!hasData || fluid.isEmpty() ?
+                Component.translatable("tooltip.coxinhautilities.tank.none").withStyle(tankTier.getSecondaryColor()) :
+                Component.translatable("tooltip.coxinhautilities.tank.fluidVariant.2", fluid.getHoverName()).withStyle(tankTier.getSecondaryColor())
+            )
+        );
 
         tooltip.add(Component.translatable("tooltip.coxinhautilities.tank.capacity.1")
-                    .withStyle(tankTier.getPrimaryColor())
-                .append(Component.translatable("tooltip.coxinhautilities.tank.capacity.2",
-                        !hasData ? "0" : String.valueOf(Screen.hasShiftDown() ? data.getInt("amount") : Util.getMilliBuckets(data.getLong("amount"))), // Current amount on tank
-                        (Screen.hasShiftDown() ? tankTier.getCapacity() : Util.getMilliBuckets(tankTier.getCapacity())), // Total capacity
-                        Screen.hasShiftDown() ? Component.translatable("unit.coxinhautilities.droplet") : Component.translatable("unit.coxinhautilities.milliBuckets")) // Liquid unit
-                    .withStyle(tankTier.getSecondaryColor())));
+            .withStyle(tankTier.getPrimaryColor())
+            .append(Component.translatable("tooltip.coxinhautilities.tank.capacity.2",
+                    !hasData ? "0" : String.valueOf(fluid.getAmount()), // Current amount on tank
+                    tankTier.getCapacity()) // Total capacity
+                .withStyle(tankTier.getSecondaryColor())
+            )
+        );
 
         addWittyComment(tooltip);
-        tooltip.add(Component.empty());
-        tooltip.add((Screen.hasShiftDown() ? Component.translatable("tooltip.coxinhautilities.tank.releaseShift") : Component.translatable("tooltip.coxinhautilities.tank.holdShift")).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
     }
 
     @Override

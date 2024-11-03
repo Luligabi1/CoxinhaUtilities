@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/template_glass_pane_side",
-  "textures": {
-    "pane": "minecraft:block/tinted_glass",
-    "edge": "coxinhautilities:block/tinted_glass_pane_top"
-  }
-}

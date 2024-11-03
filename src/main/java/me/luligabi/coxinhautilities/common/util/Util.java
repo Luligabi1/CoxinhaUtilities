@@ -30,8 +30,15 @@ public class Util {
     }
 
     public static FluidStack getFluidFromNbt(CompoundTag nbt) {
-        ResourceLocation id = ResourceLocation.parse(((CompoundTag) nbt.get("variant")).getString("fluid"));
-        return new FluidStack(BuiltInRegistries.FLUID.get(id), 1);
+        ResourceLocation id;
+        if(nbt.get("Fluid") instanceof CompoundTag tag) {
+            id = ResourceLocation.parse(tag.getString("id"));
+        } else {
+            return FluidStack.EMPTY;
+        }
+        int amount = nbt.get("Fluid") instanceof CompoundTag ? ((CompoundTag) nbt.get("Fluid")).getInt("amount") : 0;
+
+        return new FluidStack(BuiltInRegistries.FLUID.get(id), amount);
     }
 
     public static CompoundTag getBlockEntityData(ItemStack stack) {

@@ -20,21 +20,27 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.MutableDataComponentHolder;
+import net.neoforged.neoforge.energy.ComponentEnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import java.util.List;
 
 public class PotatoBatteryItem extends Item implements IWittyComment {
 
-    public final PotatoBatteryEnergyStorage energyStorage;
+    public final int capacity;
 
     public PotatoBatteryItem(Properties settings) {
         this(settings, 4096);
     }
 
     public PotatoBatteryItem(Properties settings, int capacity) {
-        super(settings.component(ComponentRegistry.ENABLED, false));
-        energyStorage = new PotatoBatteryEnergyStorage(capacity, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        super(settings
+            .component(ComponentRegistry.ENERGY.get(), 0)
+            .component(ComponentRegistry.ENABLED.get(), false)
+        );
+        this.capacity = capacity;
     }
 
 
@@ -80,7 +86,7 @@ public class PotatoBatteryItem extends Item implements IWittyComment {
         if(world.isClientSide() || !(entity instanceof Player)) return;
         if(!stack.getOrDefault(ComponentRegistry.ENABLED.get(), false)) return;
 
-        Util.distributePowerToInventory((Player) entity, stack, energyStorage.getMaxExtract(), (predicateStack) -> !(predicateStack.getItem() instanceof PotatoBatteryItem));
+        Util.distributePowerToInventory((Player) entity, stack, getEnergyStorage(stack).getMaxExtract(), (predicateStack) -> !(predicateStack.getItem() instanceof PotatoBatteryItem));
     }
 
     @Override
@@ -90,6 +96,8 @@ public class PotatoBatteryItem extends Item implements IWittyComment {
     }
 
     protected void appendPowerInfo(List<Component> tooltip, ItemStack stack) {
+        IEnergyStorage energyStorage = getEnergyStorage(stack);
+
         tooltip.add(
                 Component.translatable("tooltip.coxinhautilities.potato_battery.1")
                         .withStyle(getPrimaryColor())
@@ -122,10 +130,17 @@ public class PotatoBatteryItem extends Item implements IWittyComment {
     }
 
 
-    public static class PotatoBatteryEnergyStorage extends EnergyStorage {
+    private PotatoBatteryEnergyStorage getEnergyStorage(ItemStack stack) {
+        IEnergyStorage energyStorage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if(energyStorage instanceof PotatoBatteryEnergyStorage potatoEnergyStorage) return potatoEnergyStorage;
 
-        public PotatoBatteryEnergyStorage(int capacity, int maxReceive, int maxExtract) {
-            super(capacity, maxReceive, maxExtract);
+        return null;
+    }
+
+    public static class PotatoBatteryEnergyStorage extends ComponentEnergyStorage {
+
+        public PotatoBatteryEnergyStorage(MutableDataComponentHolder parent, int capacity) {
+            super(parent, ComponentRegistry.ENERGY.get(), capacity, capacity);
         }
 
         public int getMaxReceive() {

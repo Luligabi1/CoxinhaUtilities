@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "kibe"
+    }
+  ],
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " C ",
@@ -16,13 +22,5 @@
   "result": {
     "id": "coxinhautilities:cursed_coxinha",
     "count": 8
-  },
-  "fabric:load_conditions": [
-    {
-      "condition": "fabric:all_mods_loaded",
-      "values": [
-        "kibe"
-      ]
-    }
-  ]
+  }
 }

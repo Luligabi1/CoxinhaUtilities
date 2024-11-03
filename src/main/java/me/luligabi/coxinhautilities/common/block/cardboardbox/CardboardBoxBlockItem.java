@@ -1,6 +1,5 @@
 package me.luligabi.coxinhautilities.common.block.cardboardbox;
 
-import me.luligabi.coxinhautilities.common.CoxinhaUtilities;
 import me.luligabi.coxinhautilities.common.block.BlockRegistry;
 import me.luligabi.coxinhautilities.common.misc.TagRegistry;
 import me.luligabi.coxinhautilities.common.util.Util;
@@ -22,6 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.Optional;
 
@@ -40,7 +40,7 @@ public class CardboardBoxBlockItem extends BlockItem {
 
         if(context.getPlayer().isShiftKeyDown()) {
             BlockState blockState = world.getBlockState(pos);
-            if(blockState.getBlock().defaultDestroyTime() >= 0.01F && isNbtBlockAir(context.getItemInHand()) && !blockState.is(TagRegistry.UNBOXABLE) && !isOnCarrierBlackList(blockState)) {
+            if(blockState.getBlock().defaultDestroyTime() >= 0.01F && isNbtBlockAir(context.getItemInHand()) && !blockState.is(TagRegistry.UNBOXABLE) && !blockState.is(Tags.Blocks.RELOCATION_NOT_SUPPORTED)) {
                 if(blockEntity.isPresent() && hasLootTable(blockEntity.get())) return super.useOn(context);
 
                 if(context.getLevel().isClientSide()) return InteractionResult.CONSUME;
@@ -74,10 +74,6 @@ public class CardboardBoxBlockItem extends BlockItem {
         return super.useOn(context);
     }
 
-    private boolean isOnCarrierBlackList(BlockState blockState) {
-        if(!CoxinhaUtilities.CONFIG.useCarrierBlacklist) return false;
-        return blockState.is(TagRegistry.CARRIER_BLACKLIST);
-    }
 
     private boolean hasLootTable(BlockEntity blockEntity) {
         if(blockEntity instanceof RandomizableContainerBlockEntity lootableContainer) {

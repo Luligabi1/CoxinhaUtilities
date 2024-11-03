@@ -40,7 +40,7 @@ public class EnergyTrashCanBlockEntity extends AbstractTrashCanBlockEntity {
 
         @Override
         public int getMaxEnergyStored() {
-            return 0;
+            return Integer.MAX_VALUE;
         }
 
         @Override

@@ -30,9 +30,10 @@ public class EnergyTrashCanBlock extends AbstractTrashCanBlock {
         super(BlockBehaviour.Properties.of().mapColor(MapColor.CRIMSON_NYLIUM));
     }
 
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (world.isClientSide) return InteractionResult.SUCCESS;
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (level.isClientSide) return InteractionResult.SUCCESS;
+        BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof EnergyTrashCanBlockEntity) {
             player.openMenu((EnergyTrashCanBlockEntity) blockEntity);
             return InteractionResult.CONSUME;

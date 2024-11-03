@@ -17,7 +17,13 @@ public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
         super(BlockEntityRegistry.PORTABLE_TANK.get(), pos, state);
     }
 
-    public final FluidTank fluidStorage = new FluidTank(((PortableTankBlock) getBlockState().getBlock()).getTankTier().getCapacity());
+    public final FluidTank fluidStorage = new FluidTank(((PortableTankBlock) getBlockState().getBlock()).getTankTier().getCapacity()) {
+
+        @Override
+        protected void onContentsChanged() {
+            setChanged();
+        }
+    };
 
 
 

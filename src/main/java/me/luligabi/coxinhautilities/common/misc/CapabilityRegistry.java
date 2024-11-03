@@ -1,11 +1,13 @@
 package me.luligabi.coxinhautilities.common.misc;
 
 import me.luligabi.coxinhautilities.common.block.BlockEntityRegistry;
+import me.luligabi.coxinhautilities.common.item.ComponentRegistry;
 import me.luligabi.coxinhautilities.common.item.ItemRegistry;
 import me.luligabi.coxinhautilities.common.item.battery.PotatoBatteryItem;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.energy.ComponentEnergyStorage;
 
 public class CapabilityRegistry {
 
@@ -25,7 +27,12 @@ public class CapabilityRegistry {
 
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.DRYING_RACK.get(), (block, side) -> block.invWrapper);
 
-        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ctx) -> ((PotatoBatteryItem) stack.getItem()).energyStorage,
+        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ctx) -> {
+                if(stack.getItem() instanceof PotatoBatteryItem battery) {
+                    return new PotatoBatteryItem.PotatoBatteryEnergyStorage(stack, battery.capacity);
+                }
+                return null;
+            },
             ItemRegistry.POTATO_BATTERY.get(),
             ItemRegistry.BAKED_POTATO_BATTERY.get(),
             ItemRegistry.POISONOUS_POTATO_BATTERY.get()

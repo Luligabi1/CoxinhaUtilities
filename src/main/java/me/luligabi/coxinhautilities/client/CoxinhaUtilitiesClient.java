@@ -22,7 +22,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 public class CoxinhaUtilitiesClient {
 
     public CoxinhaUtilitiesClient(IEventBus modEventBus, ModContainer modContainer) {
-        modEventBus.addListener(this::onPostInit);
+        modEventBus.addListener(this::onMenuRegister);
         modEventBus.addListener(ClientItemExtensionRegistry::registerClientExtensions);
         modEventBus.addListener(ItemGroupInit::onCreativeModeTabBuild);
     }
@@ -36,7 +36,7 @@ public class CoxinhaUtilitiesClient {
     }
 
     @SubscribeEvent
-    public void onPostInit(RegisterMenuScreensEvent event) {
+    public void onMenuRegister(RegisterMenuScreensEvent event) {
         event.register(MenuTypeRegistry.WOODEN_HOPPER.get(), WoodenHopperScreen::new);
         event.register(MenuTypeRegistry.FLUID_TRASH_CAN.get(), FluidTrashCanScreen::new);
         event.register(MenuTypeRegistry.ENERGY_TRASH_CAN.get(), EnergyTrashCanScreen::new);

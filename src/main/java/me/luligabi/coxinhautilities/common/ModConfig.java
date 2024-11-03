@@ -32,12 +32,6 @@ public class ModConfig {
     @SerialEntry
     public int enderOrchidSpecialGrowthRate = 12;
 
-    // Cardboard Box
-    @AutoGen(category = "cardboard_box")
-    @TickBox
-    @SerialEntry
-    public boolean useCarrierBlacklist = true;
-
 
     public static final ConfigClassHandler<ModConfig> HANDLER = ConfigClassHandler.createBuilder(ModConfig.class)
         .id(CoxinhaUtilities.id("common"))
