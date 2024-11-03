@@ -13,7 +13,13 @@ public class GrannysSinkBlockEntityRenderer implements BlockEntityRenderer<Grann
 
     @Override
     public void render(GrannysSinkBlockEntity entity, float tickDelta, PoseStack ms, MultiBufferSource vcp, int light, int overlay) {
-        RenderUtil.drawFluidInSink(ms, vcp, entity.getLevel(), entity.getBlockPos());
+        RenderUtil.drawWaterInSink(
+            ms,
+            vcp,
+            entity.getLevel(),
+            entity.getBlockPos(),
+            light
+        );
     }
 
 }

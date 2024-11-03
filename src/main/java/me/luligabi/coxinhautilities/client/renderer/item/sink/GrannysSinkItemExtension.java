@@ -1,4 +1,4 @@
-package me.luligabi.coxinhautilities.client.renderer.item;
+package me.luligabi.coxinhautilities.client.renderer.item.sink;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
