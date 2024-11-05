@@ -2,13 +2,13 @@
   "replace": false,
   "values": {
     "coxinhautilities:copper_ladder": {
-      "next_oxidized_stage": "coxinhautilities:exposed_copper_ladder"
+      "next_oxidation_stage": "coxinhautilities:exposed_copper_ladder"
     },
     "coxinhautilities:exposed_copper_ladder": {
-      "next_oxidized_stage": "coxinhautilities:weathered_copper_ladder"
+      "next_oxidation_stage": "coxinhautilities:weathered_copper_ladder"
     },
     "coxinhautilities:weathered_copper_ladder": {
-      "next_oxidized_stage": "coxinhautilities:oxidized_copper_ladder"
+      "next_oxidation_stage": "coxinhautilities:oxidized_copper_ladder"
     }
   }
 }
