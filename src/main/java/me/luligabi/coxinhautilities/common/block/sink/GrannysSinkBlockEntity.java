@@ -12,6 +12,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
+import javax.annotation.Nonnull;
+
 public class GrannysSinkBlockEntity extends BlockEntity {
 
     public GrannysSinkBlockEntity(BlockPos pos, BlockState state) {
@@ -20,21 +22,21 @@ public class GrannysSinkBlockEntity extends BlockEntity {
 
     public final FluidTank fluidStorage = new FluidTank(Integer.MAX_VALUE) {
 
-
+        @Nonnull
         @Override
-        public FluidStack getFluid() {
+        public FluidStack getFluidInTank(int tank) {
             return new FluidStack(Fluids.WATER, Integer.MAX_VALUE);
-        }
-
-
-        @Override
-        public FluidStack drain(int maxDrain, FluidAction action) {
-            return getFluid();
         }
 
         @Override
         public FluidStack drain(FluidStack resource, FluidAction action) {
-            return getFluid();
+            if(resource.getFluid() == Fluids.WATER) return resource.copy();
+            return super.drain(resource, action);
+        }
+
+        @Override
+        public FluidStack drain(int maxDrain, FluidAction action) {
+            return new FluidStack(Fluids.WATER, maxDrain);
         }
 
         @Override
@@ -42,15 +44,7 @@ public class GrannysSinkBlockEntity extends BlockEntity {
             return 0;
         }
 
-        @Override
-        public int getSpace() {
-            return 0;
-        }
 
-        @Override
-        public boolean isEmpty() {
-            return false;
-        }
     };
 
     public boolean fluidIo(Player player, InteractionHand hand) {
