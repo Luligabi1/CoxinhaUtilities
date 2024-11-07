@@ -1,27 +1,9 @@
+# Coxinha Utilities <img src="https://imgur.com/yEoXk7P.png" align="right" width="160"/>
 
-Installation information
-=======
+A standalone utility mod adding random and ~~mostly~~ always unoriginal things. Better with [Kibe Utilities](https://github.com/lucaargolo/kibe).
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions at [github](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+## Special thanks
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+Once a Kibe Utilities addon, Coxinha became standalone and with that, the Trash Can model from Kibe had to be imported here. Huge thanks to D4rkness_King for allowing this and being an awesome friend :)
 
-> **Note**: For Eclipse, use tasks in `Launch Group` instead of ones founds in `Java Application`. A preparation task must run before launching the game. NeoGradle uses launch groups to do these subsequently.
-
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
-
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
-
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+Also check the [Attribution page](https://cafeteria.dev/wiki/coxinha-utilities/attribution) to see from where our features came from!
