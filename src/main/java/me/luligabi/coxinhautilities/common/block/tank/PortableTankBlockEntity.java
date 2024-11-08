@@ -9,6 +9,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
@@ -28,7 +29,7 @@ public class PortableTankBlockEntity extends ClientSyncedBlockEntity {
 
 
     public boolean fluidIo(Player player, InteractionHand hand) {
-        return false; //FluidStorageUtil.interactWithFluidStorage(fluidStorage, player, hand);
+        return FluidUtil.interactWithFluidHandler(player, hand, fluidStorage);
     }
 
     public boolean hasWrittenNbt() {
