@@ -4,6 +4,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.neoforged.gradle.userdev' version '7.0.165'
+    id "me.modmuss50.mod-publish-plugin" version '0.7.4'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -77,7 +78,7 @@ dependencies {
     implementation "thedarkcolour:kotlinforforge-neoforge:${project.kotlinforforge_version}"
 
     compileOnly "dev.isxander:yet-another-config-lib:${project.yacl_version}-neoforge"
-    // FIXME include compileOnly("dev.isxander:yet-another-config-lib:${project.yacl_version}-neoforge")
+    jarJar "dev.isxander:yet-another-config-lib:${project.yacl_version}-neoforge"
     runtimeOnly "dev.isxander:yet-another-config-lib:${project.yacl_version}-neoforge"
 
     compileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${project.rei_version}"
@@ -136,5 +137,71 @@ idea {
     module {
         downloadSources = true
         downloadJavadoc = true
+    }
+}
+
+ext.getChangeLog = { ->
+    return "- First Neoforge release"
+}
+
+publishMods {
+    changelog = project.getChangeLog()
+    type = STABLE
+
+    def optionsCurseforge = curseforgeOptions {
+        accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
+        projectId = "576449"
+        projectSlug = "coxinha-utilities"
+        minecraftVersions.add("${project.minecraft_version}")
+    }
+
+    def optionsModrinth = modrinthOptions {
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        projectId = "NXqpbY3F"
+        minecraftVersions.add("${project.minecraft_version}")
+    }
+
+
+    curseforge("curseforgeForge") {
+        from optionsCurseforge
+        modLoaders.add("neoforge")
+        file = jar.archiveFile
+        displayName = "${rootProject.mod_version} (NeoForge)"
+        version = "${rootProject.mod_version}-neoforge"
+
+        optional {
+            slug = "emi"
+        }
+        optional {
+            slug = "kibe"
+        }
+
+        announcementTitle = "Download from CurseForge"
+    }
+
+
+    modrinth("modrinthForge") {
+        from optionsModrinth
+        modLoaders.add("neoforge")
+        file = jar.archiveFile
+        displayName = "${rootProject.mod_version} (NeoForge)"
+        version = "${rootProject.mod_version}-neoforge"
+
+        optional {
+            slug = "emi"
+        }
+        optional {
+            slug = "kibe"
+        }
+
+        announcementTitle = "Download from Modrinth"
+    }
+
+    discord {
+        webhookUrl = providers.environmentVariable("CAFETERIA_MOD_RELEASE_WEBHOOK")
+        username = "Coxinha Utilities (Neoforge)"
+        avatarUrl = "https://cdn.modrinth.com/data/NXqpbY3F/icon.png"
+
+        content = changelog.map { "# Coxinha Utilities (Neoforge) " + (project.mod_version as String) + " has been released \n" + it}
     }
 }
