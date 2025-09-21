@@ -1,0 +1,172 @@
+{
+  "item.coxinhautilities.coxinha": "Кошинья",
+  "tooltip.coxinhautilities.coxinha": "Вкусное франко-бразильское блюдо (произносится как ко-ши-нья)",
+
+  "item.coxinhautilities.cursed_coxinha": "Проклятая Кошинья",
+  "tooltip.coxinhautilities.cursed_coxinha": "§5§oИмеет шанс 1/64 убить вас",
+
+  "item.coxinhautilities.golden_coxinha": "Золотая Кошинья",
+
+  "item.coxinhautilities.diamond_coxinha": "Алмазная Кошинья",
+
+
+  "item.coxinhautilities.potato_battery": "Картофельная батарея",
+  "item.coxinhautilities.baked_potato_battery": "Батарея для запеченного картофеля",
+  "item.coxinhautilities.poisonous_potato_battery": "Ядовитая картофельная батарейка",
+
+  "tooltip.coxinhautilities.potato_battery.1": "Энергия: ",
+  "tooltip.coxinhautilities.potato_battery.2": "%d/%d",
+  "tooltip.coxinhautilities.potato_battery.3": "Распределение энергии: ",
+
+  "tooltip.coxinhautilities.potato_battery.witty": "Абсолютно НЕ одобрено Aperture Science.",
+
+  "tooltip.coxinhautilities.baked_potato_battery.witty.1": "Вкусно!",
+  "tooltip.coxinhautilities.baked_potato_battery.witty.2": "Но все еще не одобрено Aperture Science.",
+
+  "tooltip.coxinhautilities.poisonous_potato_battery.witty.1": "Внутри него яд...",
+  "tooltip.coxinhautilities.poisonous_potato_battery.witty.2": "так что, может быть, есть небольшой шанс?",
+
+
+  "item.coxinhautilities.ender_orchid_seeds": "Семена орхидеи Эндера",
+
+  "item.coxinhautilities.coxinha_banner_pattern": "Шаблон баннера",
+  "item.coxinhautilities.coxinha_banner_pattern.desc": "",
+
+  "block.minecraft.banner.coxinhautilities.coxinha.black": "Черная Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.blue": "Синяя Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.brown": "Коричневая Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.cyan": "Голубой Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.gray": "Серая Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.green": "Зеленая Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.light_blue": "Голубой Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.light_gray": "Светло-серая Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.lime": "Лаймовая Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.magenta": "Пурпурный Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.orange": "Оранжевая Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.pink": "Розовая Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.purple": "Фиолетовая Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.red": "Красная Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.white": "Белая Кошинья",
+  "block.minecraft.banner.coxinhautilities.coxinha.yellow": "Жёлтая Кошинья",
+
+  "block.coxinhautilities.ender_orchid": "Эндер Орхидея",
+  "block.coxinhautilities.potted_ender_orchid": "Эндер-орхидея в горшке",
+  "tooltip.coxinhautilities.ender_orchid.1": "Потустороннее растение, которое растет",
+  "tooltip.coxinhautilities.ender_orchid.2": "Жемчуг Эндера в качестве цветов.",
+  "tooltip.coxinhautilities.ender_orchid.witty.1": "Не ешьте это из костей! Природа",
+  "tooltip.coxinhautilities.ender_orchid.witty.2": "не любит, когда его торопят.",
+
+
+  "block.coxinhautilities.wooden_hopper": "Деревянная воронка",
+  "tooltip.coxinhautilities.wooden_hopper.1": "Более дешевая альтернатива воронке с одним слотом.",
+  "tooltip.coxinhautilities.wooden_hopper.2": "Невозможно заблокировать сигналом красного камня.",
+  "tooltip.coxinhautilities.wooden_hopper.witty": "Кричит <<скряга>> но ты, я думаю, так и есть.",
+
+
+  "block.coxinhautilities.portable_tank_mk1": "Портативный бак MK1",
+  "block.coxinhautilities.portable_tank_mk2": "Портативный бак MK2",
+  "block.coxinhautilities.portable_tank_mk3": "Портативный бак MK3",
+  "block.coxinhautilities.portable_tank_mk4": "Портативный бак MK4",
+  "block.coxinhautilities.portable_tank_mk5": "Портативный бак MK5",
+
+  "tooltip.coxinhautilities.tank.fluidVariant.1": "Жидкость: ",
+  "tooltip.coxinhautilities.tank.fluidVariant.2": "%d",
+
+  "tooltip.coxinhautilities.tank.none": "Нет",
+
+  "tooltip.coxinhautilities.tank.capacity.1": "Емкость: ",
+  "tooltip.coxinhautilities.tank.capacity.2": "%d/%d%d",
+
+  "tooltip.coxinhautilities.tank.holdShift": "Удерживайте Shift, чтобы увидеть юнит в виде капель.",
+  "tooltip.coxinhautilities.tank.releaseShift": "Отпустите Shift, чтобы увидеть единицы измерения в миллибакетах (мБ).",
+  "tooltip.coxinhautilities.tank.witty.1": "Как-то странно, когда они считаются портативными",
+  "tooltip.coxinhautilities.tank.witty.2": "они могут вмещать жидкости от 16 до 256 ведер.",
+
+  "unit.coxinhautilities.droplet": "капли",
+  "unit.coxinhautilities.milliBuckets": "мБ",
+
+
+  "block.coxinhautilities.grannys_sink": "Бабушкина раковина",
+  "tooltip.coxinhautilities.grannys_sink.1": "По оценкам учёных, все океаны Земли",
+  "tooltip.coxinhautilities.grannys_sink.2": "в совокупности общий объем воды составляет ~1 332 000 000",
+  "tooltip.coxinhautilities.grannys_sink.3": "кубические километры. Это может показаться",
+  "tooltip.coxinhautilities.grannys_sink.4": "воды много, но это лишь малая часть",
+  "tooltip.coxinhautilities.grannys_sink.5": "воды, содержащейся в Бабушкиной раковине.",
+  "tooltip.coxinhautilities.grannys_sink.witty": "Шкафы только для декоративных целей.",
+
+
+  "block.coxinhautilities.fluid_trash_can": "Жидкий мусорный бак",
+  "tooltip.coxinhautilities.fluid_trash_can.1": "Удаляет любые жидкости, попавшие в него.",
+  "tooltip.coxinhautilities.fluid_trash_can.2": "Может взаимодействовать с окружающими трубами.",
+  "tooltip.coxinhautilities.fluid_trash_can.witty": "Злейший враг Бабушкиной раковины.",
+
+
+  "block.coxinhautilities.energy_trash_can": "Энергетический мусорный бак",
+  "tooltip.coxinhautilities.energy_trash_can.1": "Удаляет вложенную в него энергию.",
+  "tooltip.coxinhautilities.energy_trash_can.2": "Может взаимодействовать с окружающими кабелями.",
+  "tooltip.coxinhautilities.energy_trash_can.witty": "Злейший враг устойчивого развития.",
+
+  "block.coxinhautilities.drying_rack": "Сушилка",
+  "tooltip.coxinhautilities.drying_rack": "Стеллаж для сушки вещей. Вот и все.",
+  "tooltip.coxinhautilities.drying_rack.witty": "О, что мы делаем для... легкой кожи?",
+
+  "block.coxinhautilities.cardboard_box": "Картонная коробка",
+  "tooltip.coxinhautilities.cardboard_box.1": "Специальный ящик, в котором можно хранить и",
+  "tooltip.coxinhautilities.cardboard_box.2": "перемещать блоки, содержащие контент.",
+  "tooltip.coxinhautilities.cardboard_box.3": "Нажмите, удерживая клавишу Shift, чтобы (рас)паковать блок.",
+  "tooltip.coxinhautilities.cardboard_box.witty": "\"Специальная коробка\"? Это буквально картон...",
+
+  "tooltip.coxinhautilities.empty": "Пусто",
+
+  "block.coxinhautilities.aquatic_torch": "Водный факел",
+  "tooltip.coxinhautilities.aquatic_torch": "Специальный факел для освещения водоемов.",
+  "tooltip.coxinhautilities.aquatic_torch.witty": "...и дайте светящимся спрутам еще одно применение.",
+
+  "block.coxinhautilities.copper_ladder": "Медная лестница",
+  "block.coxinhautilities.expose_copper_ladder": "Открытая медная лестница",
+  "block.coxinhautilities.weathered_copper_ladder": "Потертая медная лестница",
+  "block.coxinhautilities.oxidized_copper_ladder": "Лестница из окисленной меди",
+
+  "block.coxinhautilities.waxed_copper_ladder": "Лестница из вощеной меди",
+  "block.coxinhautilities.waxed_expose_copper_ladder": "Покрытая воском медная лестница",
+  "block.coxinhautilities.waxed_weathered_copper_ladder": "Лестница из вощеной состаренной меди",
+  "block.coxinhautilities.waxed_oxidized_copper_ladder": "Лестница из вощеной окисленной меди",
+
+  "tooltip.coxinhautilities.copper_ladder.1": "Альтернатива лестницы, по которой подниматься быстрее.",
+  "tooltip.coxinhautilities.copper_ladder.2": "По мере окисления становится медленнее подниматься.",
+
+  "tooltip.coxinhautilities.copper_ladder.witty.1": "Тсс... знаете ли вы, что они работают как в пребета-версии",
+  "tooltip.coxinhautilities.copper_ladder.witty.2": "1,5 лестницы без окисления? Попробуйте!",
+
+
+  "block.coxinhautilities.lava_sponge": "Лавовая губка",
+  "tooltip.coxinhautilities.lava_sponge.witty": "Вам не нужны объяснения, верно?",
+
+  "block.coxinhautilities.wet_lava_sponge": "Влажная лавовая губка",
+
+  "itemGroup.coxinhautilities.item_group": "Утилиты Кошинья",
+
+
+  "yacl3.config.coxinhautilities:common.category.ender_orchid": "Эндер Орхидея",
+
+
+  "yacl3.config.coxinhautilities:common.canGenerateEnderOrchids": "Создать Эндер-орхидеи?",
+  "yacl3.config.coxinhautilities:common.canGenerateEnderOrchids.desc": "Можно ли естественным образом генерировать Эндер-орхидеи в Крае",
+
+  "yacl3.config.coxinhautilities:common.hasEnderOrchidStrictPlacement": "Включить строгое размещение Ender Orchid?",
+  "yacl3.config.coxinhautilities:common.hasEnderOrchidStrictPlacement.desc": "Можно ли размещать орхидеи Края на блоках камня, отличного от Края",
+
+  "yacl3.config.coxinhautilities:common.enderOrchidRegularGrowthRate": "Регулярная скорость роста Эндер-орхидеи",
+  "yacl3.config.coxinhautilities:common.enderOrchidRegularGrowthRate.desc": "Как быстро растут орхидеи Края на блоках Камня Края",
+
+  "yacl3.config.coxinhautilities:common.enderOrchidSpecialGrowthRate": "Особая скорость роста Эндер-орхидеи",
+  "yacl3.config.coxinhautilities:common.enderOrchidSpecialGrowthRate.desc": "Как быстро растут орхидеи Края на блоках камня, отличного от Края",
+
+
+  "yacl3.config.coxinhautilities:common.category.cardboard_box": "Картонная коробка",
+
+
+  "yacl3.config.coxinhautilities:common.useCarrierBlacklist": "Использовать черный список Carrier?",
+  "yacl3.config.coxinhautilities:common.useCarrierBlacklist.desc": "Не разрешать упаковывать блоки в черном списке Carrier"
+} 
+
